@@ -22,7 +22,7 @@ public class SetHelper {
 	private final int PORT = 8888;
 	private String HOST = Helper.getInstance().getGateway(
 			MyApplication.getAppContext());
-//	private String HOST = "192.168.199.206";
+	// private String HOST = "192.168.199.206";
 	private final String OPER_KEY = "oper";
 	private final String PARAMS_KEY = "params";
 
@@ -76,6 +76,32 @@ public class SetHelper {
 		try {
 			jWriter.beginObject().name(OPER_KEY)
 					.value(OperType.battery.getValue()).endObject();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (jWriter != null) {
+				try {
+					jWriter.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return baseSocketRequest(sw.toString());
+	}
+
+	/**
+	 * 获取3G卡信号质量
+	 * 
+	 * @return
+	 */
+	public String getSignalQuality() {
+		StringWriter sw = new StringWriter(50);
+		JsonWriter jWriter = new JsonWriter(sw);
+		try {
+			jWriter.beginObject().name(OPER_KEY)
+					.value(OperType.signal_quality.getValue()).endObject();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {

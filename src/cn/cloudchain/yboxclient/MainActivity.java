@@ -1,5 +1,8 @@
 package cn.cloudchain.yboxclient;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +19,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.Toast;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -34,6 +38,7 @@ public class MainActivity extends FragmentActivity implements
 	private Button wifiSet;
 	private Button shutdown;
 	private Button wifiUserList;
+	private Button mobileInfo;
 
 	private MyHandler handler = new MyHandler(this);
 	private ApStatusReceiver receiver;
@@ -47,11 +52,13 @@ public class MainActivity extends FragmentActivity implements
 		wifiSet = (Button) findViewById(R.id.hotspot_set);
 		wifiUserList = (Button) findViewById(R.id.hotspot_list);
 		shutdown = (Button) findViewById(R.id.shutdown);
+		mobileInfo = (Button) findViewById(R.id.mobile_info);
 
 		mobileDataButton.setOnCheckedChangeListener(this);
 		wifiSet.setOnClickListener(this);
 		wifiUserList.setOnClickListener(this);
 		shutdown.setOnClickListener(this);
+		mobileInfo.setOnClickListener(this);
 
 		wifiModeText.setText(MyApplication.getInstance().wifiMode);
 	}
@@ -93,6 +100,7 @@ public class MainActivity extends FragmentActivity implements
 		}
 		if (hasBind) {
 			unbindService(conn);
+			hasBind = false;
 		}
 		super.onStop();
 	}
@@ -108,6 +116,9 @@ public class MainActivity extends FragmentActivity implements
 			break;
 		case R.id.shutdown:
 			handleShutdown();
+			break;
+		case R.id.mobile_info:
+			handleMobileInfo();
 			break;
 		}
 	}
@@ -132,7 +143,6 @@ public class MainActivity extends FragmentActivity implements
 				Log.i(TAG, "result = " + result);
 			}
 		}).start();
-		;
 	}
 
 	private void handleShutdown() {
@@ -142,6 +152,16 @@ public class MainActivity extends FragmentActivity implements
 			public void run() {
 				String result = SetHelper.getInstance().shutdown(false);
 				Log.i(TAG, "result = " + result);
+				try {
+					JSONObject obj = new JSONObject(result);
+					boolean success = obj.optBoolean("result", false);
+					Message msg = handler
+							.obtainMessage(MyHandler.SHUTDOWN_COMPLETE);
+					msg.arg1 = success ? 1 : 0;
+					handler.sendMessage(msg);
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
 			}
 		}).start();
 	}
@@ -174,9 +194,41 @@ public class MainActivity extends FragmentActivity implements
 		}).start();
 	}
 
+	private void handleMobileInfo() {
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				String result1 = SetHelper.getInstance().getBattery();
+				String result2 = SetHelper.getInstance().getSignalQuality();
+				Bundle bundle = new Bundle();
+				try {
+					JSONObject obj1 = new JSONObject(result1);
+					if (obj1.optBoolean("result")) {
+						bundle.putInt("battery", obj1.optInt("remain"));
+					}
+					JSONObject obj2 = new JSONObject(result2);
+					if (obj2.optBoolean("result")) {
+						bundle.putInt("strength", obj2.optInt("strength"));
+					}
+
+					Message msg = handler
+							.obtainMessage(MyHandler.MOBILE_INFO_COMPLETE);
+					msg.setData(bundle);
+					handler.sendMessage(msg);
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+
+			}
+		}).start();
+	}
+
 	private static class MyHandler extends WeakHandler<MainActivity> {
 		private static final int MSG_DEVICES_COMPLETE = 1;
 		private static final int WIFI_INFO_COMPLETE = 2;
+		private static final int SHUTDOWN_COMPLETE = 3;
+		private static final int MOBILE_INFO_COMPLETE = 4;
 
 		public MyHandler(MainActivity owner) {
 			super(owner);
@@ -200,9 +252,20 @@ public class MainActivity extends FragmentActivity implements
 						.newInstance((String) msg.obj);
 				fragment.show(getOwner().getSupportFragmentManager(), "");
 				break;
+			case SHUTDOWN_COMPLETE:
+				Toast.makeText(getOwner(), msg.arg1 > 0 ? "请求关机成功" : "请求关机失败",
+						Toast.LENGTH_SHORT).show();
+				break;
+			case MOBILE_INFO_COMPLETE:
+				Bundle data = msg.getData();
+				int battery = data.getInt("battery", -1);
+				int strength = data.getInt("strength", -1);
+				Toast.makeText(getOwner(),
+						String.format("电量：%d; 信号强度：%dDbm", battery, strength),
+						Toast.LENGTH_SHORT).show();
+				break;
 			}
 		}
-
 	}
 
 	private static class MyApStatusHandler extends
