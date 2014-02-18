@@ -1,0 +1,8 @@
+bin/
+gen/
+libs/
+out/
+proguard/
+.classpath
+*.properties
+.project
