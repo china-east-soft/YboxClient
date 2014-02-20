@@ -7,12 +7,14 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.StringWriter;
+import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketAddress;
 
 import android.text.TextUtils;
 import android.util.Log;
 import cn.cloudchain.yboxclient.MyApplication;
-import cn.cloudchain.yboxclient.bean.OperType;
+import cn.cloudchain.yboxcommon.bean.OperType;
 
 import com.google.gson.stream.JsonWriter;
 
@@ -20,9 +22,8 @@ public class SetHelper {
 	private final String TAG = SetHelper.class.getSimpleName();
 	private static SetHelper instance;
 	private final int PORT = 8888;
-	private String HOST = Helper.getInstance().getGateway(
-			MyApplication.getAppContext());
-	// private String HOST = "192.168.199.206";
+	private final int CONN_TIMEOUT = 3000; // socket连接超时
+	private final int SO_TIMEOUT = 3000;// socket读取超时
 	private final String OPER_KEY = "oper";
 	private final String PARAMS_KEY = "params";
 
@@ -302,9 +303,13 @@ public class SetHelper {
 		OutputStream os = null;
 		InputStream is = null;
 		try {
-			socket = new Socket(HOST, PORT);
+			socket = new Socket();
+			SocketAddress remoteAddr = new InetSocketAddress(Helper
+					.getInstance().getGateway(MyApplication.getAppContext()),
+					PORT);
+			socket.connect(remoteAddr, CONN_TIMEOUT);
 			socket.setReuseAddress(true);
-			socket.setSoTimeout(3000);
+			socket.setSoTimeout(SO_TIMEOUT);
 
 			os = socket.getOutputStream();
 			is = socket.getInputStream();
