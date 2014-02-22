@@ -14,15 +14,18 @@ import android.os.Message;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.Toast;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
+import cn.cloudchain.yboxclient.dialog.EtherSetDialogFragment;
 import cn.cloudchain.yboxclient.dialog.WifiSetDialogFragment;
 import cn.cloudchain.yboxclient.helper.ApStatusHandler;
 import cn.cloudchain.yboxclient.helper.SetHelper;
@@ -39,8 +42,12 @@ public class MainActivity extends FragmentActivity implements
 	private Button shutdown;
 	private Button wifiUserList;
 	private Button mobileInfo;
+	private Button etherInfo;
+	private Button etherSet;
+	private EditText wifiAutoDisableTime;
 
 	private MyHandler handler = new MyHandler(this);
+	private MyApStatusHandler apHandler = new MyApStatusHandler(this);
 	private ApStatusReceiver receiver;
 
 	@Override
@@ -53,6 +60,7 @@ public class MainActivity extends FragmentActivity implements
 		wifiUserList = (Button) findViewById(R.id.hotspot_list);
 		shutdown = (Button) findViewById(R.id.shutdown);
 		mobileInfo = (Button) findViewById(R.id.mobile_info);
+		wifiAutoDisableTime = (EditText) findViewById(R.id.wifi_auto_disable_time);
 
 		mobileDataButton.setOnCheckedChangeListener(this);
 		wifiSet.setOnClickListener(this);
@@ -60,14 +68,23 @@ public class MainActivity extends FragmentActivity implements
 		shutdown.setOnClickListener(this);
 		mobileInfo.setOnClickListener(this);
 
-		wifiModeText.setText(MyApplication.getInstance().wifiMode);
+		etherInfo = (Button) findViewById(R.id.ether_info);
+		etherInfo.setOnClickListener(this);
+		etherSet = (Button) findViewById(R.id.ether_set);
+		etherSet.setOnClickListener(this);
+
+		findViewById(R.id.restart_wifi).setOnClickListener(this);
+		findViewById(R.id.wifi_auto_disable_get).setOnClickListener(this);
+		findViewById(R.id.wifi_auto_disable_set).setOnClickListener(this);
+
+		apHandler.sendEmptyMessage(ApStatusHandler.WIFI_MODE_CHANGE);
 	}
 
 	@Override
 	protected void onStart() {
 		super.onStart();
 		if (receiver == null) {
-			receiver = new ApStatusReceiver(new MyApStatusHandler(this));
+			receiver = new ApStatusReceiver(apHandler);
 		}
 		LocalBroadcastManager.getInstance(this).registerReceiver(receiver,
 				new IntentFilter(ApStatusReceiver.ACTION_WIFI_MODE_CHANGE));
@@ -119,6 +136,21 @@ public class MainActivity extends FragmentActivity implements
 			break;
 		case R.id.mobile_info:
 			handleMobileInfo();
+			break;
+		case R.id.ether_info:
+			handleEtherInfo();
+			break;
+		case R.id.ether_set:
+			handleEtherSet();
+			break;
+		case R.id.restart_wifi:
+			handleRestartWifi();
+			break;
+		case R.id.wifi_auto_disable_get:
+			handleWifiAutoDisableGet();
+			break;
+		case R.id.wifi_auto_disable_set:
+			handleWifiAutoDisableSet();
 			break;
 		}
 	}
@@ -224,11 +256,71 @@ public class MainActivity extends FragmentActivity implements
 		}).start();
 	}
 
+	private void handleEtherInfo() {
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				Message msg = handler.obtainMessage(MyHandler.REQUEST_COMPLETE);
+				msg.obj = SetHelper.getInstance().getEthernetInfo();
+				handler.sendMessage(msg);
+			}
+		}).start();
+	}
+
+	private void handleEtherSet() {
+		EtherSetDialogFragment fragment = new EtherSetDialogFragment();
+		fragment.show(getSupportFragmentManager(), TAG);
+	}
+
+	private void handleRestartWifi() {
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				SetHelper.getInstance().restartWifi();
+			}
+		}).start();
+	}
+
+	private void handleWifiAutoDisableSet() {
+		final String timeStr = wifiAutoDisableTime.getText().toString().trim();
+		if (TextUtils.isEmpty(timeStr)) {
+			Toast.makeText(this, "请输入时长", Toast.LENGTH_SHORT).show();
+			return;
+		}
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				int time = Integer.parseInt(timeStr);
+				Message msg = handler.obtainMessage(MyHandler.REQUEST_COMPLETE);
+				msg.obj = SetHelper.getInstance().setWifiAutoDisable(time);
+				handler.sendMessage(msg);
+			}
+		}).start();
+	}
+
+	private void handleWifiAutoDisableGet() {
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				Message msg = handler
+						.obtainMessage(MyHandler.WIFI_AUTO_DISABLE_GET_COMPLETE);
+				msg.obj = SetHelper.getInstance().getWifiAutoDisable();
+				handler.sendMessage(msg);
+			}
+		}).start();
+	}
+
 	private static class MyHandler extends WeakHandler<MainActivity> {
 		private static final int MSG_DEVICES_COMPLETE = 1;
 		private static final int WIFI_INFO_COMPLETE = 2;
 		private static final int SHUTDOWN_COMPLETE = 3;
 		private static final int MOBILE_INFO_COMPLETE = 4;
+		private static final int REQUEST_COMPLETE = 5;
+		private static final int WIFI_AUTO_DISABLE_GET_COMPLETE = 6;
 
 		public MyHandler(MainActivity owner) {
 			super(owner);
@@ -264,6 +356,26 @@ public class MainActivity extends FragmentActivity implements
 						String.format("电量：%d; 信号强度：%dDbm", battery, strength),
 						Toast.LENGTH_SHORT).show();
 				break;
+			case REQUEST_COMPLETE:
+				Toast.makeText(getOwner(), (String) msg.obj, Toast.LENGTH_SHORT)
+						.show();
+				break;
+			case WIFI_AUTO_DISABLE_GET_COMPLETE: {
+				String result = (String) msg.obj;
+				try {
+					JSONObject obj = new JSONObject(result);
+					if (obj.optBoolean("result")) {
+						int time = obj.optInt("time");
+						getOwner().wifiAutoDisableTime.setText(time);
+					} else {
+						Toast.makeText(getOwner(), "热点自动关闭时间，请求失败",
+								Toast.LENGTH_SHORT).show();
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+				break;
+			}
 			}
 		}
 	}
@@ -282,12 +394,17 @@ public class MainActivity extends FragmentActivity implements
 				return;
 			switch (msg.what) {
 			case WIFI_MODE_CHANGE:
-				getOwner().wifiModeText
-						.setText(MyApplication.getInstance().wifiMode);
+				String mode = MyApplication.getInstance().wifiMode;
+				getOwner().wifiModeText.setText(mode);
+				getOwner().setEthernetEnable(mode.equals("wlan"));
 				break;
 			}
 		}
 
 	}
 
+	private void setEthernetEnable(boolean enable) {
+		etherSet.setEnabled(true);
+		etherInfo.setEnabled(true);
+	}
 }

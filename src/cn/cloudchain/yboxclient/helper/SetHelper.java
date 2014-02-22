@@ -238,13 +238,11 @@ public class SetHelper {
 	 * 
 	 * @param mac
 	 *            设备号
-	 * @param once
-	 *            true是为暂时拒绝该设备连接，false时永久加入黑名单
 	 * @return
 	 */
-	public String addToBlackList(String mac, boolean once) {
+	public String addToBlackList(String mac) {
 		if (TextUtils.isEmpty(mac)) {
-			return "";
+			return getErrorJson(104, "params wrong");
 		}
 		StringWriter sw = new StringWriter(50);
 		JsonWriter jWriter = new JsonWriter(sw);
@@ -252,7 +250,7 @@ public class SetHelper {
 			jWriter.beginObject().name(OPER_KEY)
 					.value(OperType.wifi_blacklist_add.getValue())
 					.name(PARAMS_KEY).beginObject().name("mac").value(mac)
-					.name("once").value(once).endObject().endObject();
+					.endObject().endObject();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -275,12 +273,188 @@ public class SetHelper {
 	 * @return
 	 */
 	public String clearBlackList(String mac) {
+		if (TextUtils.isEmpty(mac)) {
+			return getErrorJson(104, "params wrong");
+		}
 		StringWriter sw = new StringWriter(50);
 		JsonWriter jWriter = new JsonWriter(sw);
 		try {
 			jWriter.beginObject().name(OPER_KEY)
 					.value(OperType.wifi_blacklist_clear.getValue())
 					.name(PARAMS_KEY).beginObject().name("mac").value(mac)
+					.endObject().endObject();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (jWriter != null) {
+				try {
+					jWriter.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return baseSocketRequest(sw.toString());
+	}
+
+	/**
+	 * 获取以太网信息
+	 * 
+	 * @return
+	 */
+	public String getEthernetInfo() {
+		StringWriter sw = new StringWriter(50);
+		JsonWriter jWriter = new JsonWriter(sw);
+		try {
+			jWriter.beginObject().name(OPER_KEY)
+					.value(OperType.ethernet_info.getValue()).endObject();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (jWriter != null) {
+				try {
+					jWriter.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return baseSocketRequest(sw.toString());
+	}
+
+	/**
+	 * 设置以太网静态模式，值不能为空
+	 * 
+	 * @param ip
+	 * @param gateway
+	 * @param mask
+	 * @param dns1
+	 * @param dns2
+	 * @return
+	 */
+	public String setEthernetStatis(String ip, String gateway, String mask,
+			String dns1, String dns2) {
+		StringWriter sw = new StringWriter(50);
+		JsonWriter jWriter = new JsonWriter(sw);
+		try {
+			jWriter.beginObject().name(OPER_KEY)
+					.value(OperType.ethernet_static_set.getValue());
+			jWriter.name(PARAMS_KEY).beginObject();
+			jWriter.name("ip").value(ip);
+			jWriter.name("gateway").value(gateway);
+			jWriter.name("mask").value(mask);
+			jWriter.name("dns1").value(dns1);
+			jWriter.name("dns2").value(dns2);
+			jWriter.endObject().endObject();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (jWriter != null) {
+				try {
+					jWriter.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return baseSocketRequest(sw.toString());
+	}
+
+	/**
+	 * 设置以太网DHCP模式
+	 * 
+	 * @return
+	 */
+	public String setEthernetDhcp() {
+		StringWriter sw = new StringWriter(50);
+		JsonWriter jWriter = new JsonWriter(sw);
+		try {
+			jWriter.beginObject().name(OPER_KEY)
+					.value(OperType.ethernet_dhcp_set.getValue()).endObject();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (jWriter != null) {
+				try {
+					jWriter.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return baseSocketRequest(sw.toString());
+	}
+
+	/**
+	 * 重启终端
+	 * 
+	 * @return
+	 */
+	public String restartWifi() {
+		StringWriter sw = new StringWriter(50);
+		JsonWriter jWriter = new JsonWriter(sw);
+		try {
+			jWriter.beginObject().name(OPER_KEY)
+					.value(OperType.wifi_restart.getValue()).endObject();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (jWriter != null) {
+				try {
+					jWriter.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return baseSocketRequest(sw.toString());
+	}
+
+	/**
+	 * 获取热点自动关闭的时长
+	 * 
+	 * @return
+	 */
+	public String getWifiAutoDisable() {
+		StringWriter sw = new StringWriter(50);
+		JsonWriter jWriter = new JsonWriter(sw);
+		try {
+			jWriter.beginObject().name(OPER_KEY)
+					.value(OperType.wifi_auto_disable_info.getValue())
+					.endObject();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (jWriter != null) {
+				try {
+					jWriter.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return baseSocketRequest(sw.toString());
+	}
+
+	/**
+	 * 设置热点自动关闭时长
+	 * 
+	 * @param time
+	 * @return
+	 */
+	public String setWifiAutoDisable(int time) {
+		StringWriter sw = new StringWriter(50);
+		JsonWriter jWriter = new JsonWriter(sw);
+		try {
+			jWriter.beginObject().name(OPER_KEY)
+					.value(OperType.wifi_auto_disable_set.getValue())
+					.name(PARAMS_KEY).beginObject().name("time").value(time)
 					.endObject().endObject();
 		} catch (IOException e) {
 			e.printStackTrace();

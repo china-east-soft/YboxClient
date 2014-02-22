@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <CheckBox
+        android:id="@+id/isdhtcp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="DHCP" />
+
+    <LinearLayout
+        android:id="@+id/static_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dip" >
+
+        <EditText
+            android:id="@+id/ip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dip"
+            android:text="192.168.1.105" />
+
+        <EditText
+            android:id="@+id/gateway"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dip"
+            android:text="192.168.1.1" />
+
+        <EditText
+            android:id="@+id/mask"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dip"
+            android:text="192.168.255.255" />
+
+        <EditText
+            android:id="@+id/dns1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dip"
+            android:text="192.168.255.255" />
+
+        <EditText
+            android:id="@+id/dns2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dip"
+            android:text="192.168.255.255" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="设置" />
+
+</LinearLayout>

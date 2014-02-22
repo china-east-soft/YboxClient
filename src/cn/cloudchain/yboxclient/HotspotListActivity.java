@@ -115,8 +115,7 @@ public class HotspotListActivity extends Activity implements IBlackListService {
 
 			@Override
 			public void run() {
-				String result = SetHelper.getInstance().addToBlackList(mac,
-						false);
+				String result = SetHelper.getInstance().addToBlackList(mac);
 				Message msg = handler
 						.obtainMessage(MyHandler.MSG_BLACK_COMPLETE);
 				msg.obj = result;
