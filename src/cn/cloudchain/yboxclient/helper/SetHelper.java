@@ -153,9 +153,12 @@ public class SetHelper {
 	 * 
 	 * @param ssid
 	 * @param pass
+	 * @param keyMgmt
+	 * @param maxClient
 	 * @return
 	 */
-	public String setWifiInfo(String ssid, String pass) {
+	public String setWifiInfo(String ssid, String pass, int keyMgmt,
+			int maxClient) {
 		if (TextUtils.isEmpty(ssid)) {
 			return "";
 		}
@@ -165,7 +168,14 @@ public class SetHelper {
 			jWriter.beginObject().name(OPER_KEY)
 					.value(OperType.wifi_info_set.getValue()).name(PARAMS_KEY)
 					.beginObject().name("ssid").value(ssid).name("pass")
-					.value(pass).endObject().endObject();
+					.value(pass);
+			if (keyMgmt >= 0) {
+				jWriter.name("keymgmt").value(keyMgmt);
+			}
+			if (maxClient >= 0) {
+				jWriter.name("maxclient").value(maxClient);
+			}
+			jWriter.endObject().endObject();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -471,6 +481,32 @@ public class SetHelper {
 		return baseSocketRequest(sw.toString());
 	}
 
+	/**
+	 * 获取手机流量信息
+	 * 
+	 * @return
+	 */
+	public String getMobileTrafficInfo() {
+		StringWriter sw = new StringWriter(50);
+		JsonWriter jWriter = new JsonWriter(sw);
+		try {
+			jWriter.beginObject().name(OPER_KEY)
+					.value(OperType.mobile_traffic_info.getValue()).endObject();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (jWriter != null) {
+				try {
+					jWriter.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return baseSocketRequest(sw.toString());
+	}
+
 	private String baseSocketRequest(String jsonStr) {
 		String result = "";
 		Socket socket = null;
@@ -526,6 +562,10 @@ public class SetHelper {
 					e.printStackTrace();
 				}
 			}
+		}
+
+		if (TextUtils.isEmpty(result)) {
+			result = getErrorJson();
 		}
 		return result;
 	}

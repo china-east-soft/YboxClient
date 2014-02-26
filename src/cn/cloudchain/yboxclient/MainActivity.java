@@ -334,10 +334,10 @@ public class MainActivity extends FragmentActivity implements
 
 			switch (msg.what) {
 			case MSG_DEVICES_COMPLETE:
-				Intent intent = new Intent();
-				intent.setClass(getOwner(), HotspotListActivity.class);
-				intent.putExtra("content", (String) msg.obj);
-				getOwner().startActivity(intent);
+//				Intent intent = new Intent();
+//				intent.setClass(getOwner(), HotspotListActivity.class);
+//				intent.putExtra("content", (String) msg.obj);
+//				getOwner().startActivity(intent);
 				break;
 			case WIFI_INFO_COMPLETE:
 				DialogFragment fragment = WifiSetDialogFragment
@@ -366,7 +366,8 @@ public class MainActivity extends FragmentActivity implements
 					JSONObject obj = new JSONObject(result);
 					if (obj.optBoolean("result")) {
 						int time = obj.optInt("time");
-						getOwner().wifiAutoDisableTime.setText(time);
+						getOwner().wifiAutoDisableTime.setText(String
+								.valueOf(time));
 					} else {
 						Toast.makeText(getOwner(), "热点自动关闭时间，请求失败",
 								Toast.LENGTH_SHORT).show();

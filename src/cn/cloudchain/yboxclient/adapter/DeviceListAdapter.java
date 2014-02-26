@@ -11,34 +11,36 @@ import android.widget.Button;
 import android.widget.TextView;
 import cn.cloudchain.yboxclient.R;
 import cn.cloudchain.yboxclient.face.IBlackListService;
+import cn.cloudchain.yboxclient.helper.Helper;
 import cn.cloudchain.yboxcommon.bean.DeviceInfo;
 
-public class HotspotListAdapter extends BaseAdapter {
+public class DeviceListAdapter extends BaseAdapter {
 	private Context context;
 	private IBlackListService listener;
-	private List<DeviceInfo> deviceInfo;
+	private List<DeviceInfo> devices;
+	private String myMac = "";
 
-	public HotspotListAdapter(Context context, IBlackListService listener) {
+	public DeviceListAdapter(Context context, IBlackListService listener) {
 		this.context = context;
-		this.listener = listener;
+		myMac = Helper.getInstance().getDevicesMac(context);
 	}
 
-	public void setDeviceList(List<DeviceInfo> deviceList) {
-		this.deviceInfo = deviceList;
+	public void setDevices(List<DeviceInfo> devices) {
+		this.devices = devices;
 	}
 
 	@Override
 	public int getCount() {
-		return deviceInfo == null ? 0 : deviceInfo.size();
+		return devices == null ? 0 : devices.size();
 	}
 
 	@Override
 	public DeviceInfo getItem(int position) {
-		DeviceInfo info = null;
-		if (position < getCount()) {
-			info = deviceInfo.get(position);
+		DeviceInfo item = null;
+		if (devices != null && devices.size() > position) {
+			item = devices.get(position);
 		}
-		return info;
+		return item;
 	}
 
 	@Override
@@ -53,7 +55,7 @@ public class HotspotListAdapter extends BaseAdapter {
 		if (view == null) {
 			LayoutInflater inflater = (LayoutInflater) context
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			view = inflater.inflate(R.layout.list_item_hotspot, null);
+			view = inflater.inflate(R.layout.list_item_devices, null);
 			holder = new ViewHolder();
 			holder.macText = (TextView) view.findViewById(R.id.mac);
 			holder.ipText = (TextView) view.findViewById(R.id.ip);
@@ -69,7 +71,13 @@ public class HotspotListAdapter extends BaseAdapter {
 
 		holder.macText.setText(item.mac);
 		holder.ipText.setText(item.ip);
-		holder.action.setText(item.blocked ? "解除黑名单" : "加入黑名单");
+		holder.action.setText(item.blocked ? R.string.device_clear_blacklist
+				: R.string.device_add_blacklist);
+		if (item.mac.equals(myMac)) {
+			holder.action.setVisibility(View.GONE);
+		} else {
+			holder.action.setVisibility(View.VISIBLE);
+		}
 		holder.action.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -87,5 +95,4 @@ public class HotspotListAdapter extends BaseAdapter {
 		TextView ipText;
 		Button action;
 	}
-
 }

@@ -5,10 +5,13 @@ import java.net.InetAddress;
 
 import android.content.Context;
 import android.net.DhcpInfo;
+import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import cn.cloudchain.yboxclient.MyApplication;
 
 public class Helper {
 	private static Helper instance;
+	private Context appContext;
 
 	public static Helper getInstance() {
 		if (instance == null)
@@ -17,6 +20,7 @@ public class Helper {
 	}
 
 	private Helper() {
+		appContext = MyApplication.getAppContext();
 	}
 
 	public String getGateway(Context mContext) {
@@ -49,6 +53,33 @@ public class Helper {
 		for (int k = 0; k < 4; k++)
 			quads[k] = (byte) ((broadcast >> k * 8) & 0xFF);
 		return InetAddress.getByAddress(quads);
+	}
+
+	public String getDevicesMac(Context context) {
+		WifiManager wifi = (WifiManager) context
+				.getSystemService(Context.WIFI_SERVICE);
+		WifiInfo info = wifi.getConnectionInfo();
+		return info.getMacAddress();
+	}
+
+	/**
+	 * 根据资源获取字符串
+	 * 
+	 * @param resId
+	 *            不存在时返回""
+	 * @return
+	 */
+	public String getString(int resId) {
+		String str = "";
+
+		if (resId > 0) {
+			try {
+				str = appContext.getResources().getString(resId);
+			} catch (Exception e) {
+
+			}
+		}
+		return str;
 	}
 
 }

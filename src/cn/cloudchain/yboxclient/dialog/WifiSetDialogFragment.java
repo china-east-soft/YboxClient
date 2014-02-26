@@ -77,7 +77,8 @@ public class WifiSetDialogFragment extends DialogFragment implements
 
 			@Override
 			public void run() {
-				String result = SetHelper.getInstance().setWifiInfo(ssid, pass);
+				String result = SetHelper.getInstance().setWifiInfo(ssid, pass,
+						0, -1);
 				boolean success = false;
 				try {
 					JSONObject object = new JSONObject(result);
