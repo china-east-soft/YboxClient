@@ -3,16 +3,18 @@ package cn.cloudchain.yboxclient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
+import cn.cloudchain.yboxclient.dialog.TaskDialogFragment;
 import cn.cloudchain.yboxclient.helper.SetHelper;
 import cn.cloudchain.yboxclient.helper.WeakHandler;
+import cn.cloudchain.yboxclient.task.TrafficJumpTask;
 
 public class StatusInfoActivity extends ActionBarActivity implements
 		OnClickListener {
@@ -42,6 +44,16 @@ public class StatusInfoActivity extends ActionBarActivity implements
 	}
 
 	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			this.finish();
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
 	protected void onStart() {
 		super.onStart();
 		handler.sendEmptyMessage(MyHandler.REFRESH_ALL_STATUS);
@@ -51,10 +63,17 @@ public class StatusInfoActivity extends ActionBarActivity implements
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.status_traffic_layout:
-			Intent intent = new Intent(this, TrafficDetailActivity.class);
-			startActivity(intent);
+			jumpToTraffic();
 			break;
 		}
+	}
+
+	private void jumpToTraffic() {
+		TrafficJumpTask task = new TrafficJumpTask(this);
+		TaskDialogFragment fragment = TaskDialogFragment.newLoadingFragment(
+				null, true);
+		fragment.setTask(task);
+		fragment.show(getSupportFragmentManager(), null);
 	}
 
 	private static class MyHandler extends WeakHandler<StatusInfoActivity> {

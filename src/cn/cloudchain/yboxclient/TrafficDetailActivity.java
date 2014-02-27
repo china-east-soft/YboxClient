@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 import cn.cloudchain.yboxclient.helper.WeakHandler;
@@ -19,7 +20,7 @@ public class TrafficDetailActivity extends ActionBarActivity {
 
 	private TextView todayUsedView;
 	private TextView monthUsedView;
-	private TextView monthRemainView;
+	// private TextView monthRemainView;
 	private TextView limitView;
 	private TextView warnView;
 
@@ -32,8 +33,8 @@ public class TrafficDetailActivity extends ActionBarActivity {
 		setContentView(R.layout.layout_traffic);
 
 		todayUsedView = (TextView) this.findViewById(R.id.today_used);
-		monthRemainView = (TextView) this.findViewById(R.id.month_remain);
-		todayUsedView = (TextView) this.findViewById(R.id.month_used);
+		monthUsedView = (TextView) this.findViewById(R.id.month_used);
+		// monthRemainView = (TextView) this.findViewById(R.id.month_remain);
 		limitView = (TextView) this.findViewById(R.id.limit);
 		warnView = (TextView) this.findViewById(R.id.warn);
 
@@ -63,6 +64,10 @@ public class TrafficDetailActivity extends ActionBarActivity {
 		if (TextUtils.isEmpty(warn)) {
 			warn = "无限制";
 		}
+
+		Log.i(TAG, String.format(
+				"today = %s--month = %s--limit = %s--warn = %s", today, month,
+				limit, warn));
 
 		todayUsedView.setText(getString(R.string.traffic_today_used, today));
 		monthUsedView.setText(getString(R.string.traffic_month_used, month));
