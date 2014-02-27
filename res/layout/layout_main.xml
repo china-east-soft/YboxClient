@@ -1,6 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/cn.cloudchain.yboxclient"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:padding="5dip" >
 
-</android.support.v7.widget.GridLayout>
+    <cn.cloudchain.yboxclient.views.GridItem1
+        android:id="@+id/tab_setting"
+        android:layout_width="@dimen/tab_width1"
+        android:layout_height="@dimen/tab_height1"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="5dip"
+        android:layout_marginLeft="5dip"
+        android:background="#6495ED"
+        android:text="@string/tab_setting"
+        android:textColor="#000"
+        android:textSize="12sp"
+        app:gridImage="@drawable/program_play" />
+
+    <cn.cloudchain.yboxclient.views.GridItem1
+        android:id="@+id/tab_status"
+        android:layout_width="@dimen/tab_width1"
+        android:layout_height="@dimen/tab_height1"
+        android:layout_alignBaseline="@id/tab_setting"
+        android:layout_marginLeft="5dip"
+        android:layout_toLeftOf="@id/tab_setting"
+        android:background="#00BFFF"
+        android:text="@string/tab_status"
+        android:textColor="#000"
+        android:textSize="12sp"
+        app:gridImage="@drawable/program_play" />
+
+    <cn.cloudchain.yboxclient.views.GridItem1
+        android:id="@+id/tab_mobile_data"
+        android:layout_width="@dimen/tab_width1"
+        android:layout_height="@dimen/tab_height1"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/tab_setting"
+        android:layout_marginLeft="5dip"
+        android:background="@drawable/bcg_round_corner_item"
+        android:text="@string/tab_mobile_data"
+        android:textColor="#000"
+        android:textSize="12sp"
+        app:checked="true"
+        app:gridImage="@drawable/program_play"
+        app:toggleImage="@drawable/default_toggle" />
+<!-- #87CEFA -->
+    <cn.cloudchain.yboxclient.views.GridItem1
+        android:id="@+id/tab_shutdown"
+        android:layout_width="@dimen/tab_width1"
+        android:layout_height="@dimen/tab_height1"
+        android:layout_alignBaseline="@id/tab_mobile_data"
+        android:layout_below="@id/tab_setting"
+        android:layout_toLeftOf="@id/tab_mobile_data"
+        android:background="#6495ED"
+        android:text="@string/tab_shutdown"
+        android:textColor="#000"
+        android:textSize="12sp"
+        app:gridImage="@drawable/program_play" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@id/tab_mobile_data"
+        android:layout_toLeftOf="@id/tab_status"
+        android:background="#B0E0E6"
+        android:gravity="center" >
+
+        <ToggleButton
+            android:id="@+id/status_ethernet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:clickable="false"
+            android:textOff="以太关"
+            android:textOn="以太开" />
+
+        <ToggleButton
+            android:id="@+id/status_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/status_ethernet"
+            android:checked="false"
+            android:clickable="false"
+            android:textOff="数据关"
+            android:textOn="数据开" />
+
+        <ToggleButton
+            android:id="@+id/status_wifi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/status_ethernet"
+            android:checked="false"
+            android:clickable="false"
+            android:textOff="无线关"
+            android:textOn="无线开" />
+
+        <ToggleButton
+            android:id="@+id/status_battery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/status_ethernet"
+            android:layout_toRightOf="@id/status_wifi"
+            android:checked="false"
+            android:clickable="false"
+            android:textOff="电量低"
+            android:textOn="电量" />
+    </RelativeLayout>
+
+</RelativeLayout>

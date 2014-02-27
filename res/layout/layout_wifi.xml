@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:minWidth="80dip"
         android:padding="8dip"
-        android:text="网络SSID" />
+        android:text="@string/ssid_name" />
 
     <EditText
         android:id="@+id/ssid_edittext"
@@ -18,7 +18,6 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@id/ssid_text"
         android:layout_toRightOf="@id/ssid_text"
-        android:hint="AndroidAP"
         android:singleLine="true" />
 
     <TextView
@@ -28,7 +27,7 @@
         android:layout_below="@id/ssid_text"
         android:paddingLeft="12dip"
         android:paddingTop="12dip"
-        android:text="安全性"
+        android:text="@string/security"
         android:textSize="14sp" />
 
     <Spinner
@@ -46,7 +45,7 @@
         android:layout_below="@id/security_spinner"
         android:minWidth="80dip"
         android:padding="8dip"
-        android:text="密码"
+        android:text="@string/pass_name"
         android:textSize="16sp"
         android:visibility="gone" />
 
@@ -56,7 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@id/pass_text"
         android:layout_toRightOf="@id/pass_text"
-        android:hint="密码至少包含 8 个字符"
+        android:hint="@string/pass_hint"
         android:inputType="textPassword"
         android:singleLine="true"
         android:visibility="gone" />
@@ -66,7 +65,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/pass_text"
-        android:text="显示密码"
+        android:text="@string/show_pass"
         android:visibility="gone" />
 
     <TextView
@@ -76,7 +75,7 @@
         android:layout_below="@id/pass_show_checkbox"
         android:layout_marginLeft="8dip"
         android:layout_marginTop="20dip"
-        android:text="最大支持连接数" />
+        android:text="@string/max_client_num" />
 
     <Spinner
         android:id="@+id/max_users_spinner"
@@ -93,7 +92,7 @@
         android:layout_below="@id/max_users_spinner"
         android:layout_marginLeft="8dip"
         android:layout_marginTop="10dip"
-        android:text="保持WiFi开启" />
+        android:text="@string/wifi_auto_disable" />
 
     <Spinner
         android:id="@+id/auto_disable_spinner"

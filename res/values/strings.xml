@@ -10,6 +10,15 @@
     <string name="request_fail">请求失败</string>
     <string name="set_fail">设置修改失败</string>
 
+    <!-- 主页面 -->
+    <string name="tab_setting">设置</string>
+    <string name="tab_status">状态</string>
+    <string name="tab_shutdown">关机</string>
+    <string name="tab_mobile_data">数据</string>
+    
+    <string name="warn_battery_low">终端电量低！</string>
+    <string name="data_open_fail">打开数据流量失败</string>
+
     <!-- 重启热点提示 -->
     <string name="valid_after_wifi_restart">重启WiFi后配置生效，重启大概5s完成</string>
     <string name="wifi_restart_now">立即重启</string>
@@ -41,6 +50,7 @@
     <string name="setting_devices_num">%d个人连接</string>
 
     <!-- WLAN配置相关 -->
+    <string name="ethernet_not_conn_reminder">当前不是以太网连接</string>
     <string name="wlan_title">端口配置</string>
     <string name="ipaddress">IP地址</string>
     <string name="mask">子网掩码</string>
@@ -56,6 +66,17 @@
     <string name="mask_invalid">子网掩码不合法</string>
     <string name="dns_invalid">DNS地址不合法</string>
     <string name="dns_empty_all">DNS地址不能都为空</string>
+
+    <!-- 无线设置 -->
+    <string name="ssid_name">网络SSID</string>
+    <string name="security">安全性</string>
+    <string name="pass_name">密码</string>
+    <string name="show_pass">显示密码</string>
+    <string name="max_client_num">最大支持连接数</string>
+    <string name="wifi_auto_disable">保持WiFi开启</string>
+    <string name="ssid_empty">SSID不能为空</string>
+    <string name="pass_hint">密码至少包含 8 个字符"</string>
+    <string name="pass_too_short">密码至少包含 8 个字符"</string>
 
     <string-array name="wifi_security_types">
         <item>无</item>

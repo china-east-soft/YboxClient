@@ -10,5 +10,9 @@
     
     <dimen name="dialog_button_height">45dip</dimen>
     <dimen name="dialog_title_height">45dip</dimen>
+    
+    <!-- TAB1 -->
+    <dimen name="tab_width1">80dip</dimen>
+    <dimen name="tab_height1">80dip</dimen>
 
 </resources>
