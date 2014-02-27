@@ -1,8 +1,18 @@
 package cn.cloudchain.yboxclient;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 import android.text.InputType;
+import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -13,6 +23,11 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import cn.cloudchain.yboxclient.dialog.TaskDialogFragment;
+import cn.cloudchain.yboxclient.dialog.WifiRestartDialogFragment;
+import cn.cloudchain.yboxclient.helper.SetHelper;
+import cn.cloudchain.yboxclient.helper.Util;
+import cn.cloudchain.yboxclient.task.BaseFragmentTask;
 
 public class WifiSetActivity extends ActionBarActivity {
 	final String TAG = WifiSetActivity.class.getSimpleName();
@@ -55,11 +70,21 @@ public class WifiSetActivity extends ActionBarActivity {
 	}
 
 	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.wifiset, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
 			this.finish();
 			return true;
+		case R.id.confirm:
+			handleWifiSet();
+			break;
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -117,5 +142,87 @@ public class WifiSetActivity extends ActionBarActivity {
 			}
 		}
 
+	}
+
+	private void handleWifiSet() {
+		String ssid = ssidEditText.getText().toString().trim();
+		if (TextUtils.isEmpty(ssid)) {
+			Util.toaster(R.string.ssid_empty);
+			return;
+		}
+		String pass = passEditText.getText().toString().trim();
+		if (passEditText.isShown() && pass.length() < 8) {
+			Util.toaster(R.string.pass_too_short);
+			return;
+		}
+		WifiSetTask task = new WifiSetTask(this, ssid, pass,
+				securitySpinner.getSelectedItemPosition(),
+				maxUserSpinner.getSelectedItemPosition() + 1,
+				autoDisableSpinner.getSelectedItemPosition());
+		TaskDialogFragment fragment = TaskDialogFragment.newLoadingFragment(
+				null, false);
+		fragment.setTask(task);
+		fragment.show(getSupportFragmentManager(), null);
+	}
+
+	private class WifiSetTask extends BaseFragmentTask {
+		private final static int RESULT_SUCCESS = 0;
+		private final static int RESULT_FAIL = 1;
+
+		private Context context;
+		private String ssid;
+		private String pass;
+		private int keymgmt;
+		private int maxClients;
+
+		// int autoDisable;
+
+		public WifiSetTask(Context context, String ssid, String pass,
+				int keymgmt, int maxClients, int autoDisable) {
+			this.context = context;
+			this.ssid = ssid;
+			this.pass = pass;
+			this.keymgmt = keymgmt;
+			this.maxClients = maxClients;
+			// this.autoDisable = autoDisable;
+		}
+
+		@Override
+		protected Integer doInBackground(Void... params) {
+			super.doInBackground(params);
+			int result = RESULT_FAIL;
+			String response = SetHelper.getInstance().setWifiInfo(ssid, pass,
+					keymgmt, maxClients);
+			try {
+				JSONObject obj = new JSONObject(response);
+				if (obj.optBoolean("result")) {
+					result = RESULT_SUCCESS;
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			return result;
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			super.onPostExecute(result);
+			if (isCancelled())
+				return;
+			switch (result) {
+			case RESULT_FAIL:
+				Util.toaster(R.string.request_fail);
+				break;
+			case RESULT_SUCCESS:
+				if (context instanceof FragmentActivity) {
+					FragmentManager fm = ((FragmentActivity) context)
+							.getSupportFragmentManager();
+					DialogFragment fragment = WifiRestartDialogFragment
+							.newInstance();
+					fragment.show(fm, null);
+				}
+				break;
+			}
+		}
 	}
 }

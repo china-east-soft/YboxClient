@@ -10,7 +10,6 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
@@ -24,7 +23,7 @@ import cn.cloudchain.yboxclient.server.ApStatusReceiver;
 import cn.cloudchain.yboxclient.task.BlackListHandleTask;
 import cn.cloudchain.yboxcommon.bean.DeviceInfo;
 
-public class DevicesActivity extends ActionBarActivity implements
+public class DevicesActivity extends BaseActionBarActivity implements
 		IBlackListService {
 	public static final String BUNDLE_DEVICES = "devices";
 	private ListView listView;

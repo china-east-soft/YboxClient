@@ -8,7 +8,6 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -16,16 +15,17 @@ import android.widget.TextView;
 import cn.cloudchain.yboxclient.dialog.TaskDialogFragment;
 import cn.cloudchain.yboxclient.helper.ApStatusHandler;
 import cn.cloudchain.yboxclient.helper.SetHelper;
+import cn.cloudchain.yboxclient.helper.Util;
 import cn.cloudchain.yboxclient.helper.WeakHandler;
 import cn.cloudchain.yboxclient.server.ApStatusReceiver;
 import cn.cloudchain.yboxclient.task.DevicesJumpTask;
 import cn.cloudchain.yboxclient.task.WifiInfoJumpTask;
 import cn.cloudchain.yboxclient.task.WlanInfoJumpTask;
 
-public class SettingActivity extends ActionBarActivity implements
+public class SettingActivity extends BaseActionBarActivity implements
 		OnClickListener {
-//	private TextView updateYboxStatus;
-//	private TextView updateAppStatus;
+	// private TextView updateYboxStatus;
+	// private TextView updateAppStatus;
 	private TextView deviceNums;
 
 	private ApStatusReceiver statusReceiver;
@@ -85,7 +85,11 @@ public class SettingActivity extends ActionBarActivity implements
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.setting_wlan:
-			jumpToWlan();
+			if (MyApplication.getInstance().connType == 1) {
+				jumpToWlan();
+			} else {
+				Util.toaster(R.string.ethernet_not_conn_reminder);
+			}
 			break;
 		case R.id.setting_wifi:
 			jumpToWifi();
