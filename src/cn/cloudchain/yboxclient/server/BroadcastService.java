@@ -103,6 +103,14 @@ public class BroadcastService extends Service {
 								new Intent(
 										ApStatusReceiver.ACTION_WIFI_CLIENTS_CHANGE));
 			}
+
+			boolean oldBatteryLow = MyApplication.getInstance().batteryLow;
+			boolean newBatteryLow = obj.optBoolean("battery_low");
+			if (oldBatteryLow != newBatteryLow) {
+				MyApplication.getInstance().batteryLow = newBatteryLow;
+				LocalBroadcastManager.getInstance(this).sendBroadcast(
+						new Intent(ApStatusReceiver.ACTION_BATTERY_LOW_CHANGE));
+			}
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
