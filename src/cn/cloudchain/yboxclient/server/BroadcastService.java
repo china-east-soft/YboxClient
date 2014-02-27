@@ -85,12 +85,23 @@ public class BroadcastService extends Service {
 
 		try {
 			JSONObject obj = new JSONObject(message);
-			String oldMode = MyApplication.getInstance().wifiMode;
-			String newMode = obj.optString("wifi_mode", "");
-			if (oldMode == null || !oldMode.equals(newMode)) {
-				MyApplication.getInstance().wifiMode = newMode;
+			int oldType = MyApplication.getInstance().connType;
+			int newType = obj.optInt("conn");
+			if (oldType != newType) {
+				MyApplication.getInstance().connType = newType;
 				LocalBroadcastManager.getInstance(this).sendBroadcast(
 						new Intent(ApStatusReceiver.ACTION_WIFI_MODE_CHANGE));
+			}
+
+			long oldTime = MyApplication.getInstance().wifiClientUpdateTime;
+			long newTime = obj.getLong("clients_update_time");
+			if (oldTime != newTime) {
+				MyApplication.getInstance().wifiClientUpdateTime = newTime;
+				LocalBroadcastManager
+						.getInstance(this)
+						.sendBroadcast(
+								new Intent(
+										ApStatusReceiver.ACTION_WIFI_CLIENTS_CHANGE));
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();

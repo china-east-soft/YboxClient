@@ -5,7 +5,8 @@ import android.content.Context;
 
 public class MyApplication extends Application {
 	private static MyApplication instance;
-	public String wifiMode = "";
+	public int connType = 0;
+	public long wifiClientUpdateTime = 0L;
 
 	@Override
 	public void onCreate() {

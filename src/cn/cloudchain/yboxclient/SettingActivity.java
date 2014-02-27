@@ -4,27 +4,33 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Message;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 import cn.cloudchain.yboxclient.dialog.TaskDialogFragment;
+import cn.cloudchain.yboxclient.helper.ApStatusHandler;
 import cn.cloudchain.yboxclient.helper.SetHelper;
 import cn.cloudchain.yboxclient.helper.WeakHandler;
+import cn.cloudchain.yboxclient.server.ApStatusReceiver;
 import cn.cloudchain.yboxclient.task.DevicesJumpTask;
 import cn.cloudchain.yboxclient.task.WifiInfoJumpTask;
 import cn.cloudchain.yboxclient.task.WlanInfoJumpTask;
 
 public class SettingActivity extends ActionBarActivity implements
 		OnClickListener {
-	private TextView updateYboxStatus;
-	private TextView updateAppStatus;
+//	private TextView updateYboxStatus;
+//	private TextView updateAppStatus;
 	private TextView deviceNums;
 
+	private ApStatusReceiver statusReceiver;
 	private MyHandler handler = new MyHandler(this);
+	private ReceiverHandler receiverHandler = new ReceiverHandler(this);
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -40,17 +46,29 @@ public class SettingActivity extends ActionBarActivity implements
 		this.findViewById(R.id.setting_update_ybox).setOnClickListener(this);
 		this.findViewById(R.id.setting_update_app).setOnClickListener(this);
 
-		updateYboxStatus = (TextView) this
-				.findViewById(R.id.setting_update_ybox_latest);
-		updateAppStatus = (TextView) this
-				.findViewById(R.id.setting_update_app_latest);
+		// updateYboxStatus = (TextView) this
+		// .findViewById(R.id.setting_update_ybox_latest);
+		// updateAppStatus = (TextView) this
+		// .findViewById(R.id.setting_update_app_latest);
 		deviceNums = (TextView) this.findViewById(R.id.setting_devices_num);
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		registerReceiver();
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 		handler.sendEmptyMessage(MyHandler.DEVICE_NUM_GET);
+	}
+
+	@Override
+	protected void onStop() {
+		unregisterReceiver();
+		super.onStop();
 	}
 
 	@Override
@@ -143,7 +161,7 @@ public class SettingActivity extends ActionBarActivity implements
 						JSONArray array = obj.optJSONArray("devices");
 						int count = array.length();
 						Message msg = handler
-								.obtainMessage(MyHandler.DEVICE_NUM_GET);
+								.obtainMessage(MyHandler.DEVICE_NUM_GET_COMPLETE);
 						msg.arg1 = count;
 						handler.sendMessage(msg);
 					}
@@ -152,6 +170,44 @@ public class SettingActivity extends ActionBarActivity implements
 				}
 			}
 		}).start();
+	}
+
+	private static class ReceiverHandler extends
+			ApStatusHandler<SettingActivity> {
+
+		public ReceiverHandler(SettingActivity owner) {
+			super(owner);
+		}
+
+		@Override
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);
+			if (getOwner() == null)
+				return;
+			switch (msg.what) {
+			case HOTSPOT_CLIENT_CHANGE:
+				getOwner().handler.sendEmptyMessage(MyHandler.DEVICE_NUM_GET);
+				break;
+			}
+		}
+	}
+
+	private void registerReceiver() {
+		if (statusReceiver == null) {
+			statusReceiver = new ApStatusReceiver(receiverHandler);
+		}
+		IntentFilter filter = new IntentFilter();
+		filter.addAction(ApStatusReceiver.ACTION_WIFI_CLIENTS_CHANGE);
+		LocalBroadcastManager.getInstance(this).registerReceiver(
+				statusReceiver, filter);
+	}
+
+	private void unregisterReceiver() {
+		if (statusReceiver != null) {
+			LocalBroadcastManager.getInstance(this).unregisterReceiver(
+					statusReceiver);
+			statusReceiver = null;
+		}
 	}
 
 }

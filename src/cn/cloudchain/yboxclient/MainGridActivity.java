@@ -5,6 +5,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.GridLayout;
 import android.view.View;
@@ -76,7 +77,7 @@ public class MainGridActivity extends ActionBarActivity implements
 		button4.setLayoutParams(params4);
 		button4.setTextOff("数据关");
 		button4.setTextOn("数据开");
-		button4.setChecked(MyApplication.getInstance().wifiMode.equals("3g"));
+		button4.setChecked(MyApplication.getInstance().connType == 2);
 		button4.setOnCheckedChangeListener(this);
 		gridLay.addView(button4);
 
@@ -131,7 +132,15 @@ public class MainGridActivity extends ActionBarActivity implements
 	}
 
 	private void refreshView() {
-		// 当以太网连接时，数据不可点
+		int connType = MyApplication.getInstance().connType;
+		switch (connType) {
+		case 0:
+			break;
+		case 1:
+			break;
+		case 2:
+			break;
+		}
 	}
 
 	private static class ReceiverHandler extends
@@ -148,10 +157,10 @@ public class MainGridActivity extends ActionBarActivity implements
 				return;
 			switch (msg.what) {
 			case WIFI_MODE_CHANGE:
+				getOwner().refreshView();
 				break;
 			}
 		}
-
 	}
 
 	private void registerReceiver() {
@@ -160,12 +169,14 @@ public class MainGridActivity extends ActionBarActivity implements
 		}
 		IntentFilter filter = new IntentFilter();
 		filter.addAction(ApStatusReceiver.ACTION_WIFI_MODE_CHANGE);
-		registerReceiver(statusReceiver, filter);
+		LocalBroadcastManager.getInstance(this).registerReceiver(
+				statusReceiver, filter);
 	}
 
 	private void unregisterReceiver() {
 		if (statusReceiver != null) {
-			unregisterReceiver(statusReceiver);
+			LocalBroadcastManager.getInstance(this).unregisterReceiver(
+					statusReceiver);
 			statusReceiver = null;
 		}
 	}

@@ -6,8 +6,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Message;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +20,7 @@ import cn.cloudchain.yboxclient.dialog.TaskDialogFragment;
 import cn.cloudchain.yboxclient.face.IBlackListService;
 import cn.cloudchain.yboxclient.helper.ApStatusHandler;
 import cn.cloudchain.yboxclient.helper.SetHelper;
+import cn.cloudchain.yboxclient.server.ApStatusReceiver;
 import cn.cloudchain.yboxclient.task.BlackListHandleTask;
 import cn.cloudchain.yboxcommon.bean.DeviceInfo;
 
@@ -30,6 +33,7 @@ public class DevicesActivity extends ActionBarActivity implements
 
 	private ArrayList<DeviceInfo> deviceList;
 	private ReceiveHandler receiveHandler = new ReceiveHandler(this);
+	private ApStatusReceiver statusReceiver;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +55,18 @@ public class DevicesActivity extends ActionBarActivity implements
 			return;
 		deviceList = bundle.getParcelableArrayList(BUNDLE_DEVICES);
 		adapter.setDevices(deviceList);
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		registerReceiver();
+	}
+
+	@Override
+	protected void onPause() {
+		unregisterReceiver();
+		super.onPause();
 	}
 
 	@Override
@@ -159,5 +175,23 @@ public class DevicesActivity extends ActionBarActivity implements
 				"正在处理中...", true);
 		fragment.setTask(task);
 		fragment.show(getSupportFragmentManager(), null);
+	}
+
+	private void registerReceiver() {
+		if (statusReceiver == null) {
+			statusReceiver = new ApStatusReceiver(receiveHandler);
+		}
+		IntentFilter filter = new IntentFilter();
+		filter.addAction(ApStatusReceiver.ACTION_WIFI_CLIENTS_CHANGE);
+		LocalBroadcastManager.getInstance(this).registerReceiver(
+				statusReceiver, filter);
+	}
+
+	private void unregisterReceiver() {
+		if (statusReceiver != null) {
+			LocalBroadcastManager.getInstance(this).unregisterReceiver(
+					statusReceiver);
+			statusReceiver = null;
+		}
 	}
 }
