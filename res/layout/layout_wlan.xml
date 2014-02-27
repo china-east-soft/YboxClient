@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="12dip" >
+
+    <RadioGroup
+        android:id="@+id/ip_mode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/ip_static"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/ip_static" />
+
+        <RadioButton
+            android:id="@+id/ip_dhcp"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/ip_dhcp" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/address_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ip_mode"
+        android:minWidth="90dip"
+        android:padding="12dip"
+        android:text="@string/ipaddress" />
+
+    <EditText
+        android:id="@+id/address_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/address_text"
+        android:layout_toRightOf="@id/address_text"
+        android:singleLine="true" />
+
+    <TextView
+        android:id="@+id/gateway_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/address_text"
+        android:minWidth="90dip"
+        android:padding="12dip"
+        android:text="@string/gateway" />
+
+    <EditText
+        android:id="@+id/gateway_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/gateway_text"
+        android:layout_toRightOf="@id/gateway_text"
+        android:singleLine="true" />
+
+    <TextView
+        android:id="@+id/mask_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/gateway_text"
+        android:minWidth="90dip"
+        android:padding="12dip"
+        android:text="@string/mask" />
+
+    <EditText
+        android:id="@+id/mask_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/mask_text"
+        android:layout_toRightOf="@id/mask_text"
+        android:singleLine="true" />
+
+    <TextView
+        android:id="@+id/dns1_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/mask_text"
+        android:minWidth="90dip"
+        android:padding="12dip"
+        android:text="@string/dns1" />
+
+    <EditText
+        android:id="@+id/dns1_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/dns1_text"
+        android:layout_toRightOf="@id/dns1_text"
+        android:singleLine="true" />
+
+    <TextView
+        android:id="@+id/dns2_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dns1_text"
+        android:minWidth="90dip"
+        android:padding="12dip"
+        android:text="@string/dns2" />
+
+    <EditText
+        android:id="@+id/dns2_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/dns2_text"
+        android:layout_toRightOf="@id/dns2_text"
+        android:singleLine="true" />
+
+    <Button
+        android:id="@+id/set"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dip"
+        android:text="设置" />
+
+</RelativeLayout>

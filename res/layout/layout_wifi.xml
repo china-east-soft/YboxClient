@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="12dip" >
+
+    <TextView
+        android:id="@+id/ssid_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="80dip"
+        android:padding="8dip"
+        android:text="网络SSID" />
+
+    <EditText
+        android:id="@+id/ssid_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/ssid_text"
+        android:layout_toRightOf="@id/ssid_text"
+        android:hint="AndroidAP"
+        android:singleLine="true" />
+
+    <TextView
+        android:id="@+id/security_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ssid_text"
+        android:paddingLeft="12dip"
+        android:paddingTop="12dip"
+        android:text="安全性"
+        android:textSize="14sp" />
+
+    <Spinner
+        android:id="@+id/security_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/security_text"
+        android:entries="@array/wifi_security_types"
+        android:spinnerMode="dropdown" />
+
+    <TextView
+        android:id="@+id/pass_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/security_spinner"
+        android:minWidth="80dip"
+        android:padding="8dip"
+        android:text="密码"
+        android:textSize="16sp"
+        android:visibility="gone" />
+
+    <EditText
+        android:id="@+id/pass_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/pass_text"
+        android:layout_toRightOf="@id/pass_text"
+        android:hint="密码至少包含 8 个字符"
+        android:inputType="textPassword"
+        android:singleLine="true"
+        android:visibility="gone" />
+
+    <CheckBox
+        android:id="@+id/pass_show_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/pass_text"
+        android:text="显示密码"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/max_users_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/pass_show_checkbox"
+        android:layout_marginLeft="8dip"
+        android:layout_marginTop="20dip"
+        android:text="最大支持连接数" />
+
+    <Spinner
+        android:id="@+id/max_users_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/max_users_text"
+        android:entries="@array/max_users_selector"
+        android:spinnerMode="dropdown" />
+
+    <TextView
+        android:id="@+id/auto_disable_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/max_users_spinner"
+        android:layout_marginLeft="8dip"
+        android:layout_marginTop="10dip"
+        android:text="保持WiFi开启" />
+
+    <Spinner
+        android:id="@+id/auto_disable_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/auto_disable_text"
+        android:entries="@array/auto_disable_types"
+        android:spinnerMode="dropdown" />
+
+</RelativeLayout>

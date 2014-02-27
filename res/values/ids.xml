@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name="tab_status" type="id"/>
+    <item name="tab_shutdown" type="id"/>
+    <item name="tab_setting" type="id"/>
+    <item name="tab_mobile_data" type="id"/>
+    <item name="dialog_nonetwork" type="id"/>
+    <item name="dialog_click_positive" type="id"/>
+    <item name="dialog_click_negitive" type="id"/>
+    <item name="dialog_cancel" type="id"/>
+
+    <!-- 设备 -->
+    <item name="device_tag_section" type="id"/>
+    <item name="device_tag_item" type="id"/>
+
+</resources>

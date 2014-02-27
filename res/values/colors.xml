@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <drawable name="transparent">#00000000</drawable>
+
+    <color name="round_corner_line_normal">#C2C2C2</color>
+    <color name="round_corner_line_select">#C2C2C2</color>
+    <color name="round_corner_bcg_normal">#FFF</color>
+    <color name="round_corner_bcg_select">#E9E9E9</color>
+
+    <!-- 对话框style -->
+    <color name="dialog_bcg">#FDFDFD</color>
+    <color name="dialog_divider">#FF33b5e5</color>
+    <color name="dialog_title_text">#494740</color>
+    <color name="dialog_button_text">#494740</color>
+    <color name="dialog_message_normal">#494740</color>
+    <color name="dialog_message_light">#5f5d54</color>
+
+    <drawable name="drawable_dialog_button_select">#FF33b5e5</drawable>
+
+</resources>

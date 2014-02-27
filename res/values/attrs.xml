@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="GridItem1">
+        <attr name="android:background" />
+        <attr name="gridImage" format="reference" />
+        <attr name="toggleImage" format="reference" />
+        <attr name="android:text" />
+        <attr name="android:textSize" />
+        <attr name="android:textColor" />
+    </declare-styleable>
+
+</resources>

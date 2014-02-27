@@ -1,8 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
     <string name="app_name">YboxClient</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    <string name="cancel">取消</string>
+    <string name="confirm">确定</string>
+    <string name="shutdown_reminder">按确定YBOX将关机</string>
+    <string name="request_fail">请求失败</string>
+    <string name="set_fail">设置修改失败</string>
+
+    <!-- 重启热点提示 -->
+    <string name="valid_after_wifi_restart">重启WiFi后配置生效，重启大概5s完成</string>
+    <string name="wifi_restart_now">立即重启</string>
+    <string name="wifi_restart_later">稍后重启</string>
+
+    <!-- 终端状态相关 -->
+    <string name="status_title">终端状态</string>
+    <string name="status_traffic_remain">流量剩余</string>
+    <string name="status_battery_remain">电视剩余</string>
+    <string name="status_signal_strength">3G信号强度</string>
+
+    <!-- 流量统计相关<xliff:g>%s</xliff:g> -->
+    <string name="traffic_title">流量统计</string>
+    <string name="traffic_today_used">今日已用：%s</string>
+    <string name="traffic_month_used">本月已用：%s</string>
+    <string name="traffic_month_remain">本月剩余：%s</string>
+    <string name="traffic_limit">本月流量限制：%s</string>
+    <string name="traffic_warnint">本月流量警告：%s</string>
+
+    <!-- 设置相关 -->
+    <string name="setting_title">设置</string>
+    <string name="setting_wlan">WLAN口配置</string>
+    <string name="setting_devices">无线设备控制</string>
+    <string name="setting_wifi">无线参数</string>
+    <string name="setting_distance">远程控制</string>
+    <string name="setting_update_ybox">YBOX-Mini升级</string>
+    <string name="setting_update_app">视网魔APP升级</string>
+    <string name="setting_help">使用帮助</string>
+    <string name="setting_devices_num">%d个人连接</string>
+
+    <!-- WLAN配置相关 -->
+    <string name="wlan_title">端口配置</string>
+    <string name="ipaddress">IP地址</string>
+    <string name="mask">子网掩码</string>
+    <string name="gateway">网关</string>
+    <string name="dns1">DNS主用</string>
+    <string name="dns2">DNS备用</string>
+    <string name="ip_dhcp">DHCP</string>
+    <string name="ip_static">静态IP</string>
+
+    <!-- WLAN配置 -->
+    <string name="address_invalid">IP地址不合法</string>
+    <string name="gateway_invalid">网关地址不合法</string>
+    <string name="mask_invalid">子网掩码不合法</string>
+    <string name="dns_invalid">DNS地址不合法</string>
+    <string name="dns_empty_all">DNS地址不能都为空</string>
+
+    <string-array name="wifi_security_types">
+        <item>无</item>
+        <item>WPA PSK</item>
+        <item>WPA2 PSK</item>
+    </string-array>
+    <string-array name="max_users_selector">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+    </string-array>
+    <string-array name="auto_disable_types">
+        <item>始终</item>
+        <item>空闲5分钟后关闭</item>
+        <item>空闲10分钟后关闭</item>
+    </string-array>
+
+    <!-- 连接设备控制 -->
+    <string name="devices_title">设备管理</string>
+    <string name="device_add_blacklist">拒绝连接</string>
+    <string name="device_clear_blacklist">取消拒绝</string>
+    <string name="device_mac_title">MAC</string>
+    <string name="device_deal_reminder">正在处理中&#8230;</string>
 
 </resources>
