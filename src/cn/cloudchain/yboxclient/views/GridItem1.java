@@ -10,10 +10,14 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import cn.cloudchain.yboxclient.R;
 
-public class GridItem1 extends View {
+public class GridItem1 extends View implements OnTouchListener {
 	final String TAG = GridItem1.class.getSimpleName();
 	private Drawable image;
 	private Drawable toggle;
@@ -23,6 +27,7 @@ public class GridItem1 extends View {
 	private int textColor;
 	private int paddingLeft;
 	private int paddingBottom;
+	// private float mScaleFactor = 1.f;
 
 	private TextPaint textPaint;
 	private Rect bounds = new Rect();
@@ -68,11 +73,16 @@ public class GridItem1 extends View {
 
 		setClickable(true);
 		setChecked(checked);
+		setOnTouchListener(this);
 	}
 
 	@Override
 	protected void onDraw(Canvas canvas) {
+		canvas.save();
+		// canvas.scale(mScaleFactor, mScaleFactor);
 		super.onDraw(canvas);
+		canvas.restore();
+
 		int caW = canvas.getWidth();
 		int caH = canvas.getHeight();
 
@@ -162,5 +172,27 @@ public class GridItem1 extends View {
 		if (toggle == null)
 			return;
 		setChecked(!checked);
+	}
+
+	@Override
+	public boolean onTouch(View v, MotionEvent event) {
+		switch (event.getAction()) {
+		case MotionEvent.ACTION_DOWN: {
+			Animation anim = AnimationUtils.loadAnimation(getContext(),
+					R.anim.click_scale);
+			v.startAnimation(anim);
+			anim.setFillAfter(true);
+			break;
+		}
+		case MotionEvent.ACTION_UP: {
+			Animation anim = AnimationUtils.loadAnimation(getContext(),
+					R.anim.click_scale_back);
+			v.startAnimation(anim);
+			anim.setFillAfter(true);
+			break;
+		}
+		}
+
+		return false;
 	}
 }
