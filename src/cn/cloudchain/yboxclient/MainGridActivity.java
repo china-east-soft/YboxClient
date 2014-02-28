@@ -40,6 +40,7 @@ public class MainGridActivity extends BaseActionBarActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		getActionBar().hide();
 		setContentView(R.layout.layout_main);
 		ethernetToggle = (ToggleButton) this.findViewById(R.id.status_ethernet);
 		mobileDataToggle = (ToggleButton) this.findViewById(R.id.status_data);
