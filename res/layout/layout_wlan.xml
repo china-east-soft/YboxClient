@@ -8,7 +8,8 @@
         android:id="@+id/ip_mode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:visibility="gone" >
 
         <RadioButton
             android:id="@+id/ip_static"
@@ -117,6 +118,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="30dip"
-        android:text="设置" />
+        android:text="设置"
+        android:visibility="gone" />
 
 </RelativeLayout>

@@ -27,6 +27,7 @@ public class SettingActivity extends BaseActionBarActivity implements
 	// private TextView updateYboxStatus;
 	// private TextView updateAppStatus;
 	private TextView deviceNums;
+	private TextView netType;
 
 	private ApStatusReceiver statusReceiver;
 	private MyHandler handler = new MyHandler(this);
@@ -40,7 +41,7 @@ public class SettingActivity extends BaseActionBarActivity implements
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		setContentView(R.layout.layout_setting);
-		this.findViewById(R.id.setting_wlan).setOnClickListener(this);
+		this.findViewById(R.id.setting_net).setOnClickListener(this);
 		this.findViewById(R.id.setting_wifi).setOnClickListener(this);
 		this.findViewById(R.id.setting_devices).setOnClickListener(this);
 		this.findViewById(R.id.setting_update_ybox).setOnClickListener(this);
@@ -51,6 +52,7 @@ public class SettingActivity extends BaseActionBarActivity implements
 		// updateAppStatus = (TextView) this
 		// .findViewById(R.id.setting_update_app_latest);
 		deviceNums = (TextView) this.findViewById(R.id.setting_devices_num);
+		netType = (TextView) this.findViewById(R.id.setting_net_type);
 	}
 
 	@Override
@@ -84,8 +86,8 @@ public class SettingActivity extends BaseActionBarActivity implements
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.setting_wlan:
-			if (MyApplication.getInstance().connType == 1) {
+		case R.id.setting_net:
+			if (MyApplication.getInstance().connType > 0) {
 				jumpToWlan();
 			} else {
 				Util.toaster(R.string.ethernet_not_conn_reminder);

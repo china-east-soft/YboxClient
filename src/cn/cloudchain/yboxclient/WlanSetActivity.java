@@ -30,6 +30,9 @@ import cn.cloudchain.yboxclient.task.BaseFragmentTask;
 
 public class WlanSetActivity extends ActionBarActivity implements
 		OnClickListener {
+	/**
+	 * 模式大于0时为以太网
+	 */
 	public static final String BUNDLE_MODE = "mode";
 	public static final String BUNDLE_IPADDRESS = "ipaddress";
 	public static final String BUNDLE_GATEWAY = "gateway";
@@ -75,6 +78,7 @@ public class WlanSetActivity extends ActionBarActivity implements
 		modeRadioGroup
 				.setOnCheckedChangeListener(new ModeCheckChangeListener());
 		modeRadioGroup.check(R.id.ip_dhcp);
+		enableEditText(false);
 		initView(getIntent().getExtras());
 
 	}
@@ -116,7 +120,14 @@ public class WlanSetActivity extends ActionBarActivity implements
 		dns1EditText.setText(dns1);
 		dns2EditText.setText(dns2);
 
-		modeRadioGroup.check(mode == 1 ? R.id.ip_static : R.id.ip_dhcp);
+		// 为以太网连接
+		if (mode > 0) {
+			modeRadioGroup.setVisibility(View.VISIBLE);
+			modeRadioGroup.check(mode == 1 ? R.id.ip_static : R.id.ip_dhcp);
+			setButton.setVisibility(View.VISIBLE);
+			enableEditText(true);
+		}
+
 	}
 
 	private void enableEditText(boolean enable) {

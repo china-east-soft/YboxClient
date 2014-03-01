@@ -40,7 +40,7 @@
 
     <!-- 设置相关 -->
     <string name="setting_title">设置</string>
-    <string name="setting_wlan">WLAN口配置</string>
+    <string name="setting_wlan">网络配置</string>
     <string name="setting_devices">无线设备控制</string>
     <string name="setting_wifi">无线参数</string>
     <string name="setting_distance">远程控制</string>
@@ -50,7 +50,7 @@
     <string name="setting_devices_num">%d个人连接</string>
 
     <!-- WLAN配置相关 -->
-    <string name="ethernet_not_conn_reminder">当前不是以太网连接</string>
+    <string name="ethernet_not_conn_reminder">当前网络信息不可读</string>
     <string name="wlan_title">端口配置</string>
     <string name="ipaddress">IP地址</string>
     <string name="mask">子网掩码</string>

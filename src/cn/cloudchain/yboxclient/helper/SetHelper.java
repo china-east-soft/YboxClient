@@ -400,6 +400,58 @@ public class SetHelper {
 	}
 
 	/**
+	 * 获取SIM相关网络配置信息
+	 * 
+	 * @return
+	 */
+	public String getMobileNetInfo() {
+		StringWriter sw = new StringWriter(50);
+		JsonWriter jWriter = new JsonWriter(sw);
+		try {
+			jWriter.beginObject().name(OPER_KEY)
+					.value(OperType.mobile_net_info.getValue()).endObject();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (jWriter != null) {
+				try {
+					jWriter.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return baseSocketRequest(sw.toString());
+	}
+
+	/**
+	 * 使终端休眠
+	 * 
+	 * @return
+	 */
+	public String sleepAp() {
+		StringWriter sw = new StringWriter(50);
+		JsonWriter jWriter = new JsonWriter(sw);
+		try {
+			jWriter.beginObject().name(OPER_KEY)
+					.value(OperType.sleep.getValue()).endObject();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (jWriter != null) {
+				try {
+					jWriter.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return baseSocketRequest(sw.toString());
+	}
+
+	/**
 	 * 重启终端
 	 * 
 	 * @return

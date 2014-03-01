@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import cn.cloudchain.yboxclient.MyApplication;
 import cn.cloudchain.yboxclient.R;
 import cn.cloudchain.yboxclient.WlanSetActivity;
 import cn.cloudchain.yboxclient.helper.SetHelper;
@@ -31,13 +32,19 @@ public class WlanInfoJumpTask extends BaseFragmentTask {
 	protected Integer doInBackground(Void... params) {
 		super.doInBackground(params);
 		int result = RESULT_FAIL;
-		String response = SetHelper.getInstance().getEthernetInfo();
+		String response = "";
+		if (MyApplication.getInstance().connType == 1) {
+			response = SetHelper.getInstance().getEthernetInfo();
+		} else {
+			response = SetHelper.getInstance().getMobileNetInfo();
+		}
 		try {
 			JSONObject obj = new JSONObject(response);
 			if (obj.optBoolean("result")) {
 				result = RESULT_SUCCESS;
 				bundle = new Bundle();
-				bundle.putInt(WlanSetActivity.BUNDLE_MODE, obj.optInt("mode"));
+				bundle.putInt(WlanSetActivity.BUNDLE_MODE,
+						obj.optInt("mode", -1));
 				bundle.putString(WlanSetActivity.BUNDLE_IPADDRESS,
 						obj.optString("ip"));
 				bundle.putString(WlanSetActivity.BUNDLE_MASK,
