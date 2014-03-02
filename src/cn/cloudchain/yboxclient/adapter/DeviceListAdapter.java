@@ -22,6 +22,7 @@ public class DeviceListAdapter extends BaseAdapter {
 
 	public DeviceListAdapter(Context context, IBlackListService listener) {
 		this.context = context;
+		this.listener = listener;
 		myMac = Helper.getInstance().getDevicesMac(context);
 	}
 
