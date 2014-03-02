@@ -25,7 +25,7 @@ public class ApStatusReceiver extends BroadcastReceiver {
 		String action = intent.getAction();
 		if (ACTION_WIFI_MODE_CHANGE.equals(action)) {
 			handler.sendEmptyMessage(ApStatusHandler.WIFI_MODE_CHANGE);
-		} else if (ACTION_WIFI_MODE_CHANGE.equals(action)) {
+		} else if (ACTION_WIFI_CLIENTS_CHANGE.equals(action)) {
 			handler.sendEmptyMessage(ApStatusHandler.HOTSPOT_CLIENT_CHANGE);
 		} else if (ACTION_BATTERY_LOW_CHANGE.equals(action)) {
 			handler.sendEmptyMessage(ApStatusHandler.BATTERY_LOW_CHANGE);
