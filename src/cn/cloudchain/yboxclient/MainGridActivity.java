@@ -19,6 +19,7 @@ import cn.cloudchain.yboxclient.helper.WeakHandler;
 import cn.cloudchain.yboxclient.server.ApStatusReceiver;
 import cn.cloudchain.yboxclient.task.MobileDataControlTask;
 import cn.cloudchain.yboxclient.views.GridItem1;
+import cn.cloudchain.yboxcommon.bean.Types;
 
 public class MainGridActivity extends BaseActionBarActivity implements
 		OnClickListener {
@@ -105,25 +106,25 @@ public class MainGridActivity extends BaseActionBarActivity implements
 		dataGItem.setEnabled(connType != 0);
 		switch (connType) {
 		// 无
-		case 0:
+		case Types.CONN_TYPE_NONE:
 			ethernetToggle.setChecked(false);
 			mobileDataToggle.setChecked(false);
 			dataGItem.setChecked(false);
 			break;
 		// 以太网
-		case 1:
+		case Types.CONN_TYPE_ETHERNET:
 			ethernetToggle.setChecked(true);
 			mobileDataToggle.setChecked(false);
 			dataGItem.setChecked(false);
 			break;
 		// 手机数据开
-		case 2:
+		case Types.CONN_TYPE_MOBILE_DATA_ON:
 			ethernetToggle.setChecked(false);
 			mobileDataToggle.setChecked(true);
 			dataGItem.setChecked(true);
 			break;
 		// 手机数据关
-		case 3:
+		case Types.CONN_TYPE_MOBILE_DATA_OFF:
 			ethernetToggle.setChecked(false);
 			mobileDataToggle.setChecked(false);
 			dataGItem.setChecked(false);

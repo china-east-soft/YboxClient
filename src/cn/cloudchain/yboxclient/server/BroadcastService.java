@@ -142,7 +142,7 @@ public class BroadcastService extends Service {
 			socket = new DatagramSocket(PORT_LISTEN);
 			socket.setReuseAddress(true);
 			socket.setBroadcast(true);
-			socket.setSoTimeout(TIMEOUT_MS);
+//			socket.setSoTimeout(TIMEOUT_MS);
 		} catch (BindException e) {
 			LogUtil.e(TAG, "has socket bind to the port");
 		} catch (SocketException e) {

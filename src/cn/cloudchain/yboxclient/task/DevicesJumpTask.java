@@ -13,6 +13,7 @@ import cn.cloudchain.yboxclient.R;
 import cn.cloudchain.yboxclient.helper.SetHelper;
 import cn.cloudchain.yboxclient.helper.Util;
 import cn.cloudchain.yboxcommon.bean.DeviceInfo;
+import cn.cloudchain.yboxcommon.bean.Types;
 
 /**
  * 获取成功后跳转到DevicesActivity
@@ -34,7 +35,7 @@ public class DevicesJumpTask extends BaseFragmentTask {
 	protected Integer doInBackground(Void... params) {
 		super.doInBackground(params);
 		int result = RESULT_FAIL;
-		String response = SetHelper.getInstance().getDevices();
+		String response = SetHelper.getInstance().getDevices(Types.DEVICES_ALL);
 		try {
 			JSONObject obj = new JSONObject(response);
 			if (obj.optBoolean("result")) {

@@ -27,6 +27,7 @@ import cn.cloudchain.yboxclient.helper.SetHelper;
 import cn.cloudchain.yboxclient.helper.Util;
 import cn.cloudchain.yboxclient.helper.WeakHandler;
 import cn.cloudchain.yboxclient.task.BaseFragmentTask;
+import cn.cloudchain.yboxcommon.bean.Types;
 
 public class WlanSetActivity extends ActionBarActivity implements
 		OnClickListener {
@@ -121,9 +122,11 @@ public class WlanSetActivity extends ActionBarActivity implements
 		dns2EditText.setText(dns2);
 
 		// 为以太网连接
-		if (mode > 0) {
+		if (mode != Types.ETHERNET_MODE_NONE) {
 			modeRadioGroup.setVisibility(View.VISIBLE);
-			modeRadioGroup.check(mode == 1 ? R.id.ip_static : R.id.ip_dhcp);
+			modeRadioGroup
+					.check(mode == Types.ETHERNET_MODE_STATIC ? R.id.ip_static
+							: R.id.ip_dhcp);
 			setButton.setVisibility(View.VISIBLE);
 			enableEditText(true);
 		}
@@ -239,9 +242,6 @@ public class WlanSetActivity extends ActionBarActivity implements
 		private static final int RESULT_SUCCESS = 0;
 		private static final int RESULT_FAIL = 1;
 
-		private static final int MODE_STATIC = 1;
-		private static final int MODE_DHCP = 2;
-
 		private Context context;
 		private int mode = -1;
 		private String ip;
@@ -254,14 +254,14 @@ public class WlanSetActivity extends ActionBarActivity implements
 		 * 默认使用DHCP
 		 */
 		public WlanSetTask(Context context) {
-			this.mode = MODE_DHCP;
+			this.mode = Types.ETHERNET_MODE_DHCP;
 			this.context = context;
 		}
 
 		public WlanSetTask(Context context, String ip, String gateway,
 				String mask, String dns1, String dns2) {
 			this.context = context;
-			this.mode = MODE_STATIC;
+			this.mode = Types.ETHERNET_MODE_STATIC;
 			this.ip = ip;
 			this.gateway = gateway;
 			this.mask = mask;
@@ -274,9 +274,9 @@ public class WlanSetActivity extends ActionBarActivity implements
 			super.doInBackground(params);
 			int result = RESULT_FAIL;
 			String response = null;
-			if (mode == MODE_DHCP) {
+			if (mode == Types.ETHERNET_MODE_DHCP) {
 				response = SetHelper.getInstance().setEthernetDhcp();
-			} else if (mode == MODE_STATIC) {
+			} else if (mode == Types.ETHERNET_MODE_STATIC) {
 				response = SetHelper.getInstance().setEthernetStatis(ip,
 						gateway, mask, dns1, dns2);
 			}

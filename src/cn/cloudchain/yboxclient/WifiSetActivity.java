@@ -28,6 +28,7 @@ import cn.cloudchain.yboxclient.dialog.WifiRestartDialogFragment;
 import cn.cloudchain.yboxclient.helper.SetHelper;
 import cn.cloudchain.yboxclient.helper.Util;
 import cn.cloudchain.yboxclient.task.BaseFragmentTask;
+import cn.cloudchain.yboxcommon.bean.Types;
 
 public class WifiSetActivity extends ActionBarActivity {
 	final String TAG = WifiSetActivity.class.getSimpleName();
@@ -155,14 +156,44 @@ public class WifiSetActivity extends ActionBarActivity {
 			Util.toaster(R.string.pass_too_short);
 			return;
 		}
+
 		WifiSetTask task = new WifiSetTask(this, ssid, pass,
-				securitySpinner.getSelectedItemPosition(),
+				getCurrentKeyMgmt(),
 				maxUserSpinner.getSelectedItemPosition() + 1,
-				autoDisableSpinner.getSelectedItemPosition());
+				getCurrentWifiAutoDisable());
 		TaskDialogFragment fragment = TaskDialogFragment.newLoadingFragment(
 				null, false);
 		fragment.setTask(task);
 		fragment.show(getSupportFragmentManager(), null);
+	}
+
+	private int getCurrentKeyMgmt() {
+		int keymgmt = Types.KEYMGMT_NONE;
+		switch (securitySpinner.getSelectedItemPosition()) {
+		case 0:
+			keymgmt = Types.KEYMGMT_NONE;
+			break;
+		case 1:
+			keymgmt = Types.KEYMGMT_WPA_PSK;
+			break;
+		case 2:
+			keymgmt = Types.KEYMGMT_WPA2_PSK;
+			break;
+		}
+		return keymgmt;
+	}
+
+	private int getCurrentWifiAutoDisable() {
+		int type = Types.HOTSPOT_AUTO_DISABLE_OFF;
+		switch (autoDisableSpinner.getSelectedItemPosition()) {
+		case 1:
+			type = Types.HOTSPOT_AUTO_DISABLE_FOR_FIVE_MINS;
+			break;
+		case 2:
+			type = Types.HOTSPOT_AUTO_DISABLE_FOR_TEN_MINS;
+			break;
+		}
+		return type;
 	}
 
 	private class WifiSetTask extends BaseFragmentTask {

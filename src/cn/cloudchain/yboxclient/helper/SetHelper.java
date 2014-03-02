@@ -14,6 +14,7 @@ import java.net.SocketAddress;
 import android.text.TextUtils;
 import android.util.Log;
 import cn.cloudchain.yboxclient.MyApplication;
+import cn.cloudchain.yboxcommon.bean.ErrorBean;
 import cn.cloudchain.yboxcommon.bean.OperType;
 
 import com.google.gson.stream.JsonWriter;
@@ -34,6 +35,62 @@ public class SetHelper {
 	}
 
 	private SetHelper() {
+	}
+
+	/**
+	 * 获取自动休眠类型
+	 * 
+	 * @return
+	 */
+	public String getAutoSleepType() {
+		StringWriter sw = new StringWriter(50);
+		JsonWriter jWriter = new JsonWriter(sw);
+		try {
+			jWriter.beginObject().name(OPER_KEY)
+					.value(OperType.auto_sleep_info.getValue()).endObject();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (jWriter != null) {
+				try {
+					jWriter.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return baseSocketRequest(sw.toString());
+	}
+
+	/**
+	 * 设置自动休眠类型
+	 * 
+	 * @param type
+	 *            具体类型见{@link Types}
+	 * @return
+	 */
+	public String setAutoSleepType(int type) {
+		StringWriter sw = new StringWriter(50);
+		JsonWriter jWriter = new JsonWriter(sw);
+		try {
+			jWriter.beginObject().name(OPER_KEY)
+					.value(OperType.auto_sleep_set.getValue()).name(PARAMS_KEY)
+					.beginObject().name("type").value(type).endObject()
+					.endObject();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (jWriter != null) {
+				try {
+					jWriter.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return baseSocketRequest(sw.toString());
 	}
 
 	/**
@@ -222,12 +279,15 @@ public class SetHelper {
 	 * 
 	 * @return
 	 */
-	public String getDevices() {
+	public String getDevices(int type) {
 		StringWriter sw = new StringWriter(50);
 		JsonWriter jWriter = new JsonWriter(sw);
 		try {
 			jWriter.beginObject().name(OPER_KEY)
-					.value(OperType.wifi_devices.getValue()).endObject();
+					.value(OperType.wifi_devices.getValue());
+			jWriter.name(PARAMS_KEY).beginObject();
+			jWriter.name("type").value(type);
+			jWriter.endObject().endObject();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -252,7 +312,7 @@ public class SetHelper {
 	 */
 	public String addToBlackList(String mac) {
 		if (TextUtils.isEmpty(mac)) {
-			return getErrorJson(104, "params wrong");
+			return getErrorJson(ErrorBean.REQUEST_PARAMS_INVALID);
 		}
 		StringWriter sw = new StringWriter(50);
 		JsonWriter jWriter = new JsonWriter(sw);
@@ -284,7 +344,7 @@ public class SetHelper {
 	 */
 	public String clearBlackList(String mac) {
 		if (TextUtils.isEmpty(mac)) {
-			return getErrorJson(104, "params wrong");
+			return getErrorJson(ErrorBean.REQUEST_PARAMS_INVALID);
 		}
 		StringWriter sw = new StringWriter(50);
 		JsonWriter jWriter = new JsonWriter(sw);
@@ -559,6 +619,62 @@ public class SetHelper {
 		return baseSocketRequest(sw.toString());
 	}
 
+	public String updateRootImage(String path) {
+		StringWriter sw = new StringWriter(50);
+		JsonWriter jWriter = new JsonWriter(sw);
+		try {
+			jWriter.beginObject().name(OPER_KEY)
+					.value(OperType.update_root_image.getValue());
+			jWriter.name(PARAMS_KEY).beginObject();
+			jWriter.name("path").value(path);
+			jWriter.name("mode").value(1);
+			jWriter.endObject().endObject();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (jWriter != null) {
+				try {
+					jWriter.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return baseSocketRequest(sw.toString());
+	}
+
+	/**
+	 * 升级中间件
+	 * 
+	 * @param path
+	 * @return
+	 */
+	public String updateMiddleApk(String path) {
+		StringWriter sw = new StringWriter(50);
+		JsonWriter jWriter = new JsonWriter(sw);
+		try {
+			jWriter.beginObject().name(OPER_KEY)
+					.value(OperType.update_middle.getValue());
+			jWriter.name(PARAMS_KEY).beginObject();
+			jWriter.name("path").value(path);
+			jWriter.name("mode").value(1);
+			jWriter.endObject().endObject();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (jWriter != null) {
+				try {
+					jWriter.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return baseSocketRequest(sw.toString());
+	}
+
 	private String baseSocketRequest(String jsonStr) {
 		String result = "";
 		Socket socket = null;
@@ -623,10 +739,10 @@ public class SetHelper {
 	}
 
 	private String getErrorJson() {
-		return getErrorJson(100, null);
+		return getErrorJson(ErrorBean.REQUEST_TIMEOUT);
 	}
 
-	private String getErrorJson(int code, String msg) {
+	private String getErrorJson(int code) {
 		StringWriter sw = new StringWriter(50);
 		JsonWriter jWriter = new JsonWriter(sw);
 		try {
@@ -634,6 +750,7 @@ public class SetHelper {
 			if (code > 0) {
 				jWriter.name("error_code").value(code);
 			}
+			String msg = ErrorBean.getInstance().getErrorMsg(code);
 			if (!TextUtils.isEmpty(msg)) {
 				jWriter.name("error_msg").value(msg);
 			}

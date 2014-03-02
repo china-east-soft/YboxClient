@@ -22,6 +22,7 @@ import cn.cloudchain.yboxclient.helper.SetHelper;
 import cn.cloudchain.yboxclient.server.ApStatusReceiver;
 import cn.cloudchain.yboxclient.task.BlackListHandleTask;
 import cn.cloudchain.yboxcommon.bean.DeviceInfo;
+import cn.cloudchain.yboxcommon.bean.Types;
 
 public class DevicesActivity extends BaseActionBarActivity implements
 		IBlackListService {
@@ -132,7 +133,8 @@ public class DevicesActivity extends BaseActionBarActivity implements
 
 			@Override
 			public void run() {
-				String response = SetHelper.getInstance().getDevices();
+				String response = SetHelper.getInstance().getDevices(
+						Types.DEVICES_ALL);
 				try {
 					JSONObject obj = new JSONObject(response);
 					if (obj.optBoolean("result")) {

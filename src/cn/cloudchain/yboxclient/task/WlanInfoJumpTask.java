@@ -11,6 +11,8 @@ import cn.cloudchain.yboxclient.R;
 import cn.cloudchain.yboxclient.WlanSetActivity;
 import cn.cloudchain.yboxclient.helper.SetHelper;
 import cn.cloudchain.yboxclient.helper.Util;
+import cn.cloudchain.yboxcommon.bean.ErrorBean;
+import cn.cloudchain.yboxcommon.bean.Types;
 
 /**
  * 获取以太网信息成功后跳转到WlanSetActivity
@@ -23,6 +25,7 @@ public class WlanInfoJumpTask extends BaseFragmentTask {
 	private final static int RESULT_FAIL = 1;
 	private Bundle bundle = null;
 	private Context context;
+	private int errorCode = ErrorBean.REQUEST_TIMEOUT;
 
 	public WlanInfoJumpTask(Context context) {
 		this.context = context;
@@ -33,7 +36,7 @@ public class WlanInfoJumpTask extends BaseFragmentTask {
 		super.doInBackground(params);
 		int result = RESULT_FAIL;
 		String response = "";
-		if (MyApplication.getInstance().connType == 1) {
+		if (MyApplication.getInstance().connType == Types.CONN_TYPE_ETHERNET) {
 			response = SetHelper.getInstance().getEthernetInfo();
 		} else {
 			response = SetHelper.getInstance().getMobileNetInfo();
@@ -44,7 +47,7 @@ public class WlanInfoJumpTask extends BaseFragmentTask {
 				result = RESULT_SUCCESS;
 				bundle = new Bundle();
 				bundle.putInt(WlanSetActivity.BUNDLE_MODE,
-						obj.optInt("mode", -1));
+						obj.optInt("mode", Types.ETHERNET_MODE_NONE));
 				bundle.putString(WlanSetActivity.BUNDLE_IPADDRESS,
 						obj.optString("ip"));
 				bundle.putString(WlanSetActivity.BUNDLE_MASK,
@@ -55,6 +58,8 @@ public class WlanInfoJumpTask extends BaseFragmentTask {
 						obj.optString("dns1"));
 				bundle.putString(WlanSetActivity.BUNDLE_DNS2,
 						obj.optString("dns2"));
+			} else {
+				errorCode = obj.optInt("error_code", -1);
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -70,7 +75,11 @@ public class WlanInfoJumpTask extends BaseFragmentTask {
 
 		switch (result) {
 		case RESULT_FAIL:
-			Util.toaster(R.string.request_fail);
+			if (errorCode == ErrorBean.REQUEST_TIMEOUT) {
+				Util.toaster("请求超时", null);
+			} else {
+				Util.toaster(R.string.request_fail);
+			}
 			break;
 		case RESULT_SUCCESS:
 			Intent intent = new Intent(context, WlanSetActivity.class);

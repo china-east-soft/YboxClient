@@ -15,7 +15,6 @@
     <string name="tab_status">状态</string>
     <string name="tab_shutdown">关机</string>
     <string name="tab_mobile_data">数据</string>
-    
     <string name="warn_battery_low">终端电量低！</string>
     <string name="data_open_fail">打开数据流量失败</string>
 
@@ -42,6 +41,7 @@
     <string name="setting_title">设置</string>
     <string name="setting_wlan">网络配置</string>
     <string name="setting_devices">无线设备控制</string>
+    <string name="setting_auto_sleep">自动休眠</string>
     <string name="setting_wifi">无线参数</string>
     <string name="setting_distance">远程控制</string>
     <string name="setting_update_ybox">YBOX-Mini升级</string>
@@ -50,6 +50,8 @@
     <string name="setting_devices_num">%d个人连接</string>
 
     <!-- WLAN配置相关 -->
+    <string name="conn_type_ethernet">以太网</string>
+    <string name="conn_type_3g">3G</string>
     <string name="ethernet_not_conn_reminder">当前网络信息不可读</string>
     <string name="wlan_title">端口配置</string>
     <string name="ipaddress">IP地址</string>
@@ -97,6 +99,11 @@
         <item>始终</item>
         <item>空闲5分钟后关闭</item>
         <item>空闲10分钟后关闭</item>
+    </string-array>
+    <string-array name="auto_sleep_types">
+        <item>始终</item>
+        <item>空闲10分钟后休眠</item>
+        <item>空闲30分钟后休眠</item>
     </string-array>
 
     <!-- 连接设备控制 -->
