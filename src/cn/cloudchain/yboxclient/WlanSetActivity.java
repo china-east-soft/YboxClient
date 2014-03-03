@@ -128,7 +128,7 @@ public class WlanSetActivity extends ActionBarActivity implements
 					.check(mode == Types.ETHERNET_MODE_STATIC ? R.id.ip_static
 							: R.id.ip_dhcp);
 			setButton.setVisibility(View.VISIBLE);
-			enableEditText(true);
+			enableEditText(mode == Types.ETHERNET_MODE_STATIC);
 		}
 
 	}

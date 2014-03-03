@@ -1,6 +1,5 @@
 package cn.cloudchain.yboxclient.dialog;
 
-import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.View;
 import cn.cloudchain.yboxclient.R;
@@ -15,19 +14,15 @@ import cn.cloudchain.yboxclient.helper.SetHelper;
  */
 public class WifiRestartDialogFragment extends CustomDialogFragment {
 
-	public static DialogFragment newInstance() {
-		return CustomDialogFragment.newInstance(-1,
+	public static CustomDialogFragment newInstance() {
+		CustomDialogFragment fragment = CustomDialogFragment.newInstance(-1,
 				R.string.valid_after_wifi_restart, R.string.wifi_restart_now,
 				R.string.wifi_restart_later, true);
+		fragment.setDialogService(new MyDialogService());
+		return fragment;
 	}
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setDialogService(new MyDialogService());
-	}
-
-	private class MyDialogService implements IDialogService {
+	private static class MyDialogService implements IDialogService {
 		@Override
 		public void onClick(DialogFragment fragment, int actionId) {
 			if (actionId == R.id.dialog_click_positive) {
