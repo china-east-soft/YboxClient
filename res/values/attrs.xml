@@ -11,5 +11,14 @@
         <attr name="android:paddingLeft" />
         <attr name="android:paddingBottom" />
     </declare-styleable>
+    <declare-styleable name="GridItem2">
+        <attr name="gridImage" />
+        <attr name="title"/>
+        <attr name="titleColor" format="reference|color" />
+        <attr name="titleSize" format="reference|dimension" />
+        <attr name="subDes" format="reference|string" />
+        <attr name="subDesColor" format="reference|color" />
+        <attr name="subDesSize" format="reference|dimension" />
+    </declare-styleable>
 
 </resources>

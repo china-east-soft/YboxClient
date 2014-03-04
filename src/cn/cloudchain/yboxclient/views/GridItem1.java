@@ -78,18 +78,15 @@ public class GridItem1 extends View implements OnTouchListener {
 
 	@Override
 	protected void onDraw(Canvas canvas) {
-		canvas.save();
-		// canvas.scale(mScaleFactor, mScaleFactor);
 		super.onDraw(canvas);
-		canvas.restore();
 
 		int caW = canvas.getWidth();
 		int caH = canvas.getHeight();
 
 		if (image != null) {
 			canvas.save();
-			int width = caW / 3;
-			image.setBounds(0, 0, width, width);
+			int width = image.getIntrinsicWidth();
+			image.setBounds(0, 0, width, image.getIntrinsicHeight());
 			image.setState(getDrawableState());
 			int dx = (caW - width) / 2;
 			canvas.translate(dx, dx - 6);
@@ -122,9 +119,7 @@ public class GridItem1 extends View implements OnTouchListener {
 	@Override
 	protected int[] onCreateDrawableState(int extraSpace) {
 		final int[] drawableState = super.onCreateDrawableState(extraSpace + 1);
-		if (isChecked()) {
 			mergeDrawableStates(drawableState, CHECKED_STATE_SET);
-		}
 		return drawableState;
 	}
 
@@ -176,7 +171,7 @@ public class GridItem1 extends View implements OnTouchListener {
 
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
-		switch (event.getAction()) {
+		switch (event.getActionMasked()) {
 		case MotionEvent.ACTION_DOWN: {
 			Animation anim = AnimationUtils.loadAnimation(getContext(),
 					R.anim.click_scale);
@@ -184,6 +179,7 @@ public class GridItem1 extends View implements OnTouchListener {
 			anim.setFillAfter(true);
 			break;
 		}
+		case MotionEvent.ACTION_OUTSIDE:
 		case MotionEvent.ACTION_UP: {
 			Animation anim = AnimationUtils.loadAnimation(getContext(),
 					R.anim.click_scale_back);
