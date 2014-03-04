@@ -1,112 +1,225 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res/cn.cloudchain.yboxclient"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="5dip" >
-
-    <cn.cloudchain.yboxclient.views.GridItem1
-        android:id="@+id/tab_setting"
-        android:layout_width="@dimen/tab_width1"
-        android:layout_height="@dimen/tab_height1"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginBottom="5dip"
-        android:layout_marginLeft="5dip"
-        android:background="#6495ED"
-        android:text="@string/tab_setting"
-        android:textColor="#000"
-        android:textSize="12sp"
-        app:gridImage="@drawable/program_play" />
-
-    <cn.cloudchain.yboxclient.views.GridItem1
-        android:id="@+id/tab_status"
-        android:layout_width="@dimen/tab_width1"
-        android:layout_height="@dimen/tab_height1"
-        android:layout_alignBaseline="@id/tab_setting"
-        android:layout_marginLeft="5dip"
-        android:layout_toLeftOf="@id/tab_setting"
-        android:background="#00BFFF"
-        android:text="@string/tab_status"
-        android:textColor="#000"
-        android:textSize="12sp"
-        app:gridImage="@drawable/program_play" />
-
-    <cn.cloudchain.yboxclient.views.GridItem1
-        android:id="@+id/tab_mobile_data"
-        android:layout_width="@dimen/tab_width1"
-        android:layout_height="@dimen/tab_height1"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/tab_setting"
-        android:layout_marginLeft="5dip"
-        android:background="@drawable/bcg_round_corner_item"
-        android:text="@string/tab_mobile_data"
-        android:textColor="#000"
-        android:textSize="12sp"
-        app:checked="true"
-        app:gridImage="@drawable/program_play"
-        app:toggleImage="@drawable/default_toggle" />
-<!-- #87CEFA -->
-    <cn.cloudchain.yboxclient.views.GridItem1
-        android:id="@+id/tab_shutdown"
-        android:layout_width="@dimen/tab_width1"
-        android:layout_height="@dimen/tab_height1"
-        android:layout_alignBaseline="@id/tab_mobile_data"
-        android:layout_below="@id/tab_setting"
-        android:layout_toLeftOf="@id/tab_mobile_data"
-        android:background="#6495ED"
-        android:text="@string/tab_shutdown"
-        android:textColor="#000"
-        android:textSize="12sp"
-        app:gridImage="@drawable/program_play" />
+    android:scrollbars="none" >
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignBottom="@id/tab_mobile_data"
-        android:layout_toLeftOf="@id/tab_status"
-        android:background="#B0E0E6"
-        android:gravity="center" >
+        android:layout_height="wrap_content"
+        android:padding="@dimen/tabs_margin" >
 
-        <ToggleButton
-            android:id="@+id/status_ethernet"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="false"
-            android:clickable="false"
-            android:textOff="以太关"
-            android:textOn="以太开" />
+        <cn.cloudchain.yboxclient.views.GridItem1
+            android:id="@+id/tab_setting"
+            android:layout_width="@dimen/tab_width1"
+            android:layout_height="@dimen/tab_height1"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="@dimen/tabs_margin"
+            android:layout_marginLeft="@dimen/tabs_margin"
+            android:background="@color/tab_setting"
+            android:text="@string/tab_setting"
+            android:textColor="#000"
+            android:textSize="12sp"
+            app:gridImage="@drawable/tab_icon_setting" />
 
-        <ToggleButton
-            android:id="@+id/status_data"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/status_ethernet"
-            android:checked="false"
-            android:clickable="false"
-            android:textOff="数据关"
-            android:textOn="数据开" />
+        <cn.cloudchain.yboxclient.views.GridItem1
+            android:id="@+id/tab_status"
+            android:layout_width="@dimen/tab_width1"
+            android:layout_height="@dimen/tab_height1"
+            android:layout_alignBaseline="@id/tab_setting"
+            android:layout_marginLeft="@dimen/tabs_margin"
+            android:layout_toLeftOf="@id/tab_setting"
+            android:background="@color/tab_status"
+            android:text="@string/tab_status"
+            android:textColor="#000"
+            android:textSize="12sp"
+            app:gridImage="@drawable/tab_icon_status" />
 
-        <ToggleButton
-            android:id="@+id/status_wifi"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/status_ethernet"
-            android:checked="false"
-            android:clickable="false"
-            android:textOff="无线关"
-            android:textOn="无线开" />
+        <cn.cloudchain.yboxclient.views.GridItem1
+            android:id="@+id/tab_mobile_data"
+            android:layout_width="@dimen/tab_width1"
+            android:layout_height="@dimen/tab_height1"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/tab_setting"
+            android:layout_marginLeft="@dimen/tabs_margin"
+            android:background="@color/tab_data"
+            android:text="@string/tab_mobile_data"
+            android:textColor="#000"
+            android:textSize="12sp"
+            app:gridImage="@drawable/tab_icon_data" />
 
-        <ToggleButton
-            android:id="@+id/status_battery"
-            android:layout_width="wrap_content"
+        <cn.cloudchain.yboxclient.views.GridItem1
+            android:id="@+id/tab_shutdown"
+            android:layout_width="@dimen/tab_width1"
+            android:layout_height="@dimen/tab_height1"
+            android:layout_alignBaseline="@id/tab_mobile_data"
+            android:layout_below="@id/tab_setting"
+            android:layout_toLeftOf="@id/tab_mobile_data"
+            android:background="@color/tab_shutdown"
+            android:text="@string/tab_shutdown"
+            android:textColor="#000"
+            android:textSize="12sp"
+            app:gridImage="@drawable/tab_icon_shutdown" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignBottom="@id/tab_mobile_data"
+            android:layout_toLeftOf="@id/tab_status"
+            android:background="@color/tab_general"
+            android:gravity="center" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="15dip"
+                android:background="@drawable/status_inner_bcg"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <CheckBox
+                    android:id="@+id/status_ethernet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/status_ethernet"
+                    android:checked="false"
+                    android:clickable="false" />
+
+                <CheckBox
+                    android:id="@+id/status_data"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/status_mobile_data"
+                    android:checked="false"
+                    android:clickable="false" />
+
+                <CheckBox
+                    android:id="@+id/status_wifi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/status_wifi"
+                    android:checked="false"
+                    android:clickable="false" />
+
+                <CheckBox
+                    android:id="@+id/status_battery"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/status_battery"
+                    android:checked="false"
+                    android:clickable="false" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <io.vov.vitamio.widget.VideoView
+            android:id="@+id/surface_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/small_video_height"
+            android:layout_below="@id/tab_mobile_data"
+            android:layout_marginTop="@dimen/tabs_margin" />
+
+        <LinearLayout
+            android:id="@+id/video_controller_container"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/status_ethernet"
-            android:layout_toRightOf="@id/status_wifi"
-            android:checked="false"
-            android:clickable="false"
-            android:textOff="电量低"
-            android:textOn="电量" />
+            android:layout_below="@id/surface_view"
+            android:layout_marginBottom="@dimen/tabs_margin"
+            android:layout_marginTop="3dip"
+            android:background="@color/small_video_controller_bcg"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingBottom="8dip"
+            android:paddingLeft="12dip"
+            android:paddingRight="12dip"
+            android:paddingTop="8dip" >
+
+            <ImageView
+                android:id="@+id/video_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="4dip"
+                android:src="@drawable/small_video_list" />
+
+            <TextView
+                android:id="@+id/video_program_reminder"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dip"
+                android:layout_marginRight="12dip"
+                android:layout_weight="1"
+                android:singleLine="true"
+                android:text="正在播放：台所发现" />
+
+            <ImageView
+                android:id="@+id/video_full_screen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:padding="4dip"
+                android:src="@drawable/small_video_full_screen" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/container_one"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tab_height2"
+            android:layout_below="@id/video_controller_container"
+            android:orientation="horizontal" >
+
+            <cn.cloudchain.yboxclient.views.GridItem2
+                android:id="@+id/tab_admin"
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/tabs_margin"
+                android:layout_weight="1"
+                android:background="@color/tab_admin"
+                app:gridImage="@drawable/tab_icon_admin"
+                app:title="@string/tab_admin"
+                app:titleSize="16sp" />
+
+            <cn.cloudchain.yboxclient.views.GridItem2
+                android:id="@+id/tab_recommend"
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/tab_recommand"
+                app:gridImage="@drawable/tab_icon_recommend"
+                app:title="@string/tab_recommend"
+                app:titleSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/container_second"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tab_height2"
+            android:layout_below="@id/container_one"
+            android:layout_marginTop="@dimen/tabs_margin"
+            android:orientation="horizontal" >
+
+            <cn.cloudchain.yboxclient.views.GridItem2
+                android:id="@+id/tab_cloud"
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/tabs_margin"
+                android:layout_weight="1"
+                android:background="@color/tab_cloud"
+                app:gridImage="@drawable/tab_icon_cloud"
+                app:title="@string/tab_cloud"
+                app:titleSize="16sp" />
+
+            <cn.cloudchain.yboxclient.views.GridItem2
+                android:id="@+id/tab_storage"
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/tab_storage"
+                app:gridImage="@drawable/tab_icon_storage"
+                app:subDesSize="12sp"
+                app:title="@string/tab_storage"
+                app:titleSize="16sp" />
+        </LinearLayout>
     </RelativeLayout>
 
-</RelativeLayout>
+</ScrollView>

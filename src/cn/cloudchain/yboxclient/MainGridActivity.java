@@ -8,7 +8,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ToggleButton;
+import android.widget.CheckBox;
 import cn.cloudchain.yboxclient.dialog.CustomDialogFragment;
 import cn.cloudchain.yboxclient.dialog.TaskDialogFragment;
 import cn.cloudchain.yboxclient.face.IDialogService;
@@ -24,10 +24,10 @@ import cn.cloudchain.yboxcommon.bean.Types;
 public class MainGridActivity extends BaseActionBarActivity implements
 		OnClickListener {
 	final static String TAG = MainGridActivity.class.getSimpleName();
-	private ToggleButton ethernetToggle;
-	private ToggleButton mobileDataToggle;
-	private ToggleButton wifiToggle;
-	private ToggleButton batteryToggle;
+	private CheckBox ethernetToggle;
+	private CheckBox mobileDataToggle;
+	private CheckBox wifiToggle;
+	private CheckBox batteryToggle;
 
 	private GridItem1 statusGItem;
 	private GridItem1 settingGItem;
@@ -43,10 +43,10 @@ public class MainGridActivity extends BaseActionBarActivity implements
 		super.onCreate(savedInstanceState);
 		getActionBar().hide();
 		setContentView(R.layout.layout_main);
-		ethernetToggle = (ToggleButton) this.findViewById(R.id.status_ethernet);
-		mobileDataToggle = (ToggleButton) this.findViewById(R.id.status_data);
-		wifiToggle = (ToggleButton) this.findViewById(R.id.status_wifi);
-		batteryToggle = (ToggleButton) this.findViewById(R.id.status_battery);
+		ethernetToggle = (CheckBox) this.findViewById(R.id.status_ethernet);
+		mobileDataToggle = (CheckBox) this.findViewById(R.id.status_data);
+		wifiToggle = (CheckBox) this.findViewById(R.id.status_wifi);
+		batteryToggle = (CheckBox) this.findViewById(R.id.status_battery);
 
 		statusGItem = (GridItem1) this.findViewById(R.id.tab_status);
 		settingGItem = (GridItem1) this.findViewById(R.id.tab_setting);
@@ -57,6 +57,13 @@ public class MainGridActivity extends BaseActionBarActivity implements
 		settingGItem.setOnClickListener(this);
 		shutdownGItem.setOnClickListener(this);
 		dataGItem.setOnClickListener(this);
+
+		this.findViewById(R.id.tab_admin).setOnClickListener(this);
+		this.findViewById(R.id.tab_recommend).setOnClickListener(this);
+		this.findViewById(R.id.tab_cloud).setOnClickListener(this);
+		this.findViewById(R.id.tab_storage).setOnClickListener(this);
+
+		this.findViewById(R.id.video_more).setOnClickListener(this);
 	}
 
 	@Override
@@ -97,6 +104,16 @@ public class MainGridActivity extends BaseActionBarActivity implements
 		case R.id.tab_mobile_data:
 			handler.sendEmptyMessage(MyHandler.ACTION_MOBILE_DATA);
 			break;
+		case R.id.video_more: {
+			Intent intent = new Intent(this, ProgramActivity.class);
+			startActivity(intent);
+			break;
+		}
+		case R.id.tab_admin: {
+			Intent intent = new Intent(this, LoginActivity.class);
+			startActivity(intent);
+			break;
+		}
 		}
 
 	}
