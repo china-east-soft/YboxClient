@@ -12,7 +12,10 @@
     <dimen name="dialog_title_height">45dip</dimen>
     
     <!-- TAB1 -->
-    <dimen name="tab_width1">80dip</dimen>
-    <dimen name="tab_height1">80dip</dimen>
+    <dimen name="tabs_margin">5dip</dimen>
+    <dimen name="tab_width1">75dip</dimen>
+    <dimen name="tab_height1">75dip</dimen>
+    <dimen name="small_video_height">200dip</dimen>
+    <dimen name="tab_height2">100dip</dimen>
 
 </resources>

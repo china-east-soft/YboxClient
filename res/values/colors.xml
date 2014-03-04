@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
+
     <drawable name="transparent">#00000000</drawable>
+    <color name="actionbar_bcg">#8eda39</color>
 
     <color name="round_corner_line_normal">#C2C2C2</color>
     <color name="round_corner_line_select">#C2C2C2</color>
@@ -17,5 +18,30 @@
     <color name="dialog_message_light">#5f5d54</color>
 
     <drawable name="drawable_dialog_button_select">#FF33b5e5</drawable>
+
+    <!-- 主页面色块 -->
+    <color name="tab_general">#a3cb4a</color>
+    <color name="tab_setting">#C8AC00</color>
+    <color name="tab_status">#9DB42B</color>
+    <color name="tab_data">#74b635</color>
+    <color name="tab_shutdown">#D3834B</color>
+    <color name="tab_admin">#77be39</color>
+    <color name="tab_recommand">#75b33d</color>
+    <color name="tab_cloud">#79c039</color>
+    <color name="tab_storage">#5db30b</color>
+    
+    <color name="small_video_controller_bcg">#d8e199</color>
+    <color name="small_video_current_title">#01000a</color>
+    <color name="small_video_current_detail">#65c30d</color>
+    
+    <!-- 登录界面 -->
+    <color name="login_top_bcg">#6ce583</color>
+    <color name="login_bottom_bcg">#efe9ca</color>
+    <color name="login_text_title">#a8b4b8</color>
+    <color name="login_text_divider">#bdc6c6</color>
+    
+    <!-- 绑定设备 -->
+    <color name="device_bind_bcg">#ebf4de</color>
+    <color name="device_bind_admin_bcg">#f3fcb6</color>
 
 </resources>
