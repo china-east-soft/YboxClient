@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#000001" >
+
+   <!--  <io.vov.vitamio.widget.CenterLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+ -->
+        <io.vov.vitamio.widget.VideoView
+            android:id="@+id/surface_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    <!-- </io.vov.vitamio.widget.CenterLayout> -->
+
+    <!--
+    <TextView
+        android:id="@+id/player_overlay_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/video_list_length_bg"
+        android:padding="5dp"
+        android:textColor="#ffffff"
+        android:textSize="36sp"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/player_buffer_percent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/loading_background"
+        android:gravity="center"
+        android:padding="10dip"
+        android:text="@string/player_preparing"
+        android:textColor="@color/dialog_title_text"
+        android:textSize="18sp"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/player_overlay_header"
+        android:layout_width="fill_parent"
+        android:layout_height="43dip"
+        android:layout_gravity="top"
+        android:background="@drawable/player_head_bar_bg"
+        android:visibility="visible" >
+
+        <ImageButton
+            android:id="@+id/player_overlay_back"
+            android:layout_width="42dip"
+            android:layout_height="fill_parent"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/transparent"
+            android:src="@drawable/icon_back" />
+
+        <TextView
+            android:id="@+id/player_overlay_title"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_centerInParent="true"
+            android:gravity="left|center_vertical"
+            android:textColor="#ffffff"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/player_overlay_battery"
+            android:layout_width="wrap_content"
+            android:layout_height="22dip"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp"
+            android:gravity="center"
+            android:textColor="#ffffff"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/player_overlay_systime"
+            android:layout_width="wrap_content"
+            android:layout_height="21dip"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="5dp"
+            android:gravity="center"
+            android:textColor="#ffffff"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:id="@+id/player_overlay_lock"
+            android:layout_width="48dip"
+            android:layout_height="48dip"
+            android:layout_gravity="center"
+            android:padding="4dip"
+            android:src="@drawable/player_unlock_selector" />
+
+        <ImageView
+            android:id="@+id/player_overlay_size"
+            android:layout_width="48dip"
+            android:layout_height="48dip"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dip"
+            android:padding="4dip"
+            android:src="@drawable/ic_size" />
+    </LinearLayout>
+    -->
+
+</FrameLayout>
