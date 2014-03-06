@@ -9,6 +9,9 @@ public class MyApplication extends Application {
 	public long wifiClientUpdateTime = 0L;
 	public boolean batteryLow = false;
 
+	public String epgUpdateTime;
+	public String gateway;
+	
 	@Override
 	public void onCreate() {
 		super.onCreate();
