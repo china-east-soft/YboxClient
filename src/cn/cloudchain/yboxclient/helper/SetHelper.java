@@ -14,11 +14,19 @@ import java.net.SocketAddress;
 import android.text.TextUtils;
 import android.util.Log;
 import cn.cloudchain.yboxclient.MyApplication;
+import cn.cloudchain.yboxclient.http.HttpHelper;
 import cn.cloudchain.yboxcommon.bean.ErrorBean;
 import cn.cloudchain.yboxcommon.bean.OperType;
+import cn.cloudchain.yboxcommon.bean.Types;
 
 import com.google.gson.stream.JsonWriter;
 
+/**
+ * 处理与中间件交互的接口
+ * 
+ * @author lazzy
+ * 
+ */
 public class SetHelper {
 	private final String TAG = SetHelper.class.getSimpleName();
 	private static SetHelper instance;
@@ -38,29 +46,21 @@ public class SetHelper {
 	}
 
 	/**
+	 * 获取设备信息，如MAC地址
+	 * 
+	 * @return
+	 */
+	public String getDeviceInfo() {
+		return baseGetRequest(OperType.device_info);
+	}
+
+	/**
 	 * 获取自动休眠类型
 	 * 
 	 * @return
 	 */
 	public String getAutoSleepType() {
-		StringWriter sw = new StringWriter(50);
-		JsonWriter jWriter = new JsonWriter(sw);
-		try {
-			jWriter.beginObject().name(OPER_KEY)
-					.value(OperType.auto_sleep_info.getValue()).endObject();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (jWriter != null) {
-				try {
-					jWriter.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-
-		return baseSocketRequest(sw.toString());
+		return baseGetRequest(OperType.auto_sleep_info);
 	}
 
 	/**
@@ -129,24 +129,7 @@ public class SetHelper {
 	 * @return
 	 */
 	public String getBattery() {
-		StringWriter sw = new StringWriter(50);
-		JsonWriter jWriter = new JsonWriter(sw);
-		try {
-			jWriter.beginObject().name(OPER_KEY)
-					.value(OperType.battery.getValue()).endObject();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (jWriter != null) {
-				try {
-					jWriter.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-
-		return baseSocketRequest(sw.toString());
+		return baseGetRequest(OperType.battery);
 	}
 
 	/**
@@ -155,24 +138,7 @@ public class SetHelper {
 	 * @return
 	 */
 	public String getSignalQuality() {
-		StringWriter sw = new StringWriter(50);
-		JsonWriter jWriter = new JsonWriter(sw);
-		try {
-			jWriter.beginObject().name(OPER_KEY)
-					.value(OperType.signal_quality.getValue()).endObject();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (jWriter != null) {
-				try {
-					jWriter.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-
-		return baseSocketRequest(sw.toString());
+		return baseGetRequest(OperType.signal_quality);
 	}
 
 	/**
@@ -254,24 +220,7 @@ public class SetHelper {
 	 * @return
 	 */
 	public String getWifiInfo() {
-		StringWriter sw = new StringWriter(50);
-		JsonWriter jWriter = new JsonWriter(sw);
-		try {
-			jWriter.beginObject().name(OPER_KEY)
-					.value(OperType.wifi_info.getValue()).endObject();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (jWriter != null) {
-				try {
-					jWriter.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-
-		return baseSocketRequest(sw.toString());
+		return baseGetRequest(OperType.wifi_info);
 	}
 
 	/**
@@ -374,24 +323,7 @@ public class SetHelper {
 	 * @return
 	 */
 	public String getEthernetInfo() {
-		StringWriter sw = new StringWriter(50);
-		JsonWriter jWriter = new JsonWriter(sw);
-		try {
-			jWriter.beginObject().name(OPER_KEY)
-					.value(OperType.ethernet_info.getValue()).endObject();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (jWriter != null) {
-				try {
-					jWriter.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-
-		return baseSocketRequest(sw.toString());
+		return baseGetRequest(OperType.ethernet_info);
 	}
 
 	/**
@@ -439,24 +371,7 @@ public class SetHelper {
 	 * @return
 	 */
 	public String setEthernetDhcp() {
-		StringWriter sw = new StringWriter(50);
-		JsonWriter jWriter = new JsonWriter(sw);
-		try {
-			jWriter.beginObject().name(OPER_KEY)
-					.value(OperType.ethernet_dhcp_set.getValue()).endObject();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (jWriter != null) {
-				try {
-					jWriter.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-
-		return baseSocketRequest(sw.toString());
+		return baseGetRequest(OperType.ethernet_dhcp_set);
 	}
 
 	/**
@@ -465,24 +380,7 @@ public class SetHelper {
 	 * @return
 	 */
 	public String getMobileNetInfo() {
-		StringWriter sw = new StringWriter(50);
-		JsonWriter jWriter = new JsonWriter(sw);
-		try {
-			jWriter.beginObject().name(OPER_KEY)
-					.value(OperType.mobile_net_info.getValue()).endObject();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (jWriter != null) {
-				try {
-					jWriter.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-
-		return baseSocketRequest(sw.toString());
+		return baseGetRequest(OperType.mobile_net_info);
 	}
 
 	/**
@@ -491,24 +389,7 @@ public class SetHelper {
 	 * @return
 	 */
 	public String sleepAp() {
-		StringWriter sw = new StringWriter(50);
-		JsonWriter jWriter = new JsonWriter(sw);
-		try {
-			jWriter.beginObject().name(OPER_KEY)
-					.value(OperType.sleep.getValue()).endObject();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (jWriter != null) {
-				try {
-					jWriter.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-
-		return baseSocketRequest(sw.toString());
+		return baseGetRequest(OperType.sleep);
 	}
 
 	/**
@@ -517,24 +398,7 @@ public class SetHelper {
 	 * @return
 	 */
 	public String restartWifi() {
-		StringWriter sw = new StringWriter(50);
-		JsonWriter jWriter = new JsonWriter(sw);
-		try {
-			jWriter.beginObject().name(OPER_KEY)
-					.value(OperType.wifi_restart.getValue()).endObject();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (jWriter != null) {
-				try {
-					jWriter.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-
-		return baseSocketRequest(sw.toString());
+		return baseGetRequest(OperType.wifi_restart);
 	}
 
 	/**
@@ -543,25 +407,7 @@ public class SetHelper {
 	 * @return
 	 */
 	public String getWifiAutoDisable() {
-		StringWriter sw = new StringWriter(50);
-		JsonWriter jWriter = new JsonWriter(sw);
-		try {
-			jWriter.beginObject().name(OPER_KEY)
-					.value(OperType.wifi_auto_disable_info.getValue())
-					.endObject();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (jWriter != null) {
-				try {
-					jWriter.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-
-		return baseSocketRequest(sw.toString());
+		return baseGetRequest(OperType.wifi_auto_disable_info);
 	}
 
 	/**
@@ -599,24 +445,7 @@ public class SetHelper {
 	 * @return
 	 */
 	public String getMobileTrafficInfo() {
-		StringWriter sw = new StringWriter(50);
-		JsonWriter jWriter = new JsonWriter(sw);
-		try {
-			jWriter.beginObject().name(OPER_KEY)
-					.value(OperType.mobile_traffic_info.getValue()).endObject();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (jWriter != null) {
-				try {
-					jWriter.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-
-		return baseSocketRequest(sw.toString());
+		return baseGetRequest(OperType.mobile_traffic_info);
 	}
 
 	public String updateRootImage(String path) {
@@ -675,6 +504,27 @@ public class SetHelper {
 		return baseSocketRequest(sw.toString());
 	}
 
+	private String baseGetRequest(OperType type) {
+		StringWriter sw = new StringWriter(20);
+		JsonWriter jWriter = new JsonWriter(sw);
+		try {
+			jWriter.beginObject().name(OPER_KEY).value(type.getValue())
+					.endObject();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (jWriter != null) {
+				try {
+					jWriter.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return baseSocketRequest(sw.toString());
+	}
+
 	private String baseSocketRequest(String jsonStr) {
 		String result = "";
 		Socket socket = null;
@@ -682,9 +532,8 @@ public class SetHelper {
 		InputStream is = null;
 		try {
 			socket = new Socket();
-			SocketAddress remoteAddr = new InetSocketAddress(Helper
-					.getInstance().getGateway(MyApplication.getAppContext()),
-					PORT);
+			SocketAddress remoteAddr = new InetSocketAddress(
+					HttpHelper.getGateway(MyApplication.getAppContext()), PORT);
 			socket.connect(remoteAddr, CONN_TIMEOUT);
 			socket.setReuseAddress(true);
 			socket.setSoTimeout(SO_TIMEOUT);
