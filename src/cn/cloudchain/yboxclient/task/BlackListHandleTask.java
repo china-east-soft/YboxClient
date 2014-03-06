@@ -7,7 +7,7 @@ import android.text.TextUtils;
 import cn.cloudchain.yboxclient.R;
 import cn.cloudchain.yboxclient.helper.ApStatusHandler;
 import cn.cloudchain.yboxclient.helper.SetHelper;
-import cn.cloudchain.yboxclient.helper.Util;
+import cn.cloudchain.yboxclient.utils.Util;
 import cn.cloudchain.yboxcommon.bean.DeviceInfo;
 
 /**

@@ -11,7 +11,7 @@ import android.text.format.Formatter;
 import cn.cloudchain.yboxclient.R;
 import cn.cloudchain.yboxclient.TrafficDetailActivity;
 import cn.cloudchain.yboxclient.helper.SetHelper;
-import cn.cloudchain.yboxclient.helper.Util;
+import cn.cloudchain.yboxclient.utils.Util;
 
 public class TrafficJumpTask extends BaseFragmentTask {
 	private final static int RESULT_SUCCESS = 0;

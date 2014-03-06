@@ -5,7 +5,7 @@ import org.json.JSONObject;
 
 import cn.cloudchain.yboxclient.R;
 import cn.cloudchain.yboxclient.helper.SetHelper;
-import cn.cloudchain.yboxclient.helper.Util;
+import cn.cloudchain.yboxclient.utils.Util;
 import android.content.Context;
 
 public class MobileDataControlTask extends BaseFragmentTask {

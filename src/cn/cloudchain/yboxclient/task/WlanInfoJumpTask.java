@@ -10,7 +10,7 @@ import cn.cloudchain.yboxclient.MyApplication;
 import cn.cloudchain.yboxclient.R;
 import cn.cloudchain.yboxclient.WlanSetActivity;
 import cn.cloudchain.yboxclient.helper.SetHelper;
-import cn.cloudchain.yboxclient.helper.Util;
+import cn.cloudchain.yboxclient.utils.Util;
 import cn.cloudchain.yboxcommon.bean.ErrorBean;
 import cn.cloudchain.yboxcommon.bean.Types;
 

@@ -11,7 +11,7 @@ import android.content.Intent;
 import cn.cloudchain.yboxclient.DevicesActivity;
 import cn.cloudchain.yboxclient.R;
 import cn.cloudchain.yboxclient.helper.SetHelper;
-import cn.cloudchain.yboxclient.helper.Util;
+import cn.cloudchain.yboxclient.utils.Util;
 import cn.cloudchain.yboxcommon.bean.DeviceInfo;
 import cn.cloudchain.yboxcommon.bean.Types;
 

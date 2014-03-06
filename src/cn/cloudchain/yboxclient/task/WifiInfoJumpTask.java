@@ -9,7 +9,7 @@ import android.os.Bundle;
 import cn.cloudchain.yboxclient.R;
 import cn.cloudchain.yboxclient.WifiSetActivity;
 import cn.cloudchain.yboxclient.helper.SetHelper;
-import cn.cloudchain.yboxclient.helper.Util;
+import cn.cloudchain.yboxclient.utils.Util;
 
 /**
  * 获取wifi信息成功后跳转到WifiSetActivity
