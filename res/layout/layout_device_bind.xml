@@ -2,7 +2,94 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/device_bind_bcg"
-    android:orientation="vertical" >
+    android:background="@color/base_bcg"
+    android:orientation="vertical"
+    android:padding="15dip" >
+
+    <LinearLayout
+        android:id="@+id/unlogin_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dip"
+        android:background="@color/device_bind_admin_bcg"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dip"
+            android:src="@drawable/device_bind_user" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/unlogin"
+            android:textColor="@color/unlogin_text"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bcg_round_corner_item"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="5dip"
+            android:paddingLeft="10dip"
+            android:paddingTop="5dip"
+            android:text="@string/device_bind_reminder"
+            android:textColor="@color/device_bind_reminder_text"
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/round_corner_line_normal" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dip" >
+
+            <ImageView
+                android:id="@+id/device_conn_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dip"
+                android:src="@drawable/device_conn" />
+
+            <TextView
+                android:id="@+id/device_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/device_conn_icon"
+                android:text="视网魔盒"
+                android:textColor="@color/device_bind_detail_text" />
+
+            <TextView
+                android:id="@+id/device_mac"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/device_name"
+                android:layout_marginTop="5dip"
+                android:layout_toRightOf="@id/device_conn_icon"
+                android:text="GGGGS"
+                android:textColor="@color/device_bind_detail_text"
+                android:textSize="12sp" />
+
+            <ImageView
+                android:id="@+id/device_bind"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/device_bind_uncheck" />
+        </RelativeLayout>
+    </LinearLayout>
 
 </LinearLayout>
