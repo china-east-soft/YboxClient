@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" 
-    android:background="@drawable/bcg_round_corner_item">
+    android:layout_height="wrap_content"
+    android:background="@drawable/program_item_bcg" >
 
     <ImageView
         android:id="@+id/program_icon"
@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@id/program_icon"
-        android:text="正在播放："
+        android:text="@string/guide_now_title"
         android:textSize="14sp" />
 
     <TextView
@@ -33,5 +33,13 @@
         android:singleLine="true"
         android:text="07:00-09:40 探索发现"
         android:textSize="12sp" />
+
+    <ImageView
+        android:id="@+id/program_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/program_play" />
 
 </RelativeLayout>
