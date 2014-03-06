@@ -41,7 +41,13 @@
     <color name="login_text_divider">#bdc6c6</color>
     
     <!-- 绑定设备 -->
-    <color name="device_bind_bcg">#ebf4de</color>
+    <color name="base_bcg">#ebf4de</color>
     <color name="device_bind_admin_bcg">#f3fcb6</color>
+    <color name="unlogin_text">#0bb117</color>
+    <color name="device_bind_reminder_text">#525252</color>
+    <color name="device_bind_detail_text">#272727</color>
 
+    <!-- 注册页面提示 -->
+    <color name="register_toast_bcg">#7E000000</color>
+    
 </resources>

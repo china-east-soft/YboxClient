@@ -17,5 +17,10 @@
     <dimen name="tab_height1">75dip</dimen>
     <dimen name="small_video_height">200dip</dimen>
     <dimen name="tab_height2">100dip</dimen>
+    
+    <!-- 直播界面 -->
+    <dimen name="program_grid_space">5dip</dimen>
 
+    <!-- 免责申明 -->
+    <dimen name="lisence_close_width">40dip</dimen>
 </resources>

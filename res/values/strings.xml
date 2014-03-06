@@ -6,9 +6,11 @@
     <string name="hello_world">Hello world!</string>
     <string name="cancel">取消</string>
     <string name="confirm">确定</string>
+    <string name="iknow">知道了</string>
     <string name="shutdown_reminder">按确定YBOX将关机</string>
     <string name="request_fail">请求失败</string>
     <string name="set_fail">设置修改失败</string>
+    <string name="unknow">未知</string>
 
     <!-- 主页面 -->
     <string name="tab_setting">设置</string>
@@ -117,6 +119,33 @@
     <string name="device_mac_title">MAC</string>
     <string name="device_deal_reminder">正在处理中&#8230;</string>
 
+    <!-- 用户注册 -->
+    <string name="register_title">用户注册</string>
+    <string name="register_phone">手机号码：</string>
+    <string name="register_verify">验证码：</string>
+    <string name="request_params_wrong">请求参数格式错误</string>
+    <string name="next_step">下一步</string>
+    <string name="phone_hint">请输入手机号码</string>
+    <string name="phone_token_hint">请输入验证码</string>
+    <string name="phone_token_capture">获取手机验证码</string>
+    <string name="phone_token_capture_later">%d s后再次获取验证码</string>
+    <string name="phone_empty">请先输入手机号码</string>
+    <string name="phone_wrong_format">手机号码格式错误</string>
+    <string name="phone_length_wrong">手机号码长度必须是11位</string>
+    <string name="verify_empty">请先输入验证码</string>
+    <string name="verify_length_wrong">验证码长度不正确</string>
+    <string name="verify_phone_invalid">你填写的手机号码不正确</string>
+    <string name="verify_request_success">验证码请求&lt;font color=&quot;#64db4f&quot;>成功&lt;/font>，验证码10分钟后过期</string>
+    <string name="verify_phone_fail">向该手机号码发送验证码失败</string>
+    <string name="verify_request_fail">请求验证码失败</string>
+    <string name="login_verify_invalid">验证码错误</string>
+    <string name="login_verify_timeout">验证码过期</string>
+    <string name="login_request_fail">登录失败</string>
+    <string name="login_request_success">登录成功</string>
+    <string name="register_lisence">我已阅读免责申明并同意</string>
+    <string name="register_lisence_title">免责声明：</string>
+    <string name="register_lisence_detail">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;尊敬的用户：您在使用视网魔免费提供的免费无线上网服务时，请保护好您的个人信息与资料，以免被他人非法获得或使用；请遵守国家相关法律法规规定，不访问非法、不良网站及发表、传输任何违法信息。您在网络上泄露个人信息资料，或者访问非法、不良网站及发表、传输任何违法信息而导致的相关损失俞责任，均由您自行承担，视网魔对此不承担任何责任。</string>
+
     <!-- 用户登录 -->
     <string name="login_title">账号登录</string>
     <string name="login">登录</string>
@@ -131,5 +160,27 @@
     <string name="unlogin">未登录</string>
     <string name="device_bind_reminder">完成绑定开启远程控制</string>
     <string name="bind_device">绑定设备</string>
-    
+    <string name="device_info_get_fail">获取设备信息失败</string>
+    <string name="device_binding">正在绑定中&#8230;</string>
+    <string name="device_unbinding">正在解绑中&#8230;</string>
+    <string name="device_bind_success">绑定成功！</string>
+    <string name="device_unbind_success">解绑成功！</string>
+    <string name="device_bind_fail">绑定失败！</string>
+    <string name="device_unbind_fail">解绑失败！</string>
+
+    <!-- 直播界面 -->
+    <string name="live_program_title">直播</string>
+    <string name="guide_now_title">正在播放：</string>
+    <string name="guide_next_title">即将播放：</string>
+    <string name="guides_empty">暂无节目预告</string>
+    <string name="program_not_availabe">遥控器被抢了！</string>
+    <string name="reach_limit">目前已达到观看极限！</string>
+    <string name="status_unknow">直播模块挂了</string>
+    <string name="program_load_fail">加载直播列表失败</string>
+    <string name="request_video_url_fail">请求播放失败</string>
+
+    <!-- 下拉刷新菜单 -->
+    <string name="program_pullrefresh_pull">下拉刷新节目单…</string>
+    <string name="program_pullrefresh_loading">正在刷新节目单…</string>
+
 </resources>
