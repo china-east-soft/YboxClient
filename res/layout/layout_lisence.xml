@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <TextView
+        android:id="@+id/lisence_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/lisence_reminder_icon"
+        android:drawablePadding="5dip"
+        android:paddingLeft="8dip"
+        android:paddingTop="35dip"
+        android:text="@string/register_lisence_title"
+        android:textColor="#0188FF"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/lisence_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lisence_title"
+        android:paddingBottom="35dip"
+        android:paddingLeft="15dip"
+        android:paddingRight="15dip"
+        android:paddingTop="10dip"
+        android:text="@string/register_lisence_detail"
+        android:textColor="#313131" />
+
+    <ImageButton
+        android:id="@+id/lisence_close"
+        android:layout_width="@dimen/lisence_close_width"
+        android:layout_height="@dimen/lisence_close_width"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/transparent"
+        android:src="@drawable/dialog_close_btn" />
+
+</RelativeLayout>
