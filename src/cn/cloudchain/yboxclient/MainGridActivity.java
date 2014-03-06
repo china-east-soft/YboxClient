@@ -5,6 +5,9 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -12,12 +15,14 @@ import android.widget.CheckBox;
 import cn.cloudchain.yboxclient.dialog.CustomDialogFragment;
 import cn.cloudchain.yboxclient.dialog.TaskDialogFragment;
 import cn.cloudchain.yboxclient.face.IDialogService;
+import cn.cloudchain.yboxclient.fragment.VideoPlayFragment;
 import cn.cloudchain.yboxclient.helper.ApStatusHandler;
 import cn.cloudchain.yboxclient.helper.SetHelper;
-import cn.cloudchain.yboxclient.helper.Util;
 import cn.cloudchain.yboxclient.helper.WeakHandler;
 import cn.cloudchain.yboxclient.server.ApStatusReceiver;
+import cn.cloudchain.yboxclient.task.DeviceBindJumpask;
 import cn.cloudchain.yboxclient.task.MobileDataControlTask;
+import cn.cloudchain.yboxclient.utils.Util;
 import cn.cloudchain.yboxclient.views.GridItem1;
 import cn.cloudchain.yboxcommon.bean.Types;
 
@@ -37,6 +42,8 @@ public class MainGridActivity extends BaseActionBarActivity implements
 	private MyHandler handler = new MyHandler(this);
 	private ReceiverHandler receiverHandler = new ReceiverHandler(this);
 	private ApStatusReceiver statusReceiver;
+
+	private String url = "http://192.168.4.219:81/1.ts";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -64,12 +71,29 @@ public class MainGridActivity extends BaseActionBarActivity implements
 		this.findViewById(R.id.tab_storage).setOnClickListener(this);
 
 		this.findViewById(R.id.video_more).setOnClickListener(this);
+		this.findViewById(R.id.video_full_screen).setOnClickListener(this);
 	}
 
 	@Override
 	protected void onStart() {
 		super.onStart();
 		registerReceiver();
+
+		// showVideoPlay();
+	}
+
+	private void showVideoPlay() {
+		FragmentManager fm = getSupportFragmentManager();
+		// 防止屏幕旋转时创建多了相同的碎片，致使之后的replace操作无效或误操作
+		FragmentTransaction ft = fm.beginTransaction();
+		Fragment exist = fm.findFragmentByTag(VideoPlayFragment.TAG);
+		VideoPlayFragment fragment = VideoPlayFragment.newInstance(url, null);
+		if (exist == null || !exist.isAdded()) {
+			ft.add(R.id.video_layout, fragment, VideoPlayFragment.TAG);
+		} else {
+			ft.replace(R.id.video_layout, fragment, VideoPlayFragment.TAG);
+		}
+		ft.commitAllowingStateLoss();
 	}
 
 	@Override
@@ -109,13 +133,25 @@ public class MainGridActivity extends BaseActionBarActivity implements
 			startActivity(intent);
 			break;
 		}
+		case R.id.video_full_screen:
+			fullScreenVideo();
+			break;
 		case R.id.tab_admin: {
-			Intent intent = new Intent(this, LoginActivity.class);
-			startActivity(intent);
+			DeviceBindJumpask task = new DeviceBindJumpask(this);
+			TaskDialogFragment fragment = TaskDialogFragment
+					.newLoadingFragment(null, true);
+			fragment.setTask(task);
+			fragment.show(getSupportFragmentManager(), null);
 			break;
 		}
 		}
 
+	}
+
+	private void fullScreenVideo() {
+		Intent intent = new Intent(this, VideoPlayerActivity.class);
+		startActivity(intent);
+		// this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 	}
 
 	private void refreshConnType() {

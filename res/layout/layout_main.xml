@@ -73,11 +73,13 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="15dip"
                 android:background="@drawable/status_inner_bcg"
                 android:gravity="center"
-                android:orientation="horizontal" >
+                android:orientation="horizontal"
+                android:paddingBottom="12dip"
+                android:paddingTop="12dip" >
 
                 <CheckBox
                     android:id="@+id/status_ethernet"
@@ -113,18 +115,19 @@
             </LinearLayout>
         </RelativeLayout>
 
-        <io.vov.vitamio.widget.VideoView
-            android:id="@+id/surface_view"
+        <FrameLayout
+            android:id="@+id/video_layout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/small_video_height"
             android:layout_below="@id/tab_mobile_data"
-            android:layout_marginTop="@dimen/tabs_margin" />
+            android:layout_marginTop="@dimen/tabs_margin"
+            android:background="@android:color/black" />
 
         <LinearLayout
             android:id="@+id/video_controller_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/surface_view"
+            android:layout_below="@id/video_layout"
             android:layout_marginBottom="@dimen/tabs_margin"
             android:layout_marginTop="3dip"
             android:background="@color/small_video_controller_bcg"
