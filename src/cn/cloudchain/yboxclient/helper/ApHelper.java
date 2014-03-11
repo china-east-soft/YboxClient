@@ -60,7 +60,7 @@ public class ApHelper {
 	/**
 	 * 修改电视制式
 	 * 
-	 * @return JSON字符串或者""
+	 * @return JSON字符串或者"" {"oper":101, "mode": mode}
 	 * @throws YunmaoException
 	 */
 	public String changeTVMode(String mode) throws YunmaoException {
@@ -77,7 +77,7 @@ public class ApHelper {
 	/**
 	 * 获取目前支持的所有模式
 	 * 
-	 * @return
+	 * @return {"result":true, "modes":"dtmb cmmb", "current":"cmmb"}
 	 * @throws YunmaoException
 	 */
 	public String getTVModes() throws YunmaoException {
