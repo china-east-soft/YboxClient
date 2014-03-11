@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Locale;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -61,6 +60,7 @@ public class ServerHelper {
 	private static final String PATH_POST_LOGS = "client_logs.json";
 	private static final String PATH_GET_APP_VERSION = "apps/version.json";
 	private static final String PATH_POST_DEVICE_BIND = "users/bind.json";
+	private static final String PATH_POST_LOGIN = "users/login.json";
 
 	private static final String BASIC_USERNAME = "yunmao";
 	private static final String BASIC_PASSWORD = "china-east";
@@ -86,11 +86,21 @@ public class ServerHelper {
 	private ServerHelper() {
 	}
 
+	/**
+	 * 发送登录请求
+	 * @param account
+	 * @param pass
+	 * @throws YunmaoException
+	 */
 	public void postForUserLogin(String account, String pass)
 			throws YunmaoException {
 		if (TextUtils.isEmpty(account) || TextUtils.isEmpty(pass)) {
 			throw new YunmaoException("account or password can not be empty");
 		}
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("mobile_number", account));
+		params.add(new BasicNameValuePair("password", pass));
+		retryOperation(params, PATH_POST_LOGIN, MyHttpClient.POST);
 	}
 
 	/**
@@ -160,6 +170,27 @@ public class ServerHelper {
 		params.add(new BasicNameValuePair("app_type", "android"));
 		retryOperation(params, PATH_GET_APP_VERSION, MyHttpClient.GET);
 
+	}
+
+	/**
+	 * 检查终端是否有升级
+	 * 
+	 * @param isRootImage
+	 *            true时检测ROOT IMAGE的升级，false检测中间件的升级
+	 * @param version
+	 *            版本号
+	 * @throws YunmaoException
+	 */
+	public void getYboxUpdate(final boolean isRootImage, final String version)
+			throws YunmaoException {
+		// List<NameValuePair> params = new ArrayList<NameValuePair>();
+		// params.add(new BasicNameValuePair("current_version", Util
+		// .getVerName(MyApplication.getAppContext())));
+		// params.add(new BasicNameValuePair("app_type", "android"));
+		// retryOperation(params, PATH_GET_APP_VERSION, MyHttpClient.GET);
+		throw new YunmaoException(
+				"{\"is_latest\":false, \"release_version\":\"2.3.1\", \"link\":\"http://a.hiphotos.baidu.com/image/w%3D2048/sign=e9e1e60e5b82b2b7a79f3ec40595caef/b58f8c5494eef01f728c66cfe2fe9925bc317d1b.jpg\"}",
+				-1, YunmaoException.ERROR_CODE_NONE);
 	}
 
 	/**

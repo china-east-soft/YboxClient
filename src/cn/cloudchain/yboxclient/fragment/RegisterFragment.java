@@ -152,7 +152,7 @@ public class RegisterFragment extends Fragment implements OnClickListener {
 				phoneVerifyContent.requestFocusFromTouch();
 				showToast(R.string.verify_length_wrong);
 			} else if (TextUtils.isEmpty(password)) {
-				showToast(R.string.verify_length_wrong);
+				showToast(R.string.register_pass_empty);
 			} else {
 				sendForLogin(number, verify, password);
 			}

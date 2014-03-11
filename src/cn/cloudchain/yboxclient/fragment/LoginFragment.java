@@ -1,5 +1,8 @@
 package cn.cloudchain.yboxclient.fragment;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -19,6 +22,7 @@ import cn.cloudchain.yboxclient.dialog.TaskDialogFragment;
 import cn.cloudchain.yboxclient.helper.ServerHelper;
 import cn.cloudchain.yboxclient.task.BaseFragmentTask;
 import cn.cloudchain.yboxclient.utils.PreferenceUtil;
+import cn.cloudchain.yboxclient.utils.Util;
 
 public class LoginFragment extends Fragment {
 	private EditText accountEditText;
@@ -96,6 +100,9 @@ public class LoginFragment extends Fragment {
 	}
 
 	private class LoginTask extends BaseFragmentTask {
+		private final static int ERROR_NOT_REGISTER = 1;
+		private final static int ERROR_PASS_WRONG = 2;
+
 		private String account, password;
 
 		private LoginTask(String account, String password) {
@@ -105,18 +112,27 @@ public class LoginFragment extends Fragment {
 
 		@Override
 		protected Integer doInBackground(Void... params) {
-			// String response = null;
+			String response = null;
 			int errorCode = YunmaoException.ERROR_CODE_DEFAULT;
 			try {
 				ServerHelper.getInstance().postForUserLogin(account, password);
 			} catch (YunmaoException e) {
 				errorCode = e.getErrorCode();
-				// if(errorCode == YunmaoException.ERROR_CODE_NONE) {
-				// response = e.getMessage();
-				// }
+				if (errorCode == YunmaoException.ERROR_CODE_NONE) {
+					response = e.getMessage();
+				}
 			}
-			// if(TextUtils.isEmpty(response))
-			// return errorCode;
+			if (TextUtils.isEmpty(response))
+				return errorCode;
+
+			try {
+				JSONObject obj = new JSONObject(response);
+				int accountId = obj.optInt("account_id");
+				PreferenceUtil
+						.putInt(PreferenceUtil.PREF_ACCOUNT_ID, accountId);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
 
 			return errorCode;
 		}
@@ -129,7 +145,16 @@ public class LoginFragment extends Fragment {
 			}
 			switch (result) {
 			case YunmaoException.ERROR_CODE_NONE:
-				// Util.toaster("", bufferType);
+				getActivity().onBackPressed();
+				break;
+			case ERROR_NOT_REGISTER:
+				Util.toaster(R.string.login_not_registered);
+				break;
+			case ERROR_PASS_WRONG:
+				Util.toaster(R.string.login_pass_wrong);
+				break;
+			default:
+				Util.toaster(R.string.login_fail);
 				break;
 			}
 		}
