@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/cn.cloudchain.yboxclient"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:scrollbars="none" >
@@ -8,205 +9,132 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="12dip" >
+        android:padding="5dip" >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bcg_round_corner_item"
-            android:orientation="vertical" >
+            android:orientation="horizontal" >
 
-            <!--
-            <TextView
+            <cn.cloudchain.yboxclient.views.GridItemSetting
                 android:id="@+id/setting_wlan"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/setting_list_heigth"
-                android:background="@drawable/bcg_round_corner_top"
-                android:drawableRight="@drawable/setting_arrow"
-                android:gravity="center_vertical"
-                android:padding="8dip"
-                android:paddingLeft="12dip"
-                android:text="@string/setting_wlan"
-                android:textSize="16sp" />
-            -->
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/setting_wlan"
+                app:gridImage="@drawable/setting_wlan"
+                app:subDesColor="@color/setting_sub_text1"
+                app:subDesSize="14sp"
+                app:title="@string/setting_wlan"
+                app:titleSize="14sp" />
 
-            <RelativeLayout
-                android:id="@+id/setting_net"
-                android:layout_width="match_parent"
-                android:layout_height="48dip"
-                android:layout_gravity="center_horizontal"
-                android:background="@drawable/bcg_round_corner_top" >
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentLeft="true"
-                    android:drawableRight="@drawable/setting_arrow"
-                    android:gravity="center_vertical"
-                    android:padding="8dip"
-                    android:paddingLeft="12dip"
-                    android:text="@string/setting_wlan"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/setting_net_type"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:gravity="center_vertical"
-                    android:paddingRight="30dip"
-                    android:textSize="12sp" />
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/line_stroke"
-                android:background="@color/round_corner_line_normal" />
-
-            <RelativeLayout
+            <cn.cloudchain.yboxclient.views.GridItemSetting
                 android:id="@+id/setting_devices"
-                android:layout_width="match_parent"
-                android:layout_height="48dip"
-                android:layout_gravity="center_horizontal"
-                android:background="@drawable/bcg_round_corner_middle" >
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dip"
+                android:layout_marginRight="5dip"
+                android:layout_weight="1"
+                android:background="@color/setting_clients"
+                app:gridImage="@drawable/setting_clients"
+                app:subDesColor="@android:color/black"
+                app:subDesSize="14sp"
+                app:title="@string/setting_devices"
+                app:titleSize="14sp"
+                app:withPop="true" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentLeft="true"
-                    android:drawableRight="@drawable/setting_arrow"
-                    android:gravity="center_vertical"
-                    android:padding="8dip"
-                    android:paddingLeft="12dip"
-                    android:text="@string/setting_devices"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/setting_devices_num"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:gravity="center_vertical"
-                    android:paddingRight="30dip"
-                    android:textSize="12sp" />
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/line_stroke"
-                android:background="@color/round_corner_line_normal" />
-
-            <RelativeLayout
-                android:id="@+id/setting_auto_sleep"
-                android:layout_width="match_parent"
-                android:layout_height="48dip"
-                android:layout_gravity="center_horizontal"
-                android:background="@drawable/bcg_round_corner_middle" >
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentLeft="true"
-                    android:drawableRight="@drawable/setting_arrow"
-                    android:gravity="center_vertical"
-                    android:padding="8dip"
-                    android:paddingLeft="12dip"
-                    android:text="@string/setting_auto_sleep"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/setting_auto_sleep_type"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:gravity="center_vertical"
-                    android:paddingRight="30dip"
-                    android:textSize="12sp" />
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/line_stroke"
-                android:background="@color/round_corner_line_normal" />
-
-            <TextView
+            <cn.cloudchain.yboxclient.views.GridItemSetting
                 android:id="@+id/setting_wifi"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/setting_list_heigth"
-                android:background="@drawable/bcg_round_corner_bottom"
-                android:drawableRight="@drawable/setting_arrow"
-                android:gravity="center_vertical"
-                android:padding="8dip"
-                android:paddingLeft="12dip"
-                android:text="@string/setting_wifi"
-                android:textSize="16sp" />
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/setting_telnet"
+                app:gridImage="@drawable/setting_telnet"
+                app:title="@string/setting_wifi"
+                app:titleSize="14sp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dip"
-            android:background="@drawable/bcg_round_corner_item"
-            android:orientation="vertical" >
+            android:layout_marginTop="5dip"
+            android:orientation="horizontal" >
 
-            <RelativeLayout
+            <cn.cloudchain.yboxclient.views.GridItemSetting
+                android:id="@+id/setting_tvmode"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/setting_tvmode"
+                app:gridImage="@drawable/setting_tvmode"
+                app:title="@string/setting_tvmode"
+                app:titleSize="14sp" />
+
+            <cn.cloudchain.yboxclient.views.GridItemSetting
+                android:id="@+id/setting_language"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dip"
+                android:layout_marginRight="5dip"
+                android:layout_weight="1"
+                android:background="@color/setting_language"
+                app:gridImage="@drawable/setting_language"
+                app:title="@string/setting_language"
+                app:titleSize="14sp"
+                app:withPop="true" />
+
+            <cn.cloudchain.yboxclient.views.GridItemSetting
+                android:id="@+id/setting_freq_seach"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/setting_freq_search"
+                app:gridImage="@drawable/setting_freq_search"
+                app:title="@string/setting_freq_search"
+                app:titleSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dip"
+            android:orientation="horizontal" >
+
+            <cn.cloudchain.yboxclient.views.GridItemSetting
                 android:id="@+id/setting_update_ybox"
-                android:layout_width="match_parent"
-                android:layout_height="48dip"
-                android:layout_gravity="center_horizontal"
-                android:background="@drawable/bcg_round_corner_top" >
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/setting_update_rootimage"
+                app:gridImage="@drawable/setting_update_rootimage"
+                app:subDesColor="@color/setting_sub_text1"
+                app:subDesSize="14sp"
+                app:title="@string/setting_update_ybox"
+                app:titleSize="14sp" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentLeft="true"
-                    android:gravity="center_vertical"
-                    android:padding="8dip"
-                    android:paddingLeft="12dip"
-                    android:text="@string/setting_update_ybox"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/setting_update_ybox_latest"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:gravity="center_vertical"
-                    android:paddingRight="30dip"
-                    android:textSize="12sp" />
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/line_stroke"
-                android:background="@color/round_corner_line_normal" />
-
-            <RelativeLayout
+            <cn.cloudchain.yboxclient.views.GridItemSetting
                 android:id="@+id/setting_update_app"
-                android:layout_width="match_parent"
-                android:layout_height="48dip"
-                android:layout_gravity="center_horizontal"
-                android:background="@drawable/bcg_round_corner_bottom" >
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dip"
+                android:layout_marginRight="5dip"
+                android:layout_weight="1"
+                android:background="@color/setting_update_app"
+                app:gridImage="@drawable/setting_update_app"
+                app:subDesColor="@color/setting_sub_text1"
+                app:subDesSize="14sp"
+                app:title="@string/setting_update_app"
+                app:titleSize="14sp" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentLeft="true"
-                    android:gravity="center_vertical"
-                    android:padding="8dip"
-                    android:paddingLeft="12dip"
-                    android:text="@string/setting_update_app"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/setting_update_app_latest"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:gravity="center_vertical"
-                    android:paddingRight="30dip"
-                    android:textSize="12sp" />
-            </RelativeLayout>
+            <cn.cloudchain.yboxclient.views.GridItemSetting
+                android:id="@+id/setting_aboutus"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/setting_aboutus"
+                app:gridImage="@drawable/setting_aboutus"
+                app:title="@string/setting_aboutus"
+                app:titleSize="14sp" />
         </LinearLayout>
     </LinearLayout>
 
