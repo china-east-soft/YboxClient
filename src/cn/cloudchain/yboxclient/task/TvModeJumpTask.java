@@ -30,8 +30,7 @@ public class TvModeJumpTask extends BaseFragmentTask {
 	protected Integer doInBackground(Void... params) {
 		int result = RESULT_FAIL;
 		try {
-//			String response = ApHelper.getInstance().getTVModes();
-			String response = "{\"result\":true, \"current\":\"cmmb\", \"modes\":\"cmmb dtmb tvbc\"}";
+			String response = ApHelper.getInstance().getTVModes();
 			JSONObject obj = new JSONObject(response);
 			if (obj.optBoolean("result")) {
 				result = RESULT_SUCCESS;
@@ -49,11 +48,9 @@ public class TvModeJumpTask extends BaseFragmentTask {
 					allModes[i] = tokenizer.nextToken();
 				}
 			}
-		} 
-//		catch (YunmaoException e) {
-//			e.printStackTrace();
-//		} 
-		catch (JSONException e) {
+		} catch (YunmaoException e) {
+			e.printStackTrace();
+		} catch (JSONException e) {
 			e.printStackTrace();
 		}
 		return result;
