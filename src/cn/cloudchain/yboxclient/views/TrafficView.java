@@ -37,20 +37,28 @@ public class TrafficView extends FrameLayout {
 	}
 
 	public void setTrafficDetail(long used, long total) {
-		int percent = (int) (100 * used / total);
-		trafficProgress.setProgress(percent > 100 ? 100 : percent);
+		String usedText = "";
+		String totalText = "";
+		String progressText = "";
 
-		long remain = total - used;
-		if (remain <= 0) {
-			trafficProgress.setText("已用完");
+		if (used < 0) {
+			usedText = "?";
+			totalText = "?";
+		} else if (total < 0) {
+			totalText = "不限";
+			usedText = Formatter.formatShortFileSize(getContext(), used);
 		} else {
-			trafficProgress.setText(Formatter.formatShortFileSize(getContext(),
-					remain));
+			int percent = (int) (100 * used / total);
+			trafficProgress.setProgress(percent > 100 ? 100 : percent);
+			long remain = total - used;
+			progressText = remain <= 0 ? "已用完" : Formatter.formatShortFileSize(
+					getContext(), remain);
+			usedText = Formatter.formatShortFileSize(getContext(), used);
+			totalText = Formatter.formatShortFileSize(getContext(), total);
 		}
+		trafficProgress.setText(progressText);
 		trafficDetail.setText(getResources().getString(
-				R.string.status_traffic_month,
-				Formatter.formatShortFileSize(getContext(), used),
-				Formatter.formatShortFileSize(getContext(), total)));
+				R.string.status_traffic_month, usedText, totalText));
 	}
 
 	@Override

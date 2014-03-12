@@ -1,19 +1,15 @@
 package cn.cloudchain.yboxclient;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
-import android.text.TextUtils;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import cn.cloudchain.yboxclient.dialog.TaskDialogFragment;
 import cn.cloudchain.yboxclient.helper.SetHelper;
 import cn.cloudchain.yboxclient.helper.WeakHandler;
@@ -23,7 +19,7 @@ import cn.cloudchain.yboxclient.views.SignalView;
 import cn.cloudchain.yboxclient.views.TrafficView;
 
 public class StatusInfoActivity extends ActionBarActivity implements
-		OnClickListener, OnTouchListener {
+		OnClickListener {
 	final String TAG = StatusInfoActivity.class.getSimpleName();
 	private BatteryView batteryView;
 	private TrafficView trafficView;
@@ -46,7 +42,6 @@ public class StatusInfoActivity extends ActionBarActivity implements
 		batteryView.setOnClickListener(this);
 		trafficView.setOnClickListener(this);
 		signalView.setOnClickListener(this);
-		trafficView.setOnTouchListener(this);
 	}
 
 	@Override
@@ -105,18 +100,17 @@ public class StatusInfoActivity extends ActionBarActivity implements
 				getOwner().refreshSignalStrength();
 				break;
 			case BATTERY_COMPLETE:
-				int battery = msg.arg1;
-				if (battery > 0) {
-					// getOwner().getOwner().batteryRemainView.setText(String
-					// .format("%d%%", battery));
-				} else {
-					getOwner().batteryView.setBatteryRemain(100);
-				}
+				getOwner().batteryView.setBatteryRemain(msg.arg1);
+				// getOwner().batteryView.setBatteryRemainTime(time);
 				break;
 			case TRAFFIC_COMPLETE:
-				String traffic = (String) msg.obj;
-				if (!TextUtils.isEmpty(traffic)) {
-					// getOwner().trafficView.setTrafficDetail(used, total);
+				Bundle data = msg.getData();
+				if (data == null) {
+					getOwner().trafficView.setTrafficDetail(-1, -1);
+				} else {
+					long used = data.getLong("used", -1);
+					long total = data.getLong("total", -1);
+					getOwner().trafficView.setTrafficDetail(used, total);
 				}
 				break;
 			case SIGNAL_STRENGTH_COMPLETE:
@@ -153,14 +147,36 @@ public class StatusInfoActivity extends ActionBarActivity implements
 	}
 
 	private void refreshTrafficInfo() {
-		// new Thread(new Runnable() {
-		//
-		// @Override
-		// public void run() {
-		// String result = SetHelper.getInstance().getMobileTrafficInfo();
-		// Log.i(TAG, result);
-		// }
-		// }).start();
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				String response = SetHelper.getInstance()
+						.getMobileTrafficInfo();
+				Bundle bundle = new Bundle();
+				try {
+					JSONObject obj = new JSONObject(response);
+					if (obj != null && obj.optBoolean("result")) {
+						JSONArray array = obj.getJSONArray("data");
+						JSONObject item = array.optJSONObject(0);
+						if (item != null) {
+							JSONObject month = item.optJSONObject("month");
+							long limit = item.optLong("limit");
+							long monthUsed = month.optLong("tx")
+									+ month.optLong("rx");
+							bundle.putLong("used", monthUsed);
+							bundle.putLong("limit", limit);
+						}
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+
+				Message msg = handler.obtainMessage(MyHandler.TRAFFIC_COMPLETE);
+				msg.setData(bundle);
+				handler.sendMessage(msg);
+			}
+		}).start();
 	}
 
 	private void refreshSignalStrength() {
@@ -185,26 +201,4 @@ public class StatusInfoActivity extends ActionBarActivity implements
 			}
 		}).start();
 	}
-
-	@Override
-	public boolean onTouch(View v, MotionEvent event) {
-		switch (event.getActionMasked()) {
-		case MotionEvent.ACTION_DOWN: {
-			Animation anim = AnimationUtils.loadAnimation(this,
-					R.anim.click_scale);
-			v.startAnimation(anim);
-			anim.setFillAfter(true);
-			break;
-		}
-		case MotionEvent.ACTION_UP: {
-			Animation anim = AnimationUtils.loadAnimation(this,
-					R.anim.click_scale_back);
-			v.startAnimation(anim);
-			anim.setFillAfter(true);
-			break;
-		}
-		}
-		return false;
-	}
-
 }
