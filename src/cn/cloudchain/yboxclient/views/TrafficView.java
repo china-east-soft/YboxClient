@@ -33,6 +33,7 @@ public class TrafficView extends FrameLayout {
 		trafficProgress = (ProgressWheel) view
 				.findViewById(R.id.traffic_progress);
 		addView(view);
+		setOnTouchListener(new ShrikTouchListener(getContext()));
 	}
 
 	public void setTrafficDetail(long used, long total) {

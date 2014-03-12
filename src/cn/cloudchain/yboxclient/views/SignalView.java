@@ -58,6 +58,8 @@ public class SignalView extends FrameLayout {
 		signalParams.rightMargin = signalParams.bottomMargin = Util
 				.convertDpToPx(10);
 		addView(signalStrength, signalParams);
+		
+		setOnTouchListener(new ShrikTouchListener(getContext()));
 	}
 
 	public void setSignalStrength(String text) {

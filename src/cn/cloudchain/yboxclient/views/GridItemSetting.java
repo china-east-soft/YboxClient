@@ -12,7 +12,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import cn.cloudchain.yboxclient.R;
 
-public class GridItem2 extends View {
+public class GridItemSetting extends View {
 	private Drawable image;
 	private String title;
 	private String subDes;
@@ -23,10 +23,16 @@ public class GridItem2 extends View {
 	private int titleSize;
 	private int subDesSize;
 
+	private boolean withPop = false;
+
 	private TextPaint textPaint;
 	private Rect bounds = new Rect();
 
-	public GridItem2(Context context, AttributeSet attrs) {
+	public GridItemSetting(Context context) {
+		this(context, null);
+	}
+
+	public GridItemSetting(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
 		textPaint.density = getResources().getDisplayMetrics().density;
@@ -48,6 +54,8 @@ public class GridItem2 extends View {
 		subDesSize = typeArray.getDimensionPixelSize(
 				R.styleable.GridItem2_subDesSize, 18);
 
+		withPop = typeArray.getBoolean(R.styleable.GridItem2_withPop, false);
+
 		typeArray.recycle();
 		setClickable(true);
 		setOnTouchListener(new ShrikTouchListener(getContext()));
@@ -66,7 +74,7 @@ public class GridItem2 extends View {
 			int height = image.getIntrinsicHeight();
 			image.setBounds(0, 0, width, height);
 			image.setState(getDrawableState());
-			float dx = caW / 3.f - width;
+			float dx = (caW - width) / 2.f;
 			float dy = (caH - height) / 2.f;
 			canvas.translate(dx, dy);
 			image.draw(canvas);
@@ -77,17 +85,25 @@ public class GridItem2 extends View {
 			textPaint.setColor(titleColor);
 			textPaint.setTextSize(titleSize);
 			textPaint.getTextBounds(title, 0, title.length(), bounds);
-			float y = caH / 2f - bounds.exactCenterY();
-			float x = caW * 0.4f;
+			float y = caH - 15;
+			float x = caW / 2.f - bounds.exactCenterX();
 			canvas.drawText(title, x, y, textPaint);
 		}
 
 		if (!TextUtils.isEmpty(subDes)) {
-			textPaint.setColor(subDesColor);
 			textPaint.setTextSize(subDesSize);
 			textPaint.getTextBounds(subDes, 0, subDes.length(), bounds);
 			float x = caW - bounds.width() - 15;
-			float y = caH - 15;
+			float y = 15 + bounds.height();
+
+			if (withPop) {
+				textPaint.setColor(0xFFFFFFFF);
+				float radius = Math.max(bounds.width(), bounds.height()) * 0.75f;
+				canvas.drawCircle(x + bounds.centerX(), y + bounds.centerY(),
+						radius, textPaint);
+			}
+
+			textPaint.setColor(subDesColor);
 			canvas.drawText(subDes, x, y, textPaint);
 		}
 	}
@@ -95,5 +111,12 @@ public class GridItem2 extends View {
 	public void setSubDes(String text) {
 		subDes = text;
 		invalidate();
+	}
+
+	@Override
+	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+		int size = getMeasuredWidth();
+		setMeasuredDimension(size, size);
 	}
 }

@@ -35,6 +35,8 @@ public class BatteryView extends FrameLayout {
 				.findViewById(R.id.batteryProgressText);
 		batteryTime = (TextView) view.findViewById(R.id.batteryTime);
 		addView(view);
+		
+		setOnTouchListener(new ShrikTouchListener(getContext()));
 	}
 
 	public void setBatteryRemain(int percent) {
