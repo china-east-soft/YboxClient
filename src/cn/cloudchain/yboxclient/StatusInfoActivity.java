@@ -8,39 +8,45 @@ import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.TextView;
+import android.view.View.OnTouchListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import cn.cloudchain.yboxclient.dialog.TaskDialogFragment;
 import cn.cloudchain.yboxclient.helper.SetHelper;
 import cn.cloudchain.yboxclient.helper.WeakHandler;
 import cn.cloudchain.yboxclient.task.TrafficJumpTask;
+import cn.cloudchain.yboxclient.views.BatteryView;
+import cn.cloudchain.yboxclient.views.SignalView;
+import cn.cloudchain.yboxclient.views.TrafficView;
 
 public class StatusInfoActivity extends ActionBarActivity implements
-		OnClickListener {
+		OnClickListener, OnTouchListener {
 	final String TAG = StatusInfoActivity.class.getSimpleName();
-	private TextView trafficRemainView;
-	private TextView batteryRemainView;
-	private TextView signalStrengthView;
+	private BatteryView batteryView;
+	private TrafficView trafficView;
+	private SignalView signalView;
 
 	private MyHandler handler = new MyHandler(this);
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.layout_status);
 
 		getSupportActionBar().setTitle(R.string.status_title);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-		this.findViewById(R.id.status_traffic_layout).setOnClickListener(this);
-		trafficRemainView = (TextView) this
-				.findViewById(R.id.status_traffic_remain);
-		batteryRemainView = (TextView) this
-				.findViewById(R.id.status_battery_remain);
-		signalStrengthView = (TextView) this
-				.findViewById(R.id.status_signal_strength);
+		setContentView(R.layout.layout_status);
+		batteryView = (BatteryView) this.findViewById(R.id.status_battery);
+		trafficView = (TrafficView) this.findViewById(R.id.status_traffic);
+		signalView = (SignalView) this.findViewById(R.id.status_signal);
 
+		batteryView.setOnClickListener(this);
+		trafficView.setOnClickListener(this);
+		signalView.setOnClickListener(this);
+		trafficView.setOnTouchListener(this);
 	}
 
 	@Override
@@ -62,7 +68,7 @@ public class StatusInfoActivity extends ActionBarActivity implements
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.status_traffic_layout:
+		case R.id.status_traffic:
 			jumpToTraffic();
 			break;
 		}
@@ -101,20 +107,22 @@ public class StatusInfoActivity extends ActionBarActivity implements
 			case BATTERY_COMPLETE:
 				int battery = msg.arg1;
 				if (battery > 0) {
-					getOwner().batteryRemainView.setText(String.format("%d%%",
-							battery));
+					// getOwner().getOwner().batteryRemainView.setText(String
+					// .format("%d%%", battery));
+				} else {
+					getOwner().batteryView.setBatteryRemain(100);
 				}
 				break;
 			case TRAFFIC_COMPLETE:
 				String traffic = (String) msg.obj;
 				if (!TextUtils.isEmpty(traffic)) {
-					getOwner().trafficRemainView.setText(traffic);
+					// getOwner().trafficView.setTrafficDetail(used, total);
 				}
 				break;
 			case SIGNAL_STRENGTH_COMPLETE:
 				int strength = msg.arg1;
 				if (strength < 0) {
-					getOwner().signalStrengthView.setText(String.format(
+					getOwner().signalView.setSignalStrength(String.format(
 							"%ddBm", strength));
 				}
 				break;
@@ -176,6 +184,27 @@ public class StatusInfoActivity extends ActionBarActivity implements
 				handler.sendMessage(msg);
 			}
 		}).start();
+	}
+
+	@Override
+	public boolean onTouch(View v, MotionEvent event) {
+		switch (event.getActionMasked()) {
+		case MotionEvent.ACTION_DOWN: {
+			Animation anim = AnimationUtils.loadAnimation(this,
+					R.anim.click_scale);
+			v.startAnimation(anim);
+			anim.setFillAfter(true);
+			break;
+		}
+		case MotionEvent.ACTION_UP: {
+			Animation anim = AnimationUtils.loadAnimation(this,
+					R.anim.click_scale_back);
+			v.startAnimation(anim);
+			anim.setFillAfter(true);
+			break;
+		}
+		}
+		return false;
 	}
 
 }
