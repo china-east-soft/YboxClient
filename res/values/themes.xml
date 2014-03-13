@@ -19,6 +19,10 @@
         <!-- activity animation -->
         <!-- <item name="android:windowAnimationStyle">@style/AnimationActivity</item> -->
     </style>
+    
+    <style name="CustomActionBarTheme.NoTitleBar" parent="CustomActionBarTheme">
+        <item name="android:windowNoTitle">true</item>
+    </style>
 
     <!-- ActionBar styles -->
     <style name="MyActionBar" parent="@style/Widget.AppCompat.ActionBar">

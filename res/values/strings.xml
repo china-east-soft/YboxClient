@@ -9,8 +9,10 @@
     <string name="iknow">知道了</string>
     <string name="shutdown_reminder">按确定YBOX将关机</string>
     <string name="request_fail">请求失败</string>
+    <string name="request_fail_net">网络原因，请求失败</string>
     <string name="set_fail">设置修改失败</string>
     <string name="unknow">未知</string>
+    <string name="exit">退出</string>
 
     <!-- 主页面 -->
     <string name="tab_setting">设置</string>
@@ -32,8 +34,10 @@
     <!-- 终端状态相关 -->
     <string name="status_title">终端状态</string>
     <string name="status_traffic_remain">流量剩余</string>
-    <string name="status_battery_remain">电视剩余</string>
-    <string name="status_signal_strength">3G信号强度</string>
+    <string name="status_battery_remain">电池剩余</string>
+    <string name="status_battery_time">预计可用</string>
+    <string name="status_signal_strength">3G信号</string>
+    <string name="status_traffic_month" formatted="false">本月流量：%s / %s</string>
 
     <!-- 流量统计相关<xliff:g>%s</xliff:g> -->
     <string name="traffic_title">流量统计</string>
@@ -46,12 +50,17 @@
     <!-- 设置相关 -->
     <string name="setting_title">设置</string>
     <string name="setting_wlan">网络配置</string>
-    <string name="setting_devices">无线设备控制</string>
+    <string name="setting_devices">用户列表</string>
+    <string name="setting_telnet">远程控制</string>
+    <string name="setting_tvmode">电视制式</string>
+    <string name="setting_language">语言设置</string>
+    <string name="setting_freq_search">搜台设置</string>
     <string name="setting_auto_sleep">自动休眠</string>
     <string name="setting_wifi">无线参数</string>
     <string name="setting_distance">远程控制</string>
-    <string name="setting_update_ybox">YBOX-Mini升级</string>
-    <string name="setting_update_app">视网魔APP升级</string>
+    <string name="setting_update_ybox">固件升级</string>
+    <string name="setting_update_app">APP升级</string>
+    <string name="setting_aboutus">关于我们</string>
     <string name="setting_help">使用帮助</string>
     <string name="setting_devices_num">%d个人连接</string>
 
@@ -142,9 +151,10 @@
     <string name="login_verify_timeout">验证码过期</string>
     <string name="login_request_fail">登录失败</string>
     <string name="login_request_success">登录成功</string>
-    <string name="register_lisence">我已阅读免责申明并同意</string>
+    <string name="register_lisence">我已阅读免责声明并同意</string>
     <string name="register_lisence_title">免责声明：</string>
     <string name="register_lisence_detail">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;尊敬的用户：您在使用视网魔免费提供的免费无线上网服务时，请保护好您的个人信息与资料，以免被他人非法获得或使用；请遵守国家相关法律法规规定，不访问非法、不良网站及发表、传输任何违法信息。您在网络上泄露个人信息资料，或者访问非法、不良网站及发表、传输任何违法信息而导致的相关损失俞责任，均由您自行承担，视网魔对此不承担任何责任。</string>
+    <string name="register_pass_empty">密码不能为空</string>
 
     <!-- 用户登录 -->
     <string name="login_title">账号登录</string>
@@ -154,6 +164,9 @@
     <string name="login_pass">密码：</string>
     <string name="pass_remember">记住密码</string>
     <string name="login_auto">自动登录</string>
+    <string name="login_fail">登录失败</string>
+    <string name="login_pass_wrong">密码错误</string>
+    <string name="login_not_registered">该手机号码还未注册</string>
 
     <!-- 设备绑定 -->
     <string name="device_bind_title">设备绑定</string>
@@ -182,5 +195,35 @@
     <!-- 下拉刷新菜单 -->
     <string name="program_pullrefresh_pull">下拉刷新节目单…</string>
     <string name="program_pullrefresh_loading">正在刷新节目单…</string>
+
+    <!-- 电视制式 -->
+    <string name="tvmodes_title">电视制式</string>
+    <string name="tvmodes_empty">当前无支持的电视制式</string>
+
+    <!-- 更新 -->
+    <string name="update">更新</string>
+    <string name="no_need_update">当前已是最新版本</string>
+    <string name="update_title">检测到新版本</string>
+    <string name="update_title_hard">强制升级</string>
+    <string name="update_now">立即更新</string>
+    <string name="update_later">稍后更新</string>
+    <string name="checking_update">正在检查更新…</string>
+    <string name="update_no_need">已是最新版!</string>
+    <string name="update_download_title">正在下载</string>
+    <string name="sdcard_fail">没有找到存储卡!</string>
+    <string name="invalid_download_path">下载链接地址为空或不存在！</string>
+    <string name="file_error">文件异常！</string>
+    <string name="download_fail">下载异常，请重试！</string>
+    <string name="file_download_fail">文件下载失败</string>
+    <string name="file_not_exist">文件不存在</string>
+    <string name="update_info_get_fail">获取更新信息失败，请检查网络连接</string>
+    <string name="update_invalid_version">当前版本不存在</string>
+
+    <!-- 搜索无线 -->
+    <string name="wifi_search_text1">正在搜索无线.</string>
+    <string name="wifi_search_text2">正在搜索无线..</string>
+    <string name="wifi_search_text3">正在搜索无线...</string>
+    <string name="wifi_search_text4">正在搜索无线....</string>
+    <string name="wifi_choose_title">请选择要连接的无线</string>
 
 </resources>
