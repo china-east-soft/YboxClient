@@ -13,8 +13,6 @@ import java.net.SocketAddress;
 
 import android.text.TextUtils;
 import android.util.Log;
-import cn.cloudchain.yboxclient.MyApplication;
-import cn.cloudchain.yboxclient.http.HttpHelper;
 import cn.cloudchain.yboxcommon.bean.ErrorBean;
 import cn.cloudchain.yboxcommon.bean.OperType;
 import cn.cloudchain.yboxcommon.bean.Types;
@@ -51,7 +49,8 @@ public class SetHelper {
 	 * @return
 	 */
 	public String getDeviceInfo() {
-		return baseGetRequest(OperType.device_info);
+		// return baseGetRequest(OperType.device_info);
+		return "{\"result\":true, \"image_version\":\"2.3.0\", \"middle_version\":\"1.0\", \"image_name\":\"2.3.0\", \"middle_name\":\"1.0\"}";
 	}
 
 	/**
@@ -448,15 +447,27 @@ public class SetHelper {
 		return baseGetRequest(OperType.mobile_traffic_info);
 	}
 
-	public String updateRootImage(String path) {
+	/**
+	 * 发送终端升级请求
+	 * 
+	 * @param imageUrl
+	 *            链接地址，终端将根据链接地址获取文件所在地址
+	 * @param middleUrl
+	 * @return
+	 */
+	public String yboxUpdate(String imageUrl, String middleUrl) {
 		StringWriter sw = new StringWriter(50);
 		JsonWriter jWriter = new JsonWriter(sw);
 		try {
 			jWriter.beginObject().name(OPER_KEY)
-					.value(OperType.update_root_image.getValue());
+					.value(OperType.ybox_update.getValue());
 			jWriter.name(PARAMS_KEY).beginObject();
-			jWriter.name("path").value(path);
-			jWriter.name("mode").value(1);
+			if (!TextUtils.isEmpty(imageUrl)) {
+				jWriter.name("image_url").value(imageUrl);
+			}
+			if (!TextUtils.isEmpty(middleUrl)) {
+				jWriter.name("middle_url").value(middleUrl);
+			}
 			jWriter.endObject().endObject();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -474,20 +485,26 @@ public class SetHelper {
 	}
 
 	/**
-	 * 升级中间件
+	 * 发送终端下载升级包请求
 	 * 
-	 * @param path
+	 * @param imageUrl
+	 *            链接地址
+	 * @param middleUrl
 	 * @return
 	 */
-	public String updateMiddleApk(String path) {
+	public String yboxUpdateDownload(String imageUrl, String middleUrl) {
 		StringWriter sw = new StringWriter(50);
 		JsonWriter jWriter = new JsonWriter(sw);
 		try {
 			jWriter.beginObject().name(OPER_KEY)
-					.value(OperType.update_middle.getValue());
+					.value(OperType.ybox_update_download.getValue());
 			jWriter.name(PARAMS_KEY).beginObject();
-			jWriter.name("path").value(path);
-			jWriter.name("mode").value(1);
+			if (!TextUtils.isEmpty(imageUrl)) {
+				jWriter.name("image_url").value(imageUrl);
+			}
+			if (!TextUtils.isEmpty(middleUrl)) {
+				jWriter.name("middle_url").value(middleUrl);
+			}
 			jWriter.endObject().endObject();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -532,8 +549,10 @@ public class SetHelper {
 		InputStream is = null;
 		try {
 			socket = new Socket();
-			SocketAddress remoteAddr = new InetSocketAddress(
-					HttpHelper.getGateway(MyApplication.getAppContext()), PORT);
+			// String gateway = HttpHelper.getGateway(MyApplication
+			// .getAppContext());
+			String gateway = "192.168.4.186";
+			SocketAddress remoteAddr = new InetSocketAddress(gateway, PORT);
 			socket.connect(remoteAddr, CONN_TIMEOUT);
 			socket.setReuseAddress(true);
 			socket.setSoTimeout(SO_TIMEOUT);
