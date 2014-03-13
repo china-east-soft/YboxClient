@@ -19,7 +19,6 @@ import cn.cloudchain.yboxclient.utils.PreferenceUtil;
 
 public class TvStatusService extends Service {
 	private static final String TAG = TvStatusService.class.getSimpleName();
-	private final IBinder mBinder = new LocalBinder();
 	private ScheduledExecutorService scheduleTaskExecutor = null;
 	private StatusResultHandler mHandler = new StatusResultHandler(this);
 
@@ -90,19 +89,13 @@ public class TvStatusService extends Service {
 	public IBinder onBind(Intent intent) {
 		LogUtil.d(TAG, "service onBind");
 		runStatus(false);
-		return mBinder;
+		return new Binder();
 	}
 
 	@Override
 	public boolean onUnbind(Intent intent) {
 		runStatus(true);
 		return super.onUnbind(intent);
-	}
-
-	public class LocalBinder extends Binder {
-		public TvStatusService getService() {
-			return TvStatusService.this;
-		}
 	}
 
 	private static class StatusResultHandler extends
