@@ -3,39 +3,36 @@ package cn.cloudchain.yboxclient.task;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.Context;
-import android.content.Intent;
-import cn.cloudchain.yboxclient.DeviceBindActivity;
+import android.support.v4.app.FragmentManager;
 import cn.cloudchain.yboxclient.R;
+import cn.cloudchain.yboxclient.dialog.UpdateDialogFragment;
 import cn.cloudchain.yboxclient.helper.SetHelper;
 import cn.cloudchain.yboxclient.utils.Util;
 
-/**
- * 获取设备信息，获取成功后跳转到DeviceBindActivity
- * 
- * @author lazzy
- * 
- */
-public class DeviceBindJumpask extends BaseFragmentTask {
+public class YboxUpdateJumpTask extends BaseFragmentTask {
 	private final static int RESULT_SUCCESS = 0;
 	private final static int RESULT_FAIL = 1;
-	private Context context;
-	private String mac = "";
 
-	public DeviceBindJumpask(Context context) {
-		this.context = context;
+	private FragmentManager fm;
+	private String middleUrl;
+	private String imageUrl;
+
+	public YboxUpdateJumpTask(FragmentManager fm, String middleUrl,
+			String imageUrl) {
+		this.fm = fm;
+		this.middleUrl = middleUrl;
+		this.imageUrl = imageUrl;
 	}
 
 	@Override
 	protected Integer doInBackground(Void... params) {
 		super.doInBackground(params);
+		String response = SetHelper.getInstance().yboxUpdateDownload(imageUrl,
+				middleUrl);
 		int result = RESULT_FAIL;
-//		String response = SetHelper.getInstance().getDeviceInfo();
-		String response = "{\"result\":true, \"mac\":\"aa:bb:cc:dd:ee\"}";
 		try {
 			JSONObject obj = new JSONObject(response);
 			if (obj.optBoolean("result")) {
-				mac = obj.optString("mac");
 				result = RESULT_SUCCESS;
 			}
 		} catch (JSONException e) {
@@ -49,16 +46,18 @@ public class DeviceBindJumpask extends BaseFragmentTask {
 		super.onPostExecute(result);
 		if (isCancelled())
 			return;
+
 		switch (result) {
+		case RESULT_SUCCESS:
+			if (fm != null) {
+				UpdateDialogFragment fragment = UpdateDialogFragment
+						.newInstance(middleUrl, imageUrl);
+				fragment.show(fm, null);
+			}
+			break;
 		case RESULT_FAIL:
 			Util.toaster(R.string.request_fail);
 			break;
-		case RESULT_SUCCESS:
-			Intent intent = new Intent(context, DeviceBindActivity.class);
-			intent.putExtra(DeviceBindActivity.BUNDLE_DEVICE_MAC, mac);
-			context.startActivity(intent);
-			break;
 		}
 	}
-
 }
