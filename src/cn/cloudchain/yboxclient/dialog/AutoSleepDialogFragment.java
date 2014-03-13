@@ -12,8 +12,8 @@ import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import cn.cloudchain.yboxclient.R;
 import cn.cloudchain.yboxclient.helper.SetHelper;
-import cn.cloudchain.yboxclient.helper.Util;
 import cn.cloudchain.yboxclient.helper.WeakHandler;
+import cn.cloudchain.yboxclient.utils.Util;
 
 public class AutoSleepDialogFragment extends DialogFragment {
 	private int oldType;

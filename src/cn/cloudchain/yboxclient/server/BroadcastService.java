@@ -22,7 +22,7 @@ import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import cn.cloudchain.yboxclient.MyApplication;
-import cn.cloudchain.yboxclient.helper.LogUtil;
+import cn.cloudchain.yboxclient.utils.LogUtil;
 
 public class BroadcastService extends Service {
 	final String TAG = BroadcastService.class.getSimpleName();

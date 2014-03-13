@@ -24,9 +24,9 @@ import cn.cloudchain.yboxclient.dialog.TaskDialogFragment;
 import cn.cloudchain.yboxclient.dialog.WifiRestartDialogFragment;
 import cn.cloudchain.yboxclient.face.IPAddressKeyListener;
 import cn.cloudchain.yboxclient.helper.SetHelper;
-import cn.cloudchain.yboxclient.helper.Util;
 import cn.cloudchain.yboxclient.helper.WeakHandler;
 import cn.cloudchain.yboxclient.task.BaseFragmentTask;
+import cn.cloudchain.yboxclient.utils.Util;
 import cn.cloudchain.yboxcommon.bean.Types;
 
 public class WlanSetActivity extends ActionBarActivity implements
