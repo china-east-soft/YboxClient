@@ -85,6 +85,7 @@
     <string name="dns_empty_all">DNS地址不能都为空</string>
 
     <!-- 无线设置 -->
+    <string name="wifiset_base">基础设置</string>
     <string name="ssid_name">网络SSID</string>
     <string name="security">安全性</string>
     <string name="pass_name">密码</string>
@@ -225,5 +226,12 @@
     <string name="wifi_search_text3">正在搜索无线...</string>
     <string name="wifi_search_text4">正在搜索无线....</string>
     <string name="wifi_choose_title">请选择要连接的无线</string>
+    
+    <!-- 自动搜台 -->
+    <string name="auto_search_choose_title">选择搜台类型</string>
+    <string-array name="auto_search_types">
+        <item>自动</item>
+        <item>手动</item>
+    </string-array>
 
 </resources>

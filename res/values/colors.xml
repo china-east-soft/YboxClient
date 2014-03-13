@@ -70,14 +70,12 @@
     <color name="status_traffic_bar">#e45832</color>
     <color name="status_signal">#c5bc20</color>
     
-    
     <!-- 搜索无线 -->
-    <color name="wifi_refresh_text">#969696</color>
-    <color name="wifi_refresh_bcg">#F8F8F8</color>
-    <color name="wifi_reminder">#1090D4</color>
-    <color name="wifi_ssid_normal">#656565</color>
-    <color name="wifi_state_text_normal">#A1A5A1</color>
-    <color name="wifi_state_text_hightlight">#06AFE1</color>
     <color name="wifi_search_text">#2c9c1f</color>
+    
+    <!-- 无线设置 -->
+    <color name="wifiset_title">#04cb1f</color>
+    <color name="wifiset_line">#01c325</color>
+    <color name="wifiset_black">#37363c</color>
 
 </resources>
