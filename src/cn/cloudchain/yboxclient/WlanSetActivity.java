@@ -14,10 +14,10 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import cn.cloudchain.yboxclient.dialog.TaskDialogFragment;
@@ -26,11 +26,11 @@ import cn.cloudchain.yboxclient.face.IPAddressKeyListener;
 import cn.cloudchain.yboxclient.helper.SetHelper;
 import cn.cloudchain.yboxclient.helper.WeakHandler;
 import cn.cloudchain.yboxclient.task.BaseFragmentTask;
+import cn.cloudchain.yboxclient.utils.LogUtil;
 import cn.cloudchain.yboxclient.utils.Util;
 import cn.cloudchain.yboxcommon.bean.Types;
 
-public class WlanSetActivity extends ActionBarActivity implements
-		OnClickListener {
+public class WlanSetActivity extends ActionBarActivity {
 	/**
 	 * 模式大于0时为以太网
 	 */
@@ -47,8 +47,6 @@ public class WlanSetActivity extends ActionBarActivity implements
 	private EditText maskEditText;
 	private EditText dns1EditText;
 	private EditText dns2EditText;
-
-	private Button setButton;
 
 	private IPAddressKeyListener keyListener = new IPAddressKeyListener();
 	private MyHandler handler = new MyHandler(this);
@@ -73,35 +71,36 @@ public class WlanSetActivity extends ActionBarActivity implements
 		dns1EditText.setKeyListener(keyListener);
 		dns2EditText.setKeyListener(keyListener);
 
-		setButton = (Button) this.findViewById(R.id.set);
-		setButton.setOnClickListener(this);
-
 		modeRadioGroup
 				.setOnCheckedChangeListener(new ModeCheckChangeListener());
 		modeRadioGroup.check(R.id.ip_dhcp);
 		enableEditText(false);
 		initView(getIntent().getExtras());
+	}
 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.wifiset, menu);
+		if (!modeRadioGroup.isShown()) {
+			LogUtil.i("", "radio group not show");
+			menu.findItem(R.id.confirm).setVisible(false);
+		}
+		return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			this.finish();
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.set:
+			onBackPressed();
+			break;
+		case R.id.confirm:
 			handler.sendEmptyMessage(modeRadioGroup.getCheckedRadioButtonId() == R.id.ip_dhcp ? MyHandler.WLAN_DHCP_SET
 					: MyHandler.WLAN_STATIC_SET);
 			break;
 		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	private void initView(Bundle bundle) {
@@ -113,7 +112,7 @@ public class WlanSetActivity extends ActionBarActivity implements
 		String mask = bundle.getString(BUNDLE_MASK);
 		String dns1 = bundle.getString(BUNDLE_DNS1);
 		String dns2 = bundle.getString(BUNDLE_DNS2);
-		int mode = bundle.getInt(BUNDLE_MODE);
+		int mode = bundle.getInt(BUNDLE_MODE, Types.ETHERNET_MODE_NONE);
 
 		addressEditText.setText(address);
 		gatewayEditText.setText(gateway);
@@ -127,7 +126,6 @@ public class WlanSetActivity extends ActionBarActivity implements
 			modeRadioGroup
 					.check(mode == Types.ETHERNET_MODE_STATIC ? R.id.ip_static
 							: R.id.ip_dhcp);
-			setButton.setVisibility(View.VISIBLE);
 			enableEditText(mode == Types.ETHERNET_MODE_STATIC);
 		}
 
