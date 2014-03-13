@@ -8,9 +8,11 @@
         android:minSdkVersion="11"
         android:targetSdkVersion="18" />
 
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
         android:name="cn.cloudchain.yboxclient.MyApplication"
@@ -19,16 +21,19 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="cn.cloudchain.yboxclient.MainGridActivity"
+            android:name="cn.cloudchain.yboxclient.WifiSearchActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@style/CustomActionBarTheme" >
+            android:theme="@style/CustomActionBarTheme.NoTitleBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="cn.cloudchain.yboxclient.MainGridActivity"
+            android:theme="@style/CustomActionBarTheme.NoTitleBar" />
         <activity
             android:name="cn.cloudchain.yboxclient.StatusInfoActivity"
             android:theme="@style/CustomActionBarTheme" />
@@ -60,6 +65,13 @@
             android:name="cn.cloudchain.yboxclient.VideoPlayerActivity"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
             android:screenOrientation="landscape" />
+        
+        <activity
+            android:name="cn.cloudchain.yboxclient.MobileInfoActivity"
+            android:theme="@style/CustomActionBarTheme" />
+        
+        <activity android:name="cn.cloudchain.yboxclient.TvModeActivity"
+            android:theme="@style/CustomActionBarTheme" />
         <activity
             android:name="io.vov.vitamio.activity.InitActivity"
             android:launchMode="singleTop"
@@ -68,6 +80,7 @@
 
         <service android:name="cn.cloudchain.yboxclient.server.BroadcastService" />
         <service android:name="cn.cloudchain.yboxclient.server.TvStatusService" />
+        <service android:name="cn.cloudchain.yboxclient.server.YboxUpdateService" />
     </application>
 
 </manifest>

@@ -45,8 +45,10 @@
             android:background="@drawable/transparent"
             android:cacheColorHint="@android:color/transparent"
             android:choiceMode="singleChoice"
+            android:divider="@color/dialog_divider"
             android:dividerHeight="0.2dip"
             android:fadingEdge="none"
+            android:listSelector="@drawable/selector_dialog_button"
             android:scrollbars="none"
             android:visibility="gone" />
 

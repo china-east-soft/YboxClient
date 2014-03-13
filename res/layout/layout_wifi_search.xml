@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/wifi_search_bcg" >
+
+    <ImageView
+        android:id="@+id/wifi_search_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:paddingTop="10dip"
+        android:src="@drawable/wifi_search_icon" />
+
+    <ViewFlipper
+        android:id="@+id/wifi_search_flipper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/wifi_search_icon"
+        android:layout_centerHorizontal="true"
+        android:autoStart="true"
+        android:flipInterval="500" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|bottom"
+            android:src="@drawable/wifi_search_step1" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|bottom"
+            android:paddingBottom="15dip"
+            android:src="@drawable/wifi_search_step2" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|bottom"
+            android:paddingBottom="30dip"
+            android:src="@drawable/wifi_search_step3" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|bottom"
+            android:paddingBottom="45dip"
+            android:src="@drawable/wifi_search_step4" />
+    </ViewFlipper>
+
+    <ViewFlipper
+        android:id="@+id/wifi_search_reminder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/wifi_search_icon"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dip"
+        android:autoStart="true"
+        android:flipInterval="500" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="@string/wifi_search_text1"
+            android:textColor="@color/wifi_search_text" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="@string/wifi_search_text2"
+            android:textColor="@color/wifi_search_text" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="@string/wifi_search_text3"
+            android:textColor="@color/wifi_search_text" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="@string/wifi_search_text4"
+            android:textColor="@color/wifi_search_text" />
+    </ViewFlipper>
+
+</RelativeLayout>
