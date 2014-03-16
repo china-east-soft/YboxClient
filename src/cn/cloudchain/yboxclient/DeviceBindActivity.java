@@ -47,6 +47,9 @@ public class DeviceBindActivity extends ActionBarActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.device_bind, menu);
+		boolean hasLogin = !unloginView.isShown();
+		menu.findItem(R.id.login).setVisible(!hasLogin);
+		menu.findItem(R.id.logout).setVisible(hasLogin);
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -60,6 +63,11 @@ public class DeviceBindActivity extends ActionBarActivity {
 			Intent intent = new Intent(this, LoginActivity.class);
 			startActivity(intent);
 			break;
+		case R.id.logout:
+			PreferenceUtil.remove(PreferenceUtil.PREF_ACCOUNT_ID);
+			PreferenceUtil.remove(PreferenceUtil.BIND_DEVICES);
+			refreshViews();
+			break;
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -67,17 +75,23 @@ public class DeviceBindActivity extends ActionBarActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		refreshViews();
+	}
+
+	private void refreshViews() {
 		boolean isLogin = PreferenceUtil.getInt(PreferenceUtil.PREF_ACCOUNT_ID,
 				-1) > 0;
 		unloginView.setVisibility(isLogin ? View.GONE : View.VISIBLE);
 		deviceBindView.setEnabled(isLogin && !TextUtils.isEmpty(mac));
+
+		supportInvalidateOptionsMenu();
 
 		if (TextUtils.isEmpty(mac)) {
 			deviceMacText.setText(R.string.unknow);
 			deviceBindView.setImageResource(R.drawable.device_bind_uncheck);
 		} else {
 			deviceMacText.setText(mac);
-			isBind = PreferenceUtil.getBoolean(mac, false);
+			isBind = PreferenceUtil.hasDeviceMac(mac);
 			deviceBindView
 					.setImageResource(isBind ? R.drawable.device_bind_checked
 							: R.drawable.device_bind_uncheck);
@@ -157,9 +171,9 @@ public class DeviceBindActivity extends ActionBarActivity {
 			// 如果请求成功，更新本地绑定状态
 			if (errorCode == YunmaoException.ERROR_CODE_NONE) {
 				if (bind) {
-					PreferenceUtil.putBoolean(mac, true);
+					PreferenceUtil.appendDeviceMac(mac);
 				} else {
-					PreferenceUtil.remove(mac);
+					PreferenceUtil.removeDeviceMac(mac);
 				}
 			}
 			Message msg = handler
