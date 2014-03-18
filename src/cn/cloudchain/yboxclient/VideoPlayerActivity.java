@@ -9,10 +9,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import cn.cloudchain.yboxclient.bean.ProgramBean;
 import cn.cloudchain.yboxclient.fragment.VideoPlayFragment;
-import cn.cloudchain.yboxclient.utils.LogUtil;
 
 public class VideoPlayerActivity extends FragmentActivity {
 	static final String TAG = VideoPlayerActivity.class.getSimpleName();
+	private String url = "";
+	private ProgramBean program;
 
 	public static void start(Context context, String url, ProgramBean bean) {
 		Intent intent = new Intent(context, VideoPlayerActivity.class);
@@ -25,26 +26,33 @@ public class VideoPlayerActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.base_container);
+		url = getIntent().getStringExtra("url");
+		program = getIntent().getParcelableExtra("program");
+	}
 
-		String url = getIntent().getStringExtra("url");
-		ProgramBean bean = getIntent().getParcelableExtra("program");
-
+	@Override
+	protected void onStart() {
+		super.onStart();
 		FragmentManager fm = getSupportFragmentManager();
 		// 防止屏幕旋转时创建多了相同的碎片，致使之后的replace操作无效或误操作
 		FragmentTransaction ft = fm.beginTransaction();
-		Fragment exist = fm.findFragmentByTag(VideoPlayFragment.TAG);
-		VideoPlayFragment fragment = VideoPlayFragment.newInstance(url, bean);
-		if (exist == null || !exist.isAdded()) {
-			ft.add(R.id.video_layout, fragment, VideoPlayFragment.TAG);
-		} else {
-			LogUtil.i(TAG, "replace");
-			ft.replace(R.id.video_layout, fragment, VideoPlayFragment.TAG);
-		}
-		ft.commit();
+		VideoPlayFragment fragment = VideoPlayFragment
+				.newInstance(url, program);
+		ft.add(R.id.container, fragment, VideoPlayFragment.TAG);
+		ft.commitAllowingStateLoss();
 	}
 
 	@Override
 	protected void onStop() {
+		Fragment fragment = getSupportFragmentManager().findFragmentById(
+				R.id.container);
+		if (fragment != null && fragment.isAdded()) {
+			FragmentTransaction ft = getSupportFragmentManager()
+					.beginTransaction();
+			ft.remove(fragment);
+			ft.commitAllowingStateLoss();
+		}
+
 		super.onStop();
 	}
 }
