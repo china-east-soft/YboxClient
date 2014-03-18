@@ -13,6 +13,9 @@ import java.net.SocketAddress;
 
 import android.text.TextUtils;
 import android.util.Log;
+import cn.cloudchain.yboxclient.MyApplication;
+import cn.cloudchain.yboxclient.http.HttpHelper;
+import cn.cloudchain.yboxcommon.bean.Constants;
 import cn.cloudchain.yboxcommon.bean.ErrorBean;
 import cn.cloudchain.yboxcommon.bean.OperType;
 import cn.cloudchain.yboxcommon.bean.Types;
@@ -30,9 +33,7 @@ public class SetHelper {
 	private static SetHelper instance;
 	private final int PORT = 8888;
 	private final int CONN_TIMEOUT = 3000; // socket连接超时
-	private final int SO_TIMEOUT = 3000;// socket读取超时
-	private final String OPER_KEY = "oper";
-	private final String PARAMS_KEY = "params";
+	private final int SO_TIMEOUT = 10000;// socket读取超时
 
 	public static SetHelper getInstance() {
 		if (instance == null)
@@ -41,6 +42,46 @@ public class SetHelper {
 	}
 
 	private SetHelper() {
+	}
+
+	/**
+	 * 获取某绝对路径下的文件信息
+	 * 
+	 * @param fileAbsolutePath
+	 *            必须要绝对路径
+	 * @return
+	 */
+	public String getFilesInDirectory(String fileAbsolutePath) {
+		StringWriter sw = new StringWriter(50);
+		JsonWriter jWriter = new JsonWriter(sw);
+		try {
+			jWriter.beginObject().name(Constants.OPER)
+					.value(OperType.files_detail.getValue())
+					.name(Constants.PARAMS).beginObject()
+					.name(Constants.File.PATH_ABSOLUTE).value(fileAbsolutePath)
+					.endObject().endObject();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (jWriter != null) {
+				try {
+					jWriter.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return baseSocketRequest(sw.toString());
+	}
+
+	/**
+	 * 获取存储卡信息
+	 * 
+	 * @return
+	 */
+	public String getStorageInfo() {
+		return baseGetRequest(OperType.storage);
 	}
 
 	/**
@@ -73,10 +114,10 @@ public class SetHelper {
 		StringWriter sw = new StringWriter(50);
 		JsonWriter jWriter = new JsonWriter(sw);
 		try {
-			jWriter.beginObject().name(OPER_KEY)
-					.value(OperType.auto_sleep_set.getValue()).name(PARAMS_KEY)
-					.beginObject().name("type").value(type).endObject()
-					.endObject();
+			jWriter.beginObject().name(Constants.OPER)
+					.value(OperType.auto_sleep_set.getValue())
+					.name(Constants.PARAMS).beginObject().name(Constants.TYPE)
+					.value(type).endObject().endObject();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -100,26 +141,7 @@ public class SetHelper {
 	 * @return 请求结果
 	 */
 	public String shutdown(boolean restart) {
-		StringWriter sw = new StringWriter(50);
-		JsonWriter jWriter = new JsonWriter(sw);
-		try {
-			jWriter.beginObject().name(OPER_KEY)
-					.value(OperType.shutdown.getValue()).name(PARAMS_KEY)
-					.beginObject().name("restart").value(restart).endObject()
-					.endObject();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (jWriter != null) {
-				try {
-					jWriter.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-
-		return baseSocketRequest(sw.toString());
+		return baseGetRequest(OperType.shutdown);
 	}
 
 	/**
@@ -151,10 +173,11 @@ public class SetHelper {
 		StringWriter sw = new StringWriter(50);
 		JsonWriter jWriter = new JsonWriter(sw);
 		try {
-			jWriter.beginObject().name(OPER_KEY)
+			jWriter.beginObject().name(Constants.OPER)
 					.value(OperType.mobile_data_control.getValue())
-					.name(PARAMS_KEY).beginObject().name("enable")
-					.value(enable).endObject().endObject();
+					.name(Constants.PARAMS).beginObject()
+					.name(Constants.ENABLE).value(enable).endObject()
+					.endObject();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -187,15 +210,16 @@ public class SetHelper {
 		StringWriter sw = new StringWriter(50);
 		JsonWriter jWriter = new JsonWriter(sw);
 		try {
-			jWriter.beginObject().name(OPER_KEY)
-					.value(OperType.wifi_info_set.getValue()).name(PARAMS_KEY)
-					.beginObject().name("ssid").value(ssid).name("pass")
-					.value(pass);
+			jWriter.beginObject().name(Constants.OPER)
+					.value(OperType.wifi_info_set.getValue())
+					.name(Constants.PARAMS).beginObject()
+					.name(Constants.Wifi.SSID).value(ssid)
+					.name(Constants.Wifi.PASS).value(pass);
 			if (keyMgmt >= 0) {
-				jWriter.name("keymgmt").value(keyMgmt);
+				jWriter.name(Constants.Wifi.KEYMGMT).value(keyMgmt);
 			}
 			if (maxClient >= 0) {
-				jWriter.name("maxclient").value(maxClient);
+				jWriter.name(Constants.Wifi.MAX_CLIENT).value(maxClient);
 			}
 			jWriter.endObject().endObject();
 		} catch (IOException e) {
@@ -231,10 +255,10 @@ public class SetHelper {
 		StringWriter sw = new StringWriter(50);
 		JsonWriter jWriter = new JsonWriter(sw);
 		try {
-			jWriter.beginObject().name(OPER_KEY)
+			jWriter.beginObject().name(Constants.OPER)
 					.value(OperType.wifi_devices.getValue());
-			jWriter.name(PARAMS_KEY).beginObject();
-			jWriter.name("type").value(type);
+			jWriter.name(Constants.PARAMS).beginObject();
+			jWriter.name(Constants.TYPE).value(type);
 			jWriter.endObject().endObject();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -265,10 +289,11 @@ public class SetHelper {
 		StringWriter sw = new StringWriter(50);
 		JsonWriter jWriter = new JsonWriter(sw);
 		try {
-			jWriter.beginObject().name(OPER_KEY)
+			jWriter.beginObject().name(Constants.OPER)
 					.value(OperType.wifi_blacklist_add.getValue())
-					.name(PARAMS_KEY).beginObject().name("mac").value(mac)
-					.endObject().endObject();
+					.name(Constants.PARAMS).beginObject()
+					.name(Constants.DeviceInfo.MAC).value(mac).endObject()
+					.endObject();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -297,10 +322,11 @@ public class SetHelper {
 		StringWriter sw = new StringWriter(50);
 		JsonWriter jWriter = new JsonWriter(sw);
 		try {
-			jWriter.beginObject().name(OPER_KEY)
+			jWriter.beginObject().name(Constants.OPER)
 					.value(OperType.wifi_blacklist_clear.getValue())
-					.name(PARAMS_KEY).beginObject().name("mac").value(mac)
-					.endObject().endObject();
+					.name(Constants.PARAMS).beginObject()
+					.name(Constants.DeviceInfo.MAC).value(mac).endObject()
+					.endObject();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -340,14 +366,14 @@ public class SetHelper {
 		StringWriter sw = new StringWriter(50);
 		JsonWriter jWriter = new JsonWriter(sw);
 		try {
-			jWriter.beginObject().name(OPER_KEY)
+			jWriter.beginObject().name(Constants.OPER)
 					.value(OperType.ethernet_static_set.getValue());
-			jWriter.name(PARAMS_KEY).beginObject();
-			jWriter.name("ip").value(ip);
-			jWriter.name("gateway").value(gateway);
-			jWriter.name("mask").value(mask);
-			jWriter.name("dns1").value(dns1);
-			jWriter.name("dns2").value(dns2);
+			jWriter.name(Constants.PARAMS).beginObject();
+			jWriter.name(Constants.Wlan.IP).value(ip);
+			jWriter.name(Constants.Wlan.GATEWAY).value(gateway);
+			jWriter.name(Constants.Wlan.SUBMASK).value(mask);
+			jWriter.name(Constants.Wlan.DNS1).value(dns1);
+			jWriter.name(Constants.Wlan.DNS2).value(dns2);
 			jWriter.endObject().endObject();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -412,17 +438,17 @@ public class SetHelper {
 	/**
 	 * 设置热点自动关闭时长
 	 * 
-	 * @param time
+	 * @param type
 	 * @return
 	 */
-	public String setWifiAutoDisable(int time) {
+	public String setWifiAutoDisable(int type) {
 		StringWriter sw = new StringWriter(50);
 		JsonWriter jWriter = new JsonWriter(sw);
 		try {
-			jWriter.beginObject().name(OPER_KEY)
+			jWriter.beginObject().name(Constants.OPER)
 					.value(OperType.wifi_auto_disable_set.getValue())
-					.name(PARAMS_KEY).beginObject().name("time").value(time)
-					.endObject().endObject();
+					.name(Constants.PARAMS).beginObject().name(Constants.TYPE)
+					.value(type).endObject().endObject();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -459,14 +485,14 @@ public class SetHelper {
 		StringWriter sw = new StringWriter(50);
 		JsonWriter jWriter = new JsonWriter(sw);
 		try {
-			jWriter.beginObject().name(OPER_KEY)
+			jWriter.beginObject().name(Constants.OPER)
 					.value(OperType.ybox_update.getValue());
-			jWriter.name(PARAMS_KEY).beginObject();
+			jWriter.name(Constants.PARAMS).beginObject();
 			if (!TextUtils.isEmpty(imageUrl)) {
-				jWriter.name("image_url").value(imageUrl);
+				jWriter.name(Constants.Update.IMAGE_URL).value(imageUrl);
 			}
 			if (!TextUtils.isEmpty(middleUrl)) {
-				jWriter.name("middle_url").value(middleUrl);
+				jWriter.name(Constants.Update.MIDDLE_URL).value(middleUrl);
 			}
 			jWriter.endObject().endObject();
 		} catch (IOException e) {
@@ -496,14 +522,14 @@ public class SetHelper {
 		StringWriter sw = new StringWriter(50);
 		JsonWriter jWriter = new JsonWriter(sw);
 		try {
-			jWriter.beginObject().name(OPER_KEY)
+			jWriter.beginObject().name(Constants.OPER)
 					.value(OperType.ybox_update_download.getValue());
-			jWriter.name(PARAMS_KEY).beginObject();
+			jWriter.name(Constants.PARAMS).beginObject();
 			if (!TextUtils.isEmpty(imageUrl)) {
-				jWriter.name("image_url").value(imageUrl);
+				jWriter.name(Constants.Update.IMAGE_URL).value(imageUrl);
 			}
 			if (!TextUtils.isEmpty(middleUrl)) {
-				jWriter.name("middle_url").value(middleUrl);
+				jWriter.name(Constants.Update.MIDDLE_URL).value(middleUrl);
 			}
 			jWriter.endObject().endObject();
 		} catch (IOException e) {
@@ -525,7 +551,7 @@ public class SetHelper {
 		StringWriter sw = new StringWriter(20);
 		JsonWriter jWriter = new JsonWriter(sw);
 		try {
-			jWriter.beginObject().name(OPER_KEY).value(type.getValue())
+			jWriter.beginObject().name(Constants.OPER).value(type.getValue())
 					.endObject();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -549,9 +575,9 @@ public class SetHelper {
 		InputStream is = null;
 		try {
 			socket = new Socket();
-			// String gateway = HttpHelper.getGateway(MyApplication
-			// .getAppContext());
-			String gateway = "192.168.4.186";
+			String gateway = HttpHelper.getGateway(MyApplication
+					.getAppContext());
+//			String gateway = "192.168.4.186";
 			SocketAddress remoteAddr = new InetSocketAddress(gateway, PORT);
 			socket.connect(remoteAddr, CONN_TIMEOUT);
 			socket.setReuseAddress(true);
