@@ -34,15 +34,15 @@ import com.google.gson.reflect.TypeToken;
  */
 public class ApHelper {
 	final static String TAG = ApHelper.class.getSimpleName();
-	private static final String URL_EPG = "http://%s:81/epg.json";
-	private static final String URL_ASK_PLAY_URL = "http://%s:81/tv_play_url.json?freq=%s&channel=%s";
-	private static final String URL_STATUS = "http://%s:81/tv_status.json";
-	private static final String URL_TVINFO = "http://%s:81/tv_info.json";
-	private static final String URL_TVMODE_CHANGE = "http://%s:81/change_tv_mode.json?mode=%s";
-	private static final String URL_SUPPORT_MODES = "http://%s:81/tv_modes.json";
-	private static final String URL_AUTOSEARCH_MODE = "http://%s:81/search_mode.json";
-	private static final String URL_AUTOSEARCH_MODE_SET = "http://%s:81/change_search_mode.json?auto=%s";
-	private static final String URL_FREQ_SEARCH = "http://%s:81/tv_search.json";
+	private static final String URL_EPG = "http://%s:8080/epg.asp";
+	private static final String URL_ASK_PLAY_URL = "http://%s:8080/tv_play_url.asp?freq=%s&channel=%s";
+	private static final String URL_STATUS = "http://%s:8080/tv_status.asp";
+	private static final String URL_TVINFO = "http://%s:8080/tv_info.asp";
+	private static final String URL_TVMODE_CHANGE = "http://%s:8080/change_tv_mode.asp?mode=%s";
+	private static final String URL_SUPPORT_MODES = "http://%s:8080/tv_modes.asp";
+	private static final String URL_AUTOSEARCH_MODE = "http://%s:8080/search_mode.asp";
+	private static final String URL_AUTOSEARCH_MODE_SET = "http://%s:8080/change_search_mode.asp?auto=%s";
+	private static final String URL_FREQ_SEARCH = "http://%s:8080/tv_search.asp";
 	private static ApHelper instance;
 	private List<FrequencyBean> frequencyList;
 
