@@ -47,7 +47,8 @@ public class DeviceBindActivity extends ActionBarActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.device_bind, menu);
-		boolean hasLogin = !unloginView.isShown();
+		boolean hasLogin = PreferenceUtil.getInt(
+				PreferenceUtil.PREF_ACCOUNT_ID, -1) > 0;
 		menu.findItem(R.id.login).setVisible(!hasLogin);
 		menu.findItem(R.id.logout).setVisible(hasLogin);
 		return super.onCreateOptionsMenu(menu);
