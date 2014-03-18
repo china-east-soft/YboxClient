@@ -136,6 +136,31 @@
                 app:title="@string/setting_aboutus"
                 app:titleSize="14sp" />
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dip"
+            android:orientation="horizontal" >
+
+            <cn.cloudchain.yboxclient.views.GridItemSetting
+                android:id="@+id/setting_auto_sleep"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/setting_clients"
+                app:gridImage="@drawable/setting_aboutus"
+                app:subDesColor="@color/setting_telnet"
+                app:subDesSize="13sp"
+                app:title="@string/setting_auto_sleep"
+                app:titleSize="14sp" />
+
+            <View
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:layout_weight="2" />
+        </LinearLayout>
     </LinearLayout>
 
 </ScrollView>

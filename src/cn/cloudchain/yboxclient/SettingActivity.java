@@ -11,7 +11,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.TextView;
+import cn.cloudchain.yboxclient.dialog.AutoSearchDialogFragment;
 import cn.cloudchain.yboxclient.dialog.AutoSleepDialogFragment;
 import cn.cloudchain.yboxclient.dialog.TaskDialogFragment;
 import cn.cloudchain.yboxclient.helper.ApStatusHandler;
@@ -31,13 +31,13 @@ import cn.cloudchain.yboxcommon.bean.Types;
 
 public class SettingActivity extends BaseActionBarActivity implements
 		OnClickListener {
-	private final String TAG = SettingActivity.class.getSimpleName();
-	private TextView autoSleepType;
+	final String TAG = SettingActivity.class.getSimpleName();
 
 	private GridItemSetting wlanGrid;
 	private GridItemSetting clientsGrid;
 	private GridItemSetting yboxUpdateGrid;
 	private GridItemSetting appUpdateGrid;
+	private GridItemSetting autoSleepGrid;
 
 	private int autoSleepIndex;
 	private ApStatusReceiver statusReceiver;
@@ -63,20 +63,19 @@ public class SettingActivity extends BaseActionBarActivity implements
 				.findViewById(R.id.setting_update_ybox);
 		appUpdateGrid = (GridItemSetting) this
 				.findViewById(R.id.setting_update_app);
+		autoSleepGrid = (GridItemSetting) this
+				.findViewById(R.id.setting_auto_sleep);
 
 		wlanGrid.setOnClickListener(this);
 		clientsGrid.setOnClickListener(this);
 		yboxUpdateGrid.setOnClickListener(this);
 		appUpdateGrid.setOnClickListener(this);
+		autoSleepGrid.setOnClickListener(this);
 
 		this.findViewById(R.id.setting_wifi).setOnClickListener(this);
 		this.findViewById(R.id.setting_tvmode).setOnClickListener(this);
-		// this.findViewById(R.id.setting_auto_sleep).setOnClickListener(this);
+		this.findViewById(R.id.setting_freq_seach).setOnClickListener(this);
 
-		// autoSleepType = (TextView) this
-		// .findViewById(R.id.setting_auto_sleep_type);
-		// deviceNums = (TextView) this.findViewById(R.id.setting_devices_num);
-		// netType = (TextView) this.findViewById(R.id.setting_net_type);
 	}
 
 	@Override
@@ -128,9 +127,9 @@ public class SettingActivity extends BaseActionBarActivity implements
 		case R.id.setting_devices:
 			jumpToDevices();
 			break;
-		// case R.id.setting_auto_sleep:
-		// showAutoSleepDialog();
-		// break;
+		case R.id.setting_auto_sleep:
+			showAutoSleepDialog();
+			break;
 		case R.id.setting_update_ybox: {
 			Message msg = handler.obtainMessage(MyHandler.YBOX_UPDATE_CHECK);
 			msg.arg1 = CHECK_UPDATE_HAND;
@@ -145,6 +144,9 @@ public class SettingActivity extends BaseActionBarActivity implements
 		}
 		case R.id.setting_tvmode:
 			jumpToTvMode();
+			break;
+		case R.id.setting_freq_seach:
+			showFreqSearchDialog();
 			break;
 		}
 	}
@@ -162,6 +164,11 @@ public class SettingActivity extends BaseActionBarActivity implements
 			wlanGrid.setSubDes("");
 			break;
 		}
+	}
+
+	private void showFreqSearchDialog() {
+		AutoSearchDialogFragment fragment = new AutoSearchDialogFragment();
+		fragment.show(getSupportFragmentManager(), null);
 	}
 
 	private void showAutoSleepDialog() {
@@ -235,7 +242,7 @@ public class SettingActivity extends BaseActionBarActivity implements
 				String[] autoSleepTypes = getOwner().getResources()
 						.getStringArray(R.array.auto_sleep_types);
 				if (index >= 0 && autoSleepTypes.length > index) {
-					getOwner().autoSleepType.setText(autoSleepTypes[index]);
+					getOwner().autoSleepGrid.setSubDes(autoSleepTypes[index]);
 				}
 				break;
 			case APP_UPDATE_CHECK:
