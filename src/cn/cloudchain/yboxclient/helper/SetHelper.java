@@ -45,6 +45,42 @@ public class SetHelper {
 	}
 
 	/**
+	 * 删除文件操作
+	 * 
+	 * @param files
+	 *            不能为null
+	 * @return
+	 */
+	public String deleteFiles(String... files) {
+		StringWriter sw = new StringWriter(50);
+		JsonWriter jWriter = new JsonWriter(sw);
+		try {
+			jWriter.beginObject().name(Constants.OPER)
+					.value(OperType.files_delete.getValue());
+			jWriter.name(Constants.PARAMS).beginObject();
+			jWriter.name(Constants.File.FILES);
+			jWriter.beginArray();
+			for (int i = 0; i < files.length; i++) {
+				jWriter.value(files[i]);
+			}
+			jWriter.endArray();
+			jWriter.endObject().endObject();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (jWriter != null) {
+				try {
+					jWriter.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return baseSocketRequest(sw.toString());
+	}
+
+	/**
 	 * 获取某绝对路径下的文件信息
 	 * 
 	 * @param fileAbsolutePath
@@ -577,7 +613,7 @@ public class SetHelper {
 			socket = new Socket();
 			String gateway = HttpHelper.getGateway(MyApplication
 					.getAppContext());
-//			String gateway = "192.168.4.186";
+			// String gateway = "192.168.4.186";
 			SocketAddress remoteAddr = new InetSocketAddress(gateway, PORT);
 			socket.connect(remoteAddr, CONN_TIMEOUT);
 			socket.setReuseAddress(true);

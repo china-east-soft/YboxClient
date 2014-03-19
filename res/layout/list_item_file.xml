@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cn.cloudchain.yboxclient.views.CheckedRelatvieLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants"
+    android:padding="8dip" >
+
+    <ImageView
+        android:id="@+id/fileimage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="8dip"
+        android:src="@drawable/ic_launcher" />
+
+    <TextView
+        android:id="@+id/filename"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/fileimage"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/filedetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/filename"
+        android:layout_marginTop="5dip"
+        android:layout_toRightOf="@id/fileimage"
+        android:textSize="16sp" />
+
+    <CheckBox
+        android:id="@+id/checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:button="@drawable/login_checkbox"
+        android:clickable="false" />
+
+</cn.cloudchain.yboxclient.views.CheckedRelatvieLayout>
