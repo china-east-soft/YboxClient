@@ -9,5 +9,8 @@
     <!-- 设备 -->
     <item name="device_tag_section" type="id"/>
     <item name="device_tag_item" type="id"/>
+    
+    <!-- 文件管理 -->
+    <item name="tag_file_item" type="id" />
 
 </resources>

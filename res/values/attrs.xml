@@ -39,7 +39,7 @@
     </declare-styleable>
     <declare-styleable name="BatteryProgress">
         <attr name="progressColor" format="color" />
-        <attr name="batteryContainer" format="reference"/>
+        <attr name="batteryContainer" format="reference" />
     </declare-styleable>
 
 </resources>

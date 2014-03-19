@@ -14,6 +14,16 @@
     <string name="unknow">未知</string>
     <string name="exit">退出</string>
 
+    <!-- Tab提示 -->
+    <string name="action_edit">编辑</string>
+    <string name="action_delete">删除</string>
+    <string name="action_publish">提交</string>
+    <string name="action_login">登录</string>
+    <string name="action_logout">登出</string>
+    <string name="action_cancel">取消</string>
+    <string name="action_accept">确认</string>
+    <string name="action_new">新建</string>
+
     <!-- 主页面 -->
     <string name="tab_setting">设置</string>
     <string name="tab_status">状态</string>
@@ -25,6 +35,7 @@
     <string name="tab_storage">我的存储</string>
     <string name="warn_battery_low">终端电量低！</string>
     <string name="data_open_fail">打开数据流量失败</string>
+    <string name="storage_info" formatted="false">剩余%s/%s</string>
 
     <!-- 重启热点提示 -->
     <string name="valid_after_wifi_restart">重启WiFi后配置生效，重启大概5s完成</string>
@@ -216,7 +227,6 @@
     <string name="file_error">文件异常！</string>
     <string name="download_fail">下载异常，请重试！</string>
     <string name="file_download_fail">文件下载失败</string>
-    <string name="file_not_exist">文件不存在</string>
     <string name="update_info_get_fail">获取更新信息失败，请检查网络连接</string>
     <string name="update_invalid_version">当前版本不存在</string>
 
@@ -226,12 +236,20 @@
     <string name="wifi_search_text3">正在搜索无线...</string>
     <string name="wifi_search_text4">正在搜索无线....</string>
     <string name="wifi_choose_title">请选择要连接的无线</string>
-    
+
     <!-- 自动搜台 -->
     <string name="auto_search_choose_title">选择搜台类型</string>
+
     <string-array name="auto_search_types">
         <item>自动</item>
         <item>手动</item>
     </string-array>
+
+    <!-- 文件管理 -->
+    <string name="sdcard_unavailable">终端SD卡不可用</string>
+    <string name="file_not_exist">该文件不存在</string>
+    <string name="file_not_directory">该文件不是目录类型</string>
+    
+    <string name="file_delete_reminder">确定要删除以下文件？</string>
 
 </resources>
