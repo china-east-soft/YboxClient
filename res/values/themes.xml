@@ -3,23 +3,24 @@
 
     <!-- the theme applied to the application or activity -->
     <style name="CustomActionBarTheme" parent="@style/Theme.AppCompat.Light">
+
         <!-- <item name="android:actionBarItemBackground">@null</item> -->
         <item name="android:actionBarStyle">@style/MyActionBar</item>
         <item name="android:actionBarTabTextStyle">@style/MyActionBarTabText</item>
         <item name="android:actionBarTabStyle">@style/MyActionBarTabs</item>
         <item name="android:actionMenuTextColor">@android:color/white</item>
-      
+
         <!-- Support library compatibility -->
         <item name="actionBarItemBackground">@null</item>
         <item name="actionBarStyle">@style/MyActionBar</item>
         <item name="actionBarTabTextStyle">@style/MyActionBarTabText</item>
         <item name="actionBarTabStyle">@style/MyActionBarTabs</item>
-        <item name="actionMenuTextColor">@android:color/white</item> 
+        <item name="actionMenuTextColor">@android:color/white</item>
 
         <!-- activity animation -->
         <!-- <item name="android:windowAnimationStyle">@style/AnimationActivity</item> -->
     </style>
-    
+
     <style name="CustomActionBarTheme.NoTitleBar" parent="CustomActionBarTheme">
         <item name="android:windowNoTitle">true</item>
     </style>
@@ -28,10 +29,16 @@
     <style name="MyActionBar" parent="@style/Widget.AppCompat.ActionBar">
         <item name="android:background">@color/actionbar_bcg</item>
         <item name="android:titleTextStyle">@style/MyActionBarTitleText</item>
+        <item name="android:indeterminateProgressStyle">@style/IndeterminateProgress</item>
 
         <!-- Support library compatibility -->
         <item name="background">@color/actionbar_bcg</item>
         <item name="titleTextStyle">@style/MyActionBarTitleText</item>
+        <item name="indeterminateProgressStyle">@style/IndeterminateProgress</item>
+    </style>
+
+    <style name="IndeterminateProgress" parent="@android:style/Widget.ProgressBar">
+        <item name="android:indeterminateDrawable">@drawable/custom_loading</item>
     </style>
 
     <!-- ActionBar title text -->
