@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dialog_bcg" >
+
+    <TextView
+        android:id="@+id/dialog_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dialog_title_height"
+        android:gravity="center_vertical"
+        android:paddingLeft="12dip"
+        android:text="@string/new_folder_title"
+        android:textColor="@color/dialog_title_text"
+        android:textSize="18sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dip"
+        android:layout_below="@id/dialog_title"
+        android:background="@color/dialog_divider" />
+
+    <ImageView
+        android:id="@+id/folder_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dialog_title"
+        android:layout_marginBottom="20dip"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:layout_marginTop="20dip"
+        android:src="@drawable/folder_icon" />
+
+    <EditText
+        android:id="@+id/folder_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/folder_icon"
+        android:layout_marginRight="10dip"
+        android:layout_toRightOf="@id/folder_icon"
+        android:hint="@string/new_folder_name_hint" />
+
+    <LinearLayout
+        android:id="@+id/progress_lay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/folder_icon"
+        android:orientation="horizontal"
+        android:paddingBottom="10dip"
+        android:paddingLeft="30dip"
+        android:visibility="gone" >
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminateDrawable="@drawable/custom_loading" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dip"
+            android:text="@string/folder_newing"
+            android:textColor="@color/dialog_title_text"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@id/progress_lay"
+        android:background="@color/dialog_divider" />
+
+    <LinearLayout
+        android:id="@+id/dialog_buttons_lay"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dialog_button_height"
+        android:layout_below="@id/progress_lay"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/dialog_negtive_button"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/selector_dialog_button"
+            android:gravity="center"
+            android:text="@string/cancel" />
+
+        <Button
+            android:id="@+id/dialog_positive_button"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/selector_dialog_button"
+            android:drawableLeft="@drawable/progressbar_proc"
+            android:gravity="center"
+            android:text="@string/create" />
+    </LinearLayout>
+
+</RelativeLayout>
