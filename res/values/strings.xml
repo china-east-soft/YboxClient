@@ -13,6 +13,7 @@
     <string name="set_fail">设置修改失败</string>
     <string name="unknow">未知</string>
     <string name="exit">退出</string>
+    <string name="create">创建</string>
 
     <!-- Tab提示 -->
     <string name="action_edit">编辑</string>
@@ -23,6 +24,7 @@
     <string name="action_cancel">取消</string>
     <string name="action_accept">确认</string>
     <string name="action_new">新建</string>
+    <string name="action_refresh">刷新</string>
 
     <!-- 主页面 -->
     <string name="tab_setting">设置</string>
@@ -249,7 +251,15 @@
     <string name="sdcard_unavailable">终端SD卡不可用</string>
     <string name="file_not_exist">该文件不存在</string>
     <string name="file_not_directory">该文件不是目录类型</string>
-    
     <string name="file_delete_reminder">确定要删除以下文件？</string>
+
+    <!-- 公众云 -->
+    <string name="cloud_title">公众云</string>
+
+    <!-- 上传文件位置选择 -->
+    <string name="uplpad_path_title">选择上传位置</string>
+    <string name="new_folder_title">新建文件夹</string>
+    <string name="new_folder_name_hint">新建文件夹</string>
+    <string name="folder_newing">正在创建文件夹&#8230;</string>
 
 </resources>
