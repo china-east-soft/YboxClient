@@ -19,6 +19,8 @@ import cn.cloudchain.yboxclient.R;
 import cn.cloudchain.yboxclient.bean.FileBean;
 
 public class CloudFileListAdapter extends BaseAdapter {
+	public static final int TYPE_DIR = 0;
+	public static final int TYPE_FILE = 1;
 	private Context context;
 	private List<FileBean> fileList;
 	private boolean showCheckbox = false;
@@ -35,6 +37,22 @@ public class CloudFileListAdapter extends BaseAdapter {
 		this.showCheckbox = show;
 	}
 
+	/**
+	 * 获取所有的文件个数，出去目录文件
+	 */
+	public int getTotalFileNum() {
+		if (fileList == null || fileList.size() == 0) {
+			return 0;
+		}
+		int num = 0;
+		for (FileBean bean : fileList) {
+			if (bean != null && !bean.isDirectory) {
+				++num;
+			}
+		}
+		return num;
+	}
+
 	@Override
 	public int getCount() {
 		return fileList == null ? 0 : fileList.size();
@@ -43,7 +61,7 @@ public class CloudFileListAdapter extends BaseAdapter {
 	@Override
 	public FileBean getItem(int position) {
 		FileBean file = null;
-		if (position > 0 && position < getCount()) {
+		if (position < getCount()) {
 			file = fileList.get(position);
 		}
 		return file;
@@ -52,6 +70,21 @@ public class CloudFileListAdapter extends BaseAdapter {
 	@Override
 	public long getItemId(int position) {
 		return position;
+	}
+
+	@Override
+	public int getViewTypeCount() {
+		return 2;
+	}
+
+	@Override
+	public int getItemViewType(int position) {
+		int type = TYPE_DIR;
+		FileBean bean = getItem(position);
+		if (bean != null && !bean.isDirectory) {
+			type = TYPE_FILE;
+		}
+		return type;
 	}
 
 	@Override
@@ -87,10 +120,12 @@ public class CloudFileListAdapter extends BaseAdapter {
 					file.size));
 			detailBuilder.append("，");
 			detailBuilder.append(getTimeByMillis(file.lastModified));
+			holder.checkBox.setVisibility(showCheckbox ? View.VISIBLE
+					: View.GONE);
+		} else {
+			holder.checkBox.setVisibility(View.GONE);
 		}
 		holder.fileDetailTextView.setText(detailBuilder);
-
-		holder.checkBox.setVisibility(showCheckbox ? View.VISIBLE : View.GONE);
 		return view;
 	}
 

@@ -1,7 +1,12 @@
 package cn.cloudchain.yboxclient.bean;
 
+import java.io.File;
+
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
+
+import com.baidu.frontia.api.FrontiaPersonalStorageListener.FileInfoResult;
 
 /**
  * 方便文件管理的类
@@ -50,6 +55,36 @@ public class FileBean implements Parcelable {
 		dest.writeLong(size);
 		dest.writeInt(isDirectory ? 1 : 0);
 		dest.writeInt(childrenNum);
+	}
+
+	public FileBean convertFrom(FileInfoResult info) {
+		if (info == null)
+			return null;
+		this.lastModified = info.getModifyTime();
+		this.isDirectory = info.isDir();
+		this.absolutePath = info.getPath();
+		this.size = info.getSize();
+		this.name = getFileNameFromUrl(info.getPath());
+		return this;
+	}
+
+	public FileBean convertFrom(File file) {
+		if (file == null)
+			return null;
+		this.name = file.getName();
+		this.lastModified = file.lastModified();
+		this.isDirectory = file.isDirectory();
+		this.absolutePath = file.getAbsolutePath();
+		this.size = file.length();
+		return this;
+	}
+
+	private String getFileNameFromUrl(String path) {
+		if (TextUtils.isEmpty(path))
+			return "";
+
+		String filename = path.substring(path.lastIndexOf('/') + 1);
+		return filename;
 	}
 
 }

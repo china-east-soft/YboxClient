@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <cn.cloudchain.yboxclient.views.AutoEndHorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="35dip"
+        android:background="@color/dialog_divider"
+        android:scrollbars="none" >
+
+        <LinearLayout
+            android:id="@+id/path_history_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal" >
+        </LinearLayout>
+    </cn.cloudchain.yboxclient.views.AutoEndHorizontalScrollView>
+
+    <ListView
+        android:id="@+id/path_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/login_bottom_bcg"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="5dip" >
+
+        <Button
+            android:id="@+id/choose_cloud_path"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dip"
+            android:layout_marginRight="5dip"
+            android:layout_weight="1"
+            android:background="@drawable/register"
+            android:text="@string/cancel" />
+
+        <Button
+            android:id="@+id/upload"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dip"
+            android:layout_marginRight="5dip"
+            android:layout_weight="1"
+            android:background="@drawable/login"
+            android:text="@string/upload" />
+    </LinearLayout>
+
+</LinearLayout>
