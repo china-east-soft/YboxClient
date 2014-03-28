@@ -13,6 +13,7 @@ import cn.cloudchain.yboxclient.TvModeActivity;
 import cn.cloudchain.yboxclient.bean.YunmaoException;
 import cn.cloudchain.yboxclient.helper.ApHelper;
 import cn.cloudchain.yboxclient.utils.Util;
+import cn.cloudchain.yboxcommon.bean.Constants;
 
 public class TvModeJumpTask extends BaseFragmentTask {
 	private final static int RESULT_SUCCESS = 0;
@@ -32,7 +33,7 @@ public class TvModeJumpTask extends BaseFragmentTask {
 		try {
 			String response = ApHelper.getInstance().getTVModes();
 			JSONObject obj = new JSONObject(response);
-			if (obj.optBoolean("result")) {
+			if (obj.optBoolean(Constants.RESULT)) {
 				result = RESULT_SUCCESS;
 				currentMode = obj.optString("current");
 

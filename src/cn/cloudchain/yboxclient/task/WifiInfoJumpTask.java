@@ -10,6 +10,7 @@ import cn.cloudchain.yboxclient.R;
 import cn.cloudchain.yboxclient.WifiSetActivity;
 import cn.cloudchain.yboxclient.helper.SetHelper;
 import cn.cloudchain.yboxclient.utils.Util;
+import cn.cloudchain.yboxcommon.bean.Constants;
 
 /**
  * 获取wifi信息成功后跳转到WifiSetActivity
@@ -34,19 +35,13 @@ public class WifiInfoJumpTask extends BaseFragmentTask {
 		String response = SetHelper.getInstance().getWifiInfo();
 		try {
 			JSONObject obj = new JSONObject(response);
-			if (obj.optBoolean("result")) {
+			if (obj.optBoolean(Constants.RESULT)) {
 				result = RESULT_SUCCESS;
 				bundle = new Bundle();
 				bundle.putString(WifiSetActivity.BUNDLE_SSID,
-						obj.optString("ssid"));
-				bundle.putString(WifiSetActivity.BUNDLE_PASS,
-						obj.optString("pass"));
-				bundle.putInt(WifiSetActivity.BUNDLE_KEYMGMT,
-						obj.optInt("keymgmt"));
-				bundle.putInt(WifiSetActivity.BUNDLE_AUTO_DISABLE,
-						obj.optInt("autodisable"));
-				bundle.putInt(WifiSetActivity.BUNDLE_MAX_USERS,
-						obj.optInt("maxclient"));
+						obj.optString(Constants.Wifi.SSID));
+				bundle.putInt(WifiSetActivity.BUNDLE_CHANNEL,
+						obj.optInt(Constants.Wifi.CHANNEL));
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();

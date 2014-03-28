@@ -8,6 +8,7 @@ import cn.cloudchain.yboxclient.R;
 import cn.cloudchain.yboxclient.dialog.UpdateDialogFragment;
 import cn.cloudchain.yboxclient.helper.SetHelper;
 import cn.cloudchain.yboxclient.utils.Util;
+import cn.cloudchain.yboxcommon.bean.Constants;
 
 public class YboxUpdateJumpTask extends BaseFragmentTask {
 	private final static int RESULT_SUCCESS = 0;
@@ -32,7 +33,7 @@ public class YboxUpdateJumpTask extends BaseFragmentTask {
 		int result = RESULT_FAIL;
 		try {
 			JSONObject obj = new JSONObject(response);
-			if (obj.optBoolean("result")) {
+			if (obj.optBoolean(Constants.RESULT)) {
 				result = RESULT_SUCCESS;
 			}
 		} catch (JSONException e) {

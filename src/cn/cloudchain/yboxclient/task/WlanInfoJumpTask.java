@@ -11,6 +11,7 @@ import cn.cloudchain.yboxclient.R;
 import cn.cloudchain.yboxclient.WlanSetActivity;
 import cn.cloudchain.yboxclient.helper.SetHelper;
 import cn.cloudchain.yboxclient.utils.Util;
+import cn.cloudchain.yboxcommon.bean.Constants;
 import cn.cloudchain.yboxcommon.bean.ErrorBean;
 import cn.cloudchain.yboxcommon.bean.Types;
 
@@ -43,23 +44,23 @@ public class WlanInfoJumpTask extends BaseFragmentTask {
 		}
 		try {
 			JSONObject obj = new JSONObject(response);
-			if (obj.optBoolean("result")) {
+			if (obj.optBoolean(Constants.RESULT)) {
 				result = RESULT_SUCCESS;
 				bundle = new Bundle();
-				bundle.putInt(WlanSetActivity.BUNDLE_MODE,
-						obj.optInt("mode", Types.ETHERNET_MODE_NONE));
+				bundle.putInt(WlanSetActivity.BUNDLE_MODE, obj.optInt(
+						Constants.Wlan.MODE, Types.ETHERNET_MODE_NONE));
 				bundle.putString(WlanSetActivity.BUNDLE_IPADDRESS,
-						obj.optString("ip"));
+						obj.optString(Constants.Wlan.IP));
 				bundle.putString(WlanSetActivity.BUNDLE_MASK,
-						obj.optString("mask"));
+						obj.optString(Constants.Wlan.SUBMASK));
 				bundle.putString(WlanSetActivity.BUNDLE_GATEWAY,
-						obj.optString("gateway"));
+						obj.optString(Constants.Wlan.GATEWAY));
 				bundle.putString(WlanSetActivity.BUNDLE_DNS1,
-						obj.optString("dns1"));
+						obj.optString(Constants.Wlan.DNS1));
 				bundle.putString(WlanSetActivity.BUNDLE_DNS2,
-						obj.optString("dns2"));
+						obj.optString(Constants.Wlan.DNS2));
 			} else {
-				errorCode = obj.optInt("error_code", -1);
+				errorCode = obj.optInt(Constants.ERROR_CODE, -1);
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();

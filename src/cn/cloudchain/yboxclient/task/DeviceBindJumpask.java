@@ -9,6 +9,7 @@ import cn.cloudchain.yboxclient.DeviceBindActivity;
 import cn.cloudchain.yboxclient.R;
 import cn.cloudchain.yboxclient.helper.SetHelper;
 import cn.cloudchain.yboxclient.utils.Util;
+import cn.cloudchain.yboxcommon.bean.Constants;
 
 /**
  * 获取设备信息，获取成功后跳转到DeviceBindActivity
@@ -30,12 +31,11 @@ public class DeviceBindJumpask extends BaseFragmentTask {
 	protected Integer doInBackground(Void... params) {
 		super.doInBackground(params);
 		int result = RESULT_FAIL;
-//		String response = SetHelper.getInstance().getDeviceInfo();
-		String response = "{\"result\":true, \"mac\":\"aa:bb:cc:dd:ee\"}";
+		String response = SetHelper.getInstance().getDeviceInfo();
 		try {
 			JSONObject obj = new JSONObject(response);
-			if (obj.optBoolean("result")) {
-				mac = obj.optString("mac");
+			if (obj.optBoolean(Constants.RESULT)) {
+				mac = obj.optString(Constants.DeviceInfo.MAC);
 				result = RESULT_SUCCESS;
 			}
 		} catch (JSONException e) {

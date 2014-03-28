@@ -12,6 +12,7 @@ import cn.cloudchain.yboxclient.bean.YunmaoException;
 import cn.cloudchain.yboxclient.helper.ServerHelper;
 import cn.cloudchain.yboxclient.helper.SetHelper;
 import cn.cloudchain.yboxclient.utils.LogUtil;
+import cn.cloudchain.yboxcommon.bean.Constants;
 
 public class YboxUpdateCheckTask extends BaseFragmentTask {
 	final String TAG = YboxUpdateCheckTask.class.getSimpleName();
@@ -60,11 +61,13 @@ public class YboxUpdateCheckTask extends BaseFragmentTask {
 		String middleName = "";
 		try {
 			JSONObject yboxObj = new JSONObject(yboxInfo);
-			if (yboxObj.optBoolean("result")) {
-				imageVersion = yboxObj.optString("image_version");
-				imageName = yboxObj.optString("image_name");
-				middleVersion = yboxObj.optString("middle_version");
-				middleName = yboxObj.optString("middle_name");
+			if (yboxObj.optBoolean(Constants.RESULT)) {
+				imageVersion = yboxObj
+						.optString(Constants.Update.IMAGE_VERSION);
+				imageName = yboxObj.optString(Constants.Update.IMAGE_NAME);
+				middleVersion = yboxObj
+						.optString(Constants.Update.MIDDLE_VERSION);
+				middleName = yboxObj.optString(Constants.Update.MIDDLE_NAME);
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();

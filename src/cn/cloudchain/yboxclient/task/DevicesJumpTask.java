@@ -12,6 +12,7 @@ import cn.cloudchain.yboxclient.DevicesActivity;
 import cn.cloudchain.yboxclient.R;
 import cn.cloudchain.yboxclient.helper.SetHelper;
 import cn.cloudchain.yboxclient.utils.Util;
+import cn.cloudchain.yboxcommon.bean.Constants;
 import cn.cloudchain.yboxcommon.bean.DeviceInfo;
 import cn.cloudchain.yboxcommon.bean.Types;
 
@@ -38,19 +39,19 @@ public class DevicesJumpTask extends BaseFragmentTask {
 		String response = SetHelper.getInstance().getDevices(Types.DEVICES_ALL);
 		try {
 			JSONObject obj = new JSONObject(response);
-			if (obj.optBoolean("result")) {
+			if (obj.optBoolean(Constants.RESULT)) {
 				result = RESULT_SUCCESS;
 
-				JSONArray array = obj.optJSONArray("devices");
+				JSONArray array = obj.optJSONArray(Constants.Hotspot.DEVICES);
 				int size = array.length();
 				devices = new ArrayList<DeviceInfo>(size);
 				for (int i = 0; i < size; ++i) {
 					DeviceInfo info = new DeviceInfo();
 					JSONObject item = array.getJSONObject(i);
-					info.ip = item.optString("ip");
-					info.mac = item.optString("mac");
-					info.name = item.optString("name");
-					info.blocked = item.optBoolean("block");
+					info.ip = item.optString(Constants.Hotspot.IP);
+					info.mac = item.optString(Constants.Hotspot.MAC);
+					info.name = item.optString(Constants.Hotspot.NAME);
+					info.blocked = item.optBoolean(Constants.Hotspot.BLOCK);
 					devices.add(info);
 				}
 			}
