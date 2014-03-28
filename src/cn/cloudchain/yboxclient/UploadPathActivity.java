@@ -85,7 +85,7 @@ public class UploadPathActivity extends ActionBarActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.file_upload, menu);
+		getMenuInflater().inflate(R.menu.file_new_folder, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 
