@@ -1,7 +1,5 @@
 package cn.cloudchain.yboxclient.utils;
 
-import java.util.Locale;
-
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;

@@ -275,20 +275,12 @@ public class Util {
 	 */
 	public static String getFilePath(String fileName, boolean createIfNotExist) {
 		StringBuilder builder = new StringBuilder(20);
-		// if (Environment.getExternalStorageState().equals(
-		// Environment.MEDIA_MOUNTED)) {
-		// builder.append(Environment.getExternalStorageDirectory());
-		// builder.append("/ShiWangMo/");
-		// builder.append(fileName);
-		// } else {
 		File cache = MyApplication.getAppContext().getFilesDir();
 		if (cache.canWrite()) {
 			builder.append(cache.getAbsolutePath());
 			builder.append('/');
 			builder.append(fileName);
 		}
-		// }
-
 		String filePath = builder.toString();
 		if (!TextUtils.isEmpty(filePath) && createIfNotExist) {
 			File file = new File(filePath);
@@ -305,10 +297,7 @@ public class Util {
 
 	public static String getDownloadPath() {
 		StringBuilder sb = new StringBuilder(20);
-		// when the sdcard is not available, return null, because apk in system
-		// can not always install correctly.
-		if (Environment.getExternalStorageState().equals(
-				Environment.MEDIA_MOUNTED)) {
+		if (isSDcardAvailable()) {
 			sb = new StringBuilder();
 			sb.append(Environment.getExternalStorageDirectory());
 			sb.append("/ShiWangMo/Apk");
@@ -316,6 +305,11 @@ public class Util {
 		}
 
 		return sb.toString();
+	}
+
+	public static boolean isSDcardAvailable() {
+		return Environment.getExternalStorageState().equals(
+				Environment.MEDIA_MOUNTED);
 	}
 
 	public static void installApk(Context mContext, String absoluteFilePath) {
