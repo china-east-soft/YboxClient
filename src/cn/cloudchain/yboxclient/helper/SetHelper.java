@@ -236,13 +236,10 @@ public class SetHelper {
 	 * 设置无线参数
 	 * 
 	 * @param ssid
-	 * @param pass
-	 * @param keyMgmt
-	 * @param maxClient
+	 * @param channel
 	 * @return
 	 */
-	public String setWifiInfo(String ssid, String pass, int keyMgmt,
-			int maxClient) {
+	public String setWifiInfo(String ssid, int channel) {
 		if (TextUtils.isEmpty(ssid)) {
 			return "";
 		}
@@ -253,13 +250,7 @@ public class SetHelper {
 					.value(OperType.wifi_info_set.getValue())
 					.name(Constants.PARAMS).beginObject()
 					.name(Constants.Wifi.SSID).value(ssid)
-					.name(Constants.Wifi.PASS).value(pass);
-			if (keyMgmt >= 0) {
-				jWriter.name(Constants.Wifi.KEYMGMT).value(keyMgmt);
-			}
-			if (maxClient >= 0) {
-				jWriter.name(Constants.Wifi.MAX_CLIENT).value(maxClient);
-			}
+					.name(Constants.Wifi.CHANNEL).value(channel);
 			jWriter.endObject().endObject();
 		} catch (IOException e) {
 			e.printStackTrace();
