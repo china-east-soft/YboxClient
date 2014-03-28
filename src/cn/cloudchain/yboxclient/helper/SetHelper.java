@@ -83,19 +83,22 @@ public class SetHelper {
 	/**
 	 * 获取某绝对路径下的文件信息
 	 * 
+	 * @param type
+	 *            文件类型 {@link Types#FILE_ALL} {@link Types#FILE_ONLY_AUDIO}
+	 *            {@link Types#FILE_ONLY_VIDEO}
 	 * @param fileAbsolutePath
 	 *            必须要绝对路径
 	 * @return
 	 */
-	public String getFilesInDirectory(String fileAbsolutePath) {
+	public String getFilesInDirectory(int type, String fileAbsolutePath) {
 		StringWriter sw = new StringWriter(50);
 		JsonWriter jWriter = new JsonWriter(sw);
 		try {
 			jWriter.beginObject().name(Constants.OPER)
 					.value(OperType.files_detail.getValue())
-					.name(Constants.PARAMS).beginObject()
-					.name(Constants.File.PATH_ABSOLUTE).value(fileAbsolutePath)
-					.endObject().endObject();
+					.name(Constants.PARAMS).beginObject().name(Constants.TYPE)
+					.value(type).name(Constants.File.PATH_ABSOLUTE)
+					.value(fileAbsolutePath).endObject().endObject();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {

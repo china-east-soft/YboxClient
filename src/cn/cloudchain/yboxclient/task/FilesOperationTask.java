@@ -16,42 +16,70 @@ import cn.cloudchain.yboxclient.utils.LogUtil;
 import cn.cloudchain.yboxclient.utils.Util;
 import cn.cloudchain.yboxcommon.bean.Constants;
 import cn.cloudchain.yboxcommon.bean.ErrorBean;
+import cn.cloudchain.yboxcommon.bean.Types;
 
 public class FilesOperationTask extends BaseFragmentTask {
+	final String TAG = FilesOperationTask.class.getSimpleName();
 	private final static int RESULT_SUCCESS = 0;
 	private final static int RESULT_FAIL = 1;
 
+	private enum OperType {
+		LIST, DELETE
+	}
+
 	private String[] paths;
-	private int type;
+	private int fileType = Types.FILE_ALL;
+	private OperType type;
 	private boolean cancel = false;
 	private FilesOperationHandler<?> handler;
 	private ArrayList<FileBean> files = null;
 
 	/**
+	 * 删除文件列表
 	 * 
-	 * @param type
-	 *            处理类型，0代表获取文件列表，1代表删除文件，2代表添加文件
 	 * @param cancel
 	 *            当task cancel后是否需要取消下一步操作
 	 * @param params
 	 *            文件地址
 	 */
-	public FilesOperationTask(FilesOperationHandler<?> handler, int type,
-			boolean cancel, String... params) {
+	public FilesOperationTask(FilesOperationHandler<?> handler, boolean cancel,
+			String... params) {
 		this.handler = handler;
-		this.type = type;
+		this.type = OperType.DELETE;
 		this.cancel = cancel;
 		this.paths = params;
+	}
+
+	/**
+	 * 获取文件列表
+	 * 
+	 * @param handler
+	 * @param fileType
+	 *            获取文件列表类型 {@link Types#FILE_ALL} {@link Types#FILE_ONLY_AUDIO}
+	 *            {@link Types#FILE_ONLY_VIDEO}
+	 * @param path
+	 *            需打开的目录路径
+	 * @param cancel
+	 *            当task cancel后是否需要取消下一步操作
+	 */
+	public FilesOperationTask(FilesOperationHandler<?> handler, int fileType,
+			boolean cancel, String... paths) {
+		this.handler = handler;
+		this.type = OperType.LIST;
+		this.fileType = fileType;
+		this.cancel = cancel;
+		this.paths = paths;
 	}
 
 	@Override
 	protected Integer doInBackground(Void... params) {
 		int result = RESULT_FAIL;
 		switch (type) {
-		case 0:
-			result = dealFileList(paths[0]);
+		case LIST:
+			String path = (paths == null || paths.length == 0) ? "" : paths[0];
+			result = dealFileList(fileType, path);
 			break;
-		case 1:
+		case DELETE:
 			result = dealFileDelete(paths);
 			break;
 		}
@@ -74,7 +102,7 @@ public class FilesOperationTask extends BaseFragmentTask {
 		LogUtil.i("", "result = " + result);
 		switch (result) {
 		case RESULT_SUCCESS:
-			if (type == 0) {
+			if (type == OperType.LIST) {
 				Message msg = handler
 						.obtainMessage(FilesOperationHandler.FILE_LOAD_SUCESS);
 				Bundle data = new Bundle();
@@ -84,7 +112,7 @@ public class FilesOperationTask extends BaseFragmentTask {
 				}
 				msg.setData(data);
 				handler.sendMessage(msg);
-			} else if (type == 1) {
+			} else if (type == OperType.DELETE) {
 				handler.sendEmptyMessage(FilesOperationHandler.FILE_DELETE_SUCCESS);
 			}
 			break;
@@ -112,9 +140,10 @@ public class FilesOperationTask extends BaseFragmentTask {
 	 * @param path
 	 * @return
 	 */
-	private int dealFileList(String path) {
+	private int dealFileList(int fileType, String path) {
 		int result = RESULT_FAIL;
-		String response = SetHelper.getInstance().getFilesInDirectory(path);
+		String response = SetHelper.getInstance().getFilesInDirectory(fileType,
+				path);
 		try {
 			JSONObject obj = new JSONObject(response);
 			if (obj.optBoolean(Constants.RESULT)) {
