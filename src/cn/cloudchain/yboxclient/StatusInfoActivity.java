@@ -1,6 +1,5 @@
 package cn.cloudchain.yboxclient;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -8,18 +7,14 @@ import android.os.Bundle;
 import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
-import cn.cloudchain.yboxclient.dialog.TaskDialogFragment;
 import cn.cloudchain.yboxclient.helper.SetHelper;
 import cn.cloudchain.yboxclient.helper.WeakHandler;
-import cn.cloudchain.yboxclient.task.TrafficJumpTask;
 import cn.cloudchain.yboxclient.views.BatteryView;
 import cn.cloudchain.yboxclient.views.SignalView;
 import cn.cloudchain.yboxclient.views.TrafficView;
+import cn.cloudchain.yboxcommon.bean.Constants;
 
-public class StatusInfoActivity extends ActionBarActivity implements
-		OnClickListener {
+public class StatusInfoActivity extends ActionBarActivity {
 	final String TAG = StatusInfoActivity.class.getSimpleName();
 	private BatteryView batteryView;
 	private TrafficView trafficView;
@@ -38,10 +33,6 @@ public class StatusInfoActivity extends ActionBarActivity implements
 		batteryView = (BatteryView) this.findViewById(R.id.status_battery);
 		trafficView = (TrafficView) this.findViewById(R.id.status_traffic);
 		signalView = (SignalView) this.findViewById(R.id.status_signal);
-
-		batteryView.setOnClickListener(this);
-		trafficView.setOnClickListener(this);
-		signalView.setOnClickListener(this);
 	}
 
 	@Override
@@ -58,23 +49,6 @@ public class StatusInfoActivity extends ActionBarActivity implements
 	protected void onStart() {
 		super.onStart();
 		handler.sendEmptyMessage(MyHandler.REFRESH_ALL_STATUS);
-	}
-
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.status_traffic:
-			jumpToTraffic();
-			break;
-		}
-	}
-
-	private void jumpToTraffic() {
-		TrafficJumpTask task = new TrafficJumpTask(this);
-		TaskDialogFragment fragment = TaskDialogFragment.newLoadingFragment(
-				null, true);
-		fragment.setTask(task);
-		fragment.show(getSupportFragmentManager(), null);
 	}
 
 	private static class MyHandler extends WeakHandler<StatusInfoActivity> {
@@ -156,14 +130,14 @@ public class StatusInfoActivity extends ActionBarActivity implements
 				Bundle bundle = new Bundle();
 				try {
 					JSONObject obj = new JSONObject(response);
-					if (obj != null && obj.optBoolean("result")) {
-						JSONArray array = obj.getJSONArray("data");
-						JSONObject item = array.optJSONObject(0);
-						if (item != null) {
-							JSONObject month = item.optJSONObject("month");
-							long limit = item.optLong("limit");
-							long monthUsed = month.optLong("tx")
-									+ month.optLong("rx");
+					if (obj != null && obj.optBoolean(Constants.RESULT)) {
+						long limit = obj.optLong(Constants.Traffic.LIMIT);
+						JSONObject month = obj
+								.optJSONObject(Constants.Traffic.MONTH);
+						if (month != null) {
+							long monthUsed = month
+									.optLong(Constants.Traffic.RX)
+									+ month.optLong(Constants.Traffic.TX);
 							bundle.putLong("used", monthUsed);
 							bundle.putLong("limit", limit);
 						}
