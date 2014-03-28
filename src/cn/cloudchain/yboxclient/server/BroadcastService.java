@@ -1,11 +1,9 @@
 package cn.cloudchain.yboxclient.server;
 
 import java.io.IOException;
-import java.net.BindException;
 import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.SocketException;
-import java.net.SocketTimeoutException;
+import java.net.InetAddress;
+import java.net.MulticastSocket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -23,17 +21,18 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import cn.cloudchain.yboxclient.MyApplication;
 import cn.cloudchain.yboxclient.utils.LogUtil;
+import cn.cloudchain.yboxcommon.bean.Constants;
 
 public class BroadcastService extends Service {
 	final String TAG = BroadcastService.class.getSimpleName();
+	public static final String ACTION_RECEIVED_RESULT = "cn.cloudchain.yboxclient.RECEIVED_RESULT";
+	public static final String BUNDLE_MESSAGE = "message";
 
-	private final int PORT_LISTEN = 12345;
-	private final int TIMEOUT_MS = 6000;
+	private MulticastSocket multicastSocket;
+	private MulticastLock multiLock = null;
 
 	private boolean stopListen = false;
 	private ExecutorService executor = null;
-	private MulticastLock multiLock = null;
-	private DatagramSocket socket = null;
 	private IBinder mBinder = new Binder();
 
 	@Override
@@ -68,9 +67,9 @@ public class BroadcastService extends Service {
 		if (multiLock != null) {
 			multiLock.release();
 		}
-		if (socket != null && !socket.isClosed()) {
-			socket.close();
-			socket = null;
+		if (multicastSocket != null && !multicastSocket.isClosed()) {
+			multicastSocket.close();
+			multicastSocket = null;
 		}
 		if (executor != null && !executor.isShutdown()) {
 			executor.shutdownNow();
@@ -85,6 +84,13 @@ public class BroadcastService extends Service {
 
 		try {
 			JSONObject obj = new JSONObject(message);
+			// 如果包含"url"字段，说明是下载进度信息
+			if (obj.has("url")) {
+				Intent intent = new Intent(ACTION_RECEIVED_RESULT);
+				intent.putExtra(BUNDLE_MESSAGE, message);
+				LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+				return;
+			}
 			int oldType = MyApplication.getInstance().connType;
 			int newType = obj.optInt("conn");
 			if (oldType != newType) {
@@ -117,36 +123,36 @@ public class BroadcastService extends Service {
 	}
 
 	private void startBroadcastListener() {
-		if (socket == null)
-			generateSocket();
-
-		while (!stopListen) {
+		if (multicastSocket == null) {
+			generateMulticastSocket();
+		}
+		if (multicastSocket != null) {
 			byte[] buf = new byte[1024];
-			try {
-				DatagramPacket packet = new DatagramPacket(buf, buf.length);
-				socket.receive(packet);
-				String message = new String(packet.getData(), 0,
-						packet.getLength());
-				LogUtil.i(TAG, "message = " + message);
-				handleReceiveMessage(message);
-			} catch (SocketTimeoutException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
+			DatagramPacket packet = new DatagramPacket(buf, buf.length);
+			while (!stopListen) {
+				try {
+					multicastSocket.receive(packet);
+					String message = new String(packet.getData(), 0,
+							packet.getLength());
+					LogUtil.i(TAG, "message = " + message);
+					handleReceiveMessage(message);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
 
-	private void generateSocket() {
+	private void generateMulticastSocket() {
 		try {
-			socket = new DatagramSocket(PORT_LISTEN);
-			socket.setReuseAddress(true);
-			socket.setBroadcast(true);
-//			socket.setSoTimeout(TIMEOUT_MS);
-		} catch (BindException e) {
-			LogUtil.e(TAG, "has socket bind to the port");
-		} catch (SocketException e) {
+			multicastSocket = new MulticastSocket(Constants.GROUP_PORT);
+			InetAddress inetAddress = InetAddress
+					.getByName(Constants.GROUP_HOST);
+			multicastSocket.setReuseAddress(true);
+			multicastSocket.joinGroup(inetAddress);
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
+
 }

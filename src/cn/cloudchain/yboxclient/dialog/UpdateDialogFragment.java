@@ -31,7 +31,7 @@ import android.widget.TextView;
 import cn.cloudchain.yboxclient.R;
 import cn.cloudchain.yboxclient.helper.SetHelper;
 import cn.cloudchain.yboxclient.helper.WeakHandler;
-import cn.cloudchain.yboxclient.server.YboxUpdateService;
+import cn.cloudchain.yboxclient.server.BroadcastService;
 import cn.cloudchain.yboxclient.utils.LogUtil;
 import cn.cloudchain.yboxclient.utils.Util;
 
@@ -105,7 +105,7 @@ public class UpdateDialogFragment extends DialogFragment implements
 		mNegitive.setOnClickListener(this);
 
 		if (!isBound) {
-			Intent service = new Intent(getActivity(), YboxUpdateService.class);
+			Intent service = new Intent(getActivity(), BroadcastService.class);
 			getActivity().bindService(service, serviceConnection,
 					Context.BIND_AUTO_CREATE);
 		}
@@ -114,7 +114,7 @@ public class UpdateDialogFragment extends DialogFragment implements
 		}
 		LocalBroadcastManager.getInstance(getActivity()).registerReceiver(
 				broadcast,
-				new IntentFilter(YboxUpdateService.ACTION_RECEIVED_RESULT));
+				new IntentFilter(BroadcastService.ACTION_RECEIVED_RESULT));
 		return v;
 	}
 
@@ -164,7 +164,7 @@ public class UpdateDialogFragment extends DialogFragment implements
 				String message = "";
 				if (msg.getData() != null) {
 					message = msg.getData().getString(
-							YboxUpdateService.BUNDLE_MESSAGE);
+							BroadcastService.BUNDLE_MESSAGE);
 				}
 				if (!TextUtils.isEmpty(message)) {
 					getOwner().handleReceiveMessage(message);
@@ -270,7 +270,7 @@ public class UpdateDialogFragment extends DialogFragment implements
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			if (intent.getAction().equals(
-					YboxUpdateService.ACTION_RECEIVED_RESULT)) {
+					BroadcastService.ACTION_RECEIVED_RESULT)) {
 				Message msg = handler.obtainMessage(MyHandler.RECEIVED_RESULT);
 				msg.setData(intent.getExtras());
 				handler.sendMessage(msg);
