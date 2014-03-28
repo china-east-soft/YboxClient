@@ -9,7 +9,7 @@ public class MyApplication extends Application {
 	private static MyApplication instance;
 	public int connType = 0;
 	public long wifiClientUpdateTime = 0L;
-	public boolean batteryLow = false;
+	public int battery = -1;
 
 	public String epgUpdateTime;
 	public String gateway = "192.168.43.1";

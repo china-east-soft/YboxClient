@@ -92,7 +92,7 @@ public class BroadcastService extends Service {
 				return;
 			}
 			int oldType = MyApplication.getInstance().connType;
-			int newType = obj.optInt("conn");
+			int newType = obj.optInt(Constants.Udp.CONN_TYPE);
 			if (oldType != newType) {
 				MyApplication.getInstance().connType = newType;
 				LocalBroadcastManager.getInstance(this).sendBroadcast(
@@ -100,7 +100,7 @@ public class BroadcastService extends Service {
 			}
 
 			long oldTime = MyApplication.getInstance().wifiClientUpdateTime;
-			long newTime = obj.getLong("clients_update_time");
+			long newTime = obj.getLong(Constants.Udp.CLIENTS_UPDATE_TIME);
 			if (oldTime != newTime) {
 				MyApplication.getInstance().wifiClientUpdateTime = newTime;
 				LocalBroadcastManager
@@ -110,12 +110,12 @@ public class BroadcastService extends Service {
 										ApStatusReceiver.ACTION_WIFI_CLIENTS_CHANGE));
 			}
 
-			boolean oldBatteryLow = MyApplication.getInstance().batteryLow;
-			boolean newBatteryLow = obj.optBoolean("battery_low");
-			if (oldBatteryLow != newBatteryLow) {
-				MyApplication.getInstance().batteryLow = newBatteryLow;
+			int oldBattery = MyApplication.getInstance().battery;
+			int newBattery = obj.optInt(Constants.Udp.BATTERY);
+			if (oldBattery != newBattery) {
+				MyApplication.getInstance().battery = newBattery;
 				LocalBroadcastManager.getInstance(this).sendBroadcast(
-						new Intent(ApStatusReceiver.ACTION_BATTERY_LOW_CHANGE));
+						new Intent(ApStatusReceiver.ACTION_BATTERY_CHANGE));
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
