@@ -25,6 +25,8 @@
     <string name="action_accept">确认</string>
     <string name="action_new">新建</string>
     <string name="action_refresh">刷新</string>
+    <string name="action_upload">上传</string>
+    <string name="action_download">下载</string>
 
     <!-- 主页面 -->
     <string name="tab_setting">设置</string>
@@ -100,6 +102,7 @@
     <!-- 无线设置 -->
     <string name="wifiset_base">基础设置</string>
     <string name="ssid_name">网络SSID</string>
+    <string name="wifi_channel">信道</string>
     <string name="security">安全性</string>
     <string name="pass_name">密码</string>
     <string name="show_pass">显示密码</string>
@@ -108,6 +111,8 @@
     <string name="ssid_empty">SSID不能为空</string>
     <string name="pass_hint">密码至少包含 8 个字符"</string>
     <string name="pass_too_short">密码至少包含 8 个字符"</string>
+    
+    <string name="wifi_prefix">YBOX-</string>
 
     <string-array name="wifi_security_types">
         <item>无</item>
@@ -133,6 +138,22 @@
         <item>始终</item>
         <item>空闲10分钟后休眠</item>
         <item>空闲30分钟后休眠</item>
+    </string-array>
+    <string-array name="channel_values">
+        <item>自动</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
     </string-array>
 
     <!-- 连接设备控制 -->
@@ -261,5 +282,15 @@
     <string name="new_folder_title">新建文件夹</string>
     <string name="new_folder_name_hint">新建文件夹</string>
     <string name="folder_newing">正在创建文件夹&#8230;</string>
+
+    <!-- 选择上传文件 -->
+    <string name="upload_choose_title">选择文件</string>
+    <string name="upload_base_path">手机</string>
+    <string name="upload">上传</string>
+
+    <!-- 传输列表 -->
+    <string name="transfer_title">传输列表</string>
+    <string name="upload_list_tab">上传列表</string>
+    <string name="download_list_tab">下载列表</string>
 
 </resources>

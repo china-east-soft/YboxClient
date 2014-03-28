@@ -14,12 +14,21 @@
         android:text="@string/ssid_name"
         android:textColor="@color/wifiset_black" />
 
+    <TextView
+        android:id="@+id/ssid_prefix"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/ssid_text"
+        android:paddingBottom="12dip"
+        android:paddingTop="12dip"
+        android:text="@string/wifi_prefix" />
+
     <EditText
         android:id="@+id/ssid_edittext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@id/ssid_text"
-        android:layout_toRightOf="@id/ssid_text"
+        android:layout_toRightOf="@id/ssid_prefix"
         android:singleLine="true"
         android:textColor="@color/wifiset_black" />
 
@@ -39,7 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/ssid_text"
         android:layout_toRightOf="@id/channel_text"
-        android:entries="@array/auto_disable_types"
+        android:entries="@array/channel_values"
         android:gravity="center"
         android:minWidth="150dip"
         android:spinnerMode="dropdown"

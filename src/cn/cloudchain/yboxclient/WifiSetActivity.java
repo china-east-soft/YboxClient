@@ -66,8 +66,12 @@ public class WifiSetActivity extends ActionBarActivity {
 			return;
 		String ssid = bundle.getString(BUNDLE_SSID);
 		int channel = bundle.getInt(BUNDLE_CHANNEL);
+		int index = ssid.indexOf("YBOX-");
+		if (index >= 0) {
+			ssid = ssid.substring(5, ssid.length());
+		}
 		ssidEditText.setText(ssid);
-		channelSpinner.setSelection(channel + 1);
+		channelSpinner.setSelection(channel);
 	}
 
 	private void handleWifiSet() {
@@ -76,7 +80,7 @@ public class WifiSetActivity extends ActionBarActivity {
 			Util.toaster(R.string.ssid_empty);
 			return;
 		}
-		int channel = channelSpinner.getSelectedItemPosition() + 1;
+		int channel = channelSpinner.getSelectedItemPosition();
 
 		WifiSetTask task = new WifiSetTask(this, ssid, channel);
 		TaskDialogFragment fragment = TaskDialogFragment.newLoadingFragment(
