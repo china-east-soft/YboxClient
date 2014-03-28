@@ -37,14 +37,14 @@ public class FileListAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		return fileList == null ? 1 : fileList.size() + 1;
+		return fileList == null ? 0 : fileList.size();
 	}
 
 	@Override
 	public FileBean getItem(int position) {
 		FileBean file = null;
-		if (position > 0 && position < getCount()) {
-			file = fileList.get(position - 1);
+		if (position < getCount()) {
+			file = fileList.get(position);
 		}
 		return file;
 	}
@@ -56,12 +56,6 @@ public class FileListAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		if (position == 0) {
-			TextView tv = new TextView(context);
-			tv.setPadding(18, 18, 18, 18);
-			tv.setText("返回");
-			return tv;
-		}
 		View view = convertView;
 		ViewHolder holder = null;
 		if (view != null) {
