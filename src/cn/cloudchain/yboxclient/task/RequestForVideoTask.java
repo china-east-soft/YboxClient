@@ -49,7 +49,7 @@ public class RequestForVideoTask extends BaseFragmentTask {
 		}
 		switch (result) {
 		case RESULT_SUCCESS:
-			VideoPlayerActivity.start(context, url, program);
+			VideoPlayerActivity.start(context, false, url, program);
 			break;
 		case RESULT_FAIL:
 			Util.toaster(R.string.request_video_url_fail);

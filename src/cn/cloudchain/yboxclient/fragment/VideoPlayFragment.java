@@ -17,16 +17,19 @@ import cn.cloudchain.yboxclient.utils.LogUtil;
 public class VideoPlayFragment extends Fragment {
 	public static final String TAG = VideoPlayFragment.class.getSimpleName();
 	private VideoView mVideoView;
+	private boolean isLive;
 	private String mPlayUrl;
 	private ProgramBean mProgramBean;
 
 	private boolean isFragmentStopped;
 
-	public static VideoPlayFragment newInstance(String url, ProgramBean bean) {
+	public static VideoPlayFragment newInstance(boolean isLive, String url,
+			ProgramBean bean) {
 		VideoPlayFragment fragment = new VideoPlayFragment();
 		Bundle args = new Bundle();
 		args.putString("url", url);
 		args.putParcelable("program", bean);
+		args.putBoolean("isLive", isLive);
 		fragment.setArguments(args);
 		return fragment;
 	}
@@ -39,6 +42,7 @@ public class VideoPlayFragment extends Fragment {
 		if (data != null) {
 			mPlayUrl = data.getString("url");
 			mProgramBean = data.getParcelable("program");
+			isLive = data.getBoolean("isLive");
 		}
 
 	}
@@ -68,7 +72,8 @@ public class VideoPlayFragment extends Fragment {
 	}
 
 	private void initPlayer() {
-		mVideoView.setMediaController(new MediaController(getActivity()));
+		mVideoView.setMediaController(isLive ? new MediaController(
+				getActivity()) : new MediaController(getActivity(), null));
 		mVideoView.setBufferSize(0);
 		mVideoView.requestFocus();
 		mVideoView
@@ -76,7 +81,8 @@ public class VideoPlayFragment extends Fragment {
 
 					@Override
 					public void onCompletion(MediaPlayer arg0) {
-						if (!isFragmentStopped && !TextUtils.isEmpty(mPlayUrl)) {
+						if (isLive && !isFragmentStopped
+								&& !TextUtils.isEmpty(mPlayUrl)) {
 							mVideoView.setVideoPath(mPlayUrl);
 						}
 					}
@@ -84,7 +90,6 @@ public class VideoPlayFragment extends Fragment {
 		mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
 			@Override
 			public void onPrepared(MediaPlayer mediaPlayer) {
-				// optional need Vitamio 4.0
 				mediaPlayer.setPlaybackSpeed(1.0f);
 			}
 		});
@@ -107,23 +112,10 @@ public class VideoPlayFragment extends Fragment {
 	}
 
 	@Override
-	public void onResume() {
-		super.onResume();
-//		mVideoView.resume();
-	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
-//		mVideoView.suspend();
-	}
-
-	@Override
 	public void onStop() {
 		LogUtil.i(TAG, "onStop");
 		isFragmentStopped = true;
 		mVideoView.stopPlayback();
-		// mVideoView.suspend();
 		super.onStop();
 	}
 

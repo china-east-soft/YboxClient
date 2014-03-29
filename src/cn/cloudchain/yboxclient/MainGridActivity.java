@@ -12,7 +12,6 @@ import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
@@ -100,7 +99,8 @@ public class MainGridActivity extends BaseActionBarActivity implements
 	private void showVideoPlay() {
 		FragmentManager fm = getSupportFragmentManager();
 		FragmentTransaction ft = fm.beginTransaction();
-		VideoPlayFragment fragment = VideoPlayFragment.newInstance(url, null);
+		VideoPlayFragment fragment = VideoPlayFragment.newInstance(true, url,
+				null);
 		ft.add(R.id.video_layout, fragment);
 		ft.commitAllowingStateLoss();
 	}
@@ -116,15 +116,6 @@ public class MainGridActivity extends BaseActionBarActivity implements
 	@Override
 	protected void onStop() {
 		unregisterReceiver();
-		Fragment fragment = getSupportFragmentManager().findFragmentById(
-				R.id.video_layout);
-		if (fragment != null && fragment.isAdded()) {
-			FragmentTransaction ft = getSupportFragmentManager()
-					.beginTransaction();
-			ft.remove(fragment);
-			ft.commitAllowingStateLoss();
-		}
-
 		super.onStop();
 	}
 
@@ -164,7 +155,7 @@ public class MainGridActivity extends BaseActionBarActivity implements
 			break;
 		}
 		case R.id.tab_cloud: {
-			Intent intent = new Intent(this, MobileInfoActivity.class);
+			Intent intent = new Intent(this, CloudTransferActivity.class);
 			startActivity(intent);
 			break;
 		}
@@ -178,7 +169,8 @@ public class MainGridActivity extends BaseActionBarActivity implements
 	}
 
 	private void fullScreenVideo() {
-		VideoPlayerActivity.start(this, url, null);
+		VideoPlayerActivity.start(this, true, url, null);
+		this.finish();
 	}
 
 	private void refreshConnType() {
@@ -213,11 +205,11 @@ public class MainGridActivity extends BaseActionBarActivity implements
 	}
 
 	private void refreshBattery() {
-		boolean low = MyApplication.getInstance().batteryLow;
-		batteryToggle.setChecked(!low);
-		if (low) {
-			Util.toaster(R.string.warn_battery_low);
-		}
+		int battery = MyApplication.getInstance().battery;
+		// batteryToggle.setChecked(!low);
+		// if (low) {
+		// Util.toaster(R.string.warn_battery_low);
+		// }
 	}
 
 	private static class ReceiverHandler extends
@@ -236,7 +228,7 @@ public class MainGridActivity extends BaseActionBarActivity implements
 			case WIFI_MODE_CHANGE:
 				getOwner().refreshConnType();
 				break;
-			case BATTERY_LOW_CHANGE:
+			case BATTERY_CHANGE:
 				getOwner().refreshBattery();
 				break;
 			}
@@ -249,7 +241,7 @@ public class MainGridActivity extends BaseActionBarActivity implements
 		}
 		IntentFilter statusFilter = new IntentFilter();
 		statusFilter.addAction(ApStatusReceiver.ACTION_WIFI_MODE_CHANGE);
-		statusFilter.addAction(ApStatusReceiver.ACTION_BATTERY_LOW_CHANGE);
+		statusFilter.addAction(ApStatusReceiver.ACTION_BATTERY_CHANGE);
 		LocalBroadcastManager.getInstance(this).registerReceiver(
 				statusReceiver, statusFilter);
 
@@ -338,9 +330,9 @@ public class MainGridActivity extends BaseActionBarActivity implements
 					JSONObject obj = new JSONObject(response);
 					if (obj.optBoolean(Constants.RESULT)) {
 						Bundle data = new Bundle();
-						data.putDouble("remain",
+						data.putLong("remain",
 								obj.optLong(Constants.File.MEM_REMAIN));
-						data.putDouble("total",
+						data.putLong("total",
 								obj.optLong(Constants.File.MEM_TOTAL));
 						Message msg = handler
 								.obtainMessage(MyHandler.STORAGE_GET_SUCCESS);

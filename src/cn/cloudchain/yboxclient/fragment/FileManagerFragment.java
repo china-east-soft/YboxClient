@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.SparseBooleanArray;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -30,6 +31,7 @@ import cn.cloudchain.yboxclient.face.IMenuItemListener;
 import cn.cloudchain.yboxclient.helper.FilesOperationHandler;
 import cn.cloudchain.yboxclient.task.FilesOperationTask;
 import cn.cloudchain.yboxclient.utils.LogUtil;
+import cn.cloudchain.yboxcommon.bean.Constants;
 import cn.cloudchain.yboxcommon.bean.Types;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -239,9 +241,12 @@ public class FileManagerFragment extends Fragment implements IMenuItemListener {
 			if (bean.isDirectory) {
 				handleFileLoad(true, bean.absolutePath);
 			} else {
-				String url = String.format("http://%s:8080/%s",
-						MyApplication.getInstance().gateway, bean.absolutePath);
-				VideoPlayerActivity.start(getActivity(), url, null);
+				String gateway = MyApplication.getInstance().gateway;
+				if (!TextUtils.isEmpty(gateway)) {
+					String url = String.format("http://%s:%s/%s", gateway,
+							Constants.MIDDLE_HTTP_PORT, bean.absolutePath);
+					VideoPlayerActivity.start(getActivity(), url);
+				}
 			}
 
 		}
