@@ -13,6 +13,22 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER" />
+    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
+
+    <!-- FrontiaPush 和FrontiaStatistics 需要的权限 -->
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" >
+    </uses-permission>
+
+    <!-- FrontiaPush 需要的权限 -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:name="cn.cloudchain.yboxclient.MyApplication"
@@ -21,7 +37,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="cn.cloudchain.yboxclient.WifiSearchActivity"
+            android:name="cn.cloudchain.yboxclient.MainGridActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/CustomActionBarTheme.NoTitleBar" >
@@ -31,9 +47,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
+        <!--
+             <activity
             android:name="cn.cloudchain.yboxclient.MainGridActivity"
             android:theme="@style/CustomActionBarTheme.NoTitleBar" />
+        -->
         <activity
             android:name="cn.cloudchain.yboxclient.StatusInfoActivity"
             android:theme="@style/CustomActionBarTheme" />
@@ -63,14 +81,25 @@
             android:theme="@style/CustomActionBarTheme" />
         <activity
             android:name="cn.cloudchain.yboxclient.VideoPlayerActivity"
-            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
-            android:screenOrientation="landscape" />
-        
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
         <activity
-            android:name="cn.cloudchain.yboxclient.MobileInfoActivity"
+            android:name="cn.cloudchain.yboxclient.TvModeActivity"
             android:theme="@style/CustomActionBarTheme" />
-        
-        <activity android:name="cn.cloudchain.yboxclient.TvModeActivity"
+        <activity
+            android:name="cn.cloudchain.yboxclient.FileManagerActivity"
+            android:theme="@style/CustomActionBarTheme" />
+        <activity
+            android:name="cn.cloudchain.yboxclient.CloudActivity"
+            android:theme="@style/CustomActionBarTheme" />
+        <activity
+            android:name="cn.cloudchain.yboxclient.UploadPathActivity"
+            android:theme="@style/CustomActionBarTheme" />
+        <activity
+            android:name="cn.cloudchain.yboxclient.UploadChooseActivity"
+            android:theme="@style/CustomActionBarTheme" />
+        <activity
+            android:name="cn.cloudchain.yboxclient.CloudTransferActivity"
             android:theme="@style/CustomActionBarTheme" />
         <activity
             android:name="io.vov.vitamio.activity.InitActivity"
@@ -81,6 +110,46 @@
         <service android:name="cn.cloudchain.yboxclient.server.BroadcastService" />
         <service android:name="cn.cloudchain.yboxclient.server.TvStatusService" />
         <service android:name="cn.cloudchain.yboxclient.server.YboxUpdateService" />
+        <service android:name="cn.cloudchain.yboxclient.server.UploadService" />
+
+        <receiver android:name="cn.cloudchain.yboxclient.server.ConnectChangeReceiver" >
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+
+        <!-- push service -->
+        <receiver
+            android:name="com.baidu.android.pushservice.PushServiceReceiver"
+            android:process=":bdservice_v1" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="com.baidu.android.pushservice.action.notification.SHOW" />
+                <action android:name="com.baidu.android.pushservice.action.media.CLICK" />
+                <action android:name="com.baidu.android.pushservice.action.frontia.user" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.baidu.android.pushservice.RegistrationReceiver"
+            android:process=":bdservice_v1" >
+            <intent-filter>
+                <action android:name="com.baidu.android.pushservice.action.METHOD" />
+                <action android:name="com.baidu.android.pushservice.action.BIND_SYNC" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name="com.baidu.android.pushservice.PushService"
+            android:exported="true"
+            android:process=":bdservice_v1" />
+
+        <activity android:name="com.baidu.frontia.demo.push.PushActivity" />
     </application>
 
 </manifest>

@@ -2,6 +2,7 @@ package cn.cloudchain.yboxclient;
 
 import android.app.Application;
 import android.content.Context;
+import cn.cloudchain.yboxclient.http.HttpHelper;
 
 import com.baidu.frontia.FrontiaApplication;
 
@@ -12,12 +13,13 @@ public class MyApplication extends Application {
 	public int battery = -1;
 
 	public String epgUpdateTime;
-	public String gateway = "192.168.43.1";
-	
+	public String gateway = "";
+
 	@Override
 	public void onCreate() {
 		super.onCreate();
 		instance = this;
+		gateway = HttpHelper.getGateway(this);
 		FrontiaApplication.initFrontiaApplication(this);
 	}
 
